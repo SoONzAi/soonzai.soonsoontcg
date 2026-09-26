@@ -1,0 +1,32 @@
+
+/* Fail closed: owner/admin controls never render for public visitors. */
+.owner-only,
+.owner-auth-only,
+.collection-mobile-owner-bar,
+.collection-rearrange-btn,
+.collection-mobile-owner-btn,
+.collection-mobile-owner-logout,
+.showcase-owner-actions,
+.giveaway-owner-actions,
+.card-actions.owner-only {
+  display:none !important;
+}
+
+body.owner-mode .owner-only,
+body.owner-mode .collection-rearrange-btn,
+body.owner-mode .showcase-owner-actions,
+body.owner-mode .giveaway-owner-actions,
+body.owner-mode .card-actions.owner-only {
+  display:flex !important;
+}
+
+/* Mobile Collection has a deliberately narrow authenticated-owner exception. */
+@media(max-width:800px){
+  body.owner-authenticated .collection-mobile-owner-bar.owner-auth-only{
+    display:grid !important;
+  }
+  body.owner-authenticated .collection-mobile-owner-btn,
+  body.owner-authenticated .collection-mobile-owner-logout{
+    display:inline-flex !important;
+  }
+}

@@ -1,0 +1,61 @@
+
+/* v43: top listing category filters remain visible. Only each card's
+   metadata pill row is collapsible on desktop. */
+@media (min-width:801px){
+  .listing-filter-tools .desktop-quick-filters-toggle{
+    display:none !important;
+  }
+  .listing-filter-tools .desktop-category-filter-block{
+    display:contents !important;
+  }
+  .listing-filter-tools .desktop-quick-filters-collapsible,
+  .listing-filter-tools .desktop-quick-filters-collapsible[hidden],
+  .listing-filter-tools .desktop-quick-filters-collapsible.is-expanded{
+    display:flex !important;
+  }
+
+  .card-overview-pill-toggle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    width:max-content;
+    max-width:100%;
+    min-height:25px;
+    margin-top:4px;
+    padding:4px 8px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:var(--surface-2);
+    color:var(--text-muted);
+    font:inherit;
+    font-size:9px;
+    font-weight:650;
+    line-height:1;
+    cursor:pointer;
+    transition:border-color .14s ease,background .14s ease,color .14s ease;
+  }
+  .card-overview-pill-toggle:hover,
+  .card-overview-pill-toggle[aria-expanded="true"]{
+    border-color:rgba(78,210,199,.35);
+    background:rgba(78,210,199,.07);
+    color:var(--accent-teal);
+  }
+  .card-overview-pill-toggle .pill-toggle-chevron{
+    display:inline-block;
+    font-size:9px;
+    transition:transform .15s ease;
+  }
+  .card-overview-pill-toggle[aria-expanded="true"] .pill-toggle-chevron{
+    transform:rotate(180deg);
+  }
+  .card-overview-collapsible-pills[hidden]{
+    display:none !important;
+  }
+}
+
+/* Keep the current mobile card metadata behavior unchanged. */
+@media (max-width:800px){
+  .card-overview-pill-toggle{display:none !important;}
+  .card-overview-collapsible-pills[hidden]{display:flex !important;}
+}

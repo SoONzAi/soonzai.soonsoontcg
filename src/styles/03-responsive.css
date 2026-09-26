@@ -1,0 +1,33 @@
+
+/* =========================================================
+   DESKTOP FOCUS LAYOUT
+   Keep the site canvas centered on wide PC displays.
+   The top navigation background remains full-width, while
+   its contents align with the centered page canvas.
+   Mobile/tablet portrait behavior is unchanged.
+   ========================================================= */
+@media (min-width:801px){
+  .main{
+    width:100% !important;
+    max-width:1500px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:clamp(24px,2.4vw,42px) !important;
+    padding-right:clamp(24px,2.4vw,42px) !important;
+  }
+
+  /* On very wide screens, align the desktop navigation with the same canvas. */
+  .sidebar{
+    padding-left:max(22px,calc((100vw - 1500px) / 2 + 22px)) !important;
+    padding-right:max(22px,calc((100vw - 1500px) / 2 + 22px)) !important;
+  }
+}
+
+/* Avoid creating artificial side gutters on normal laptops. */
+@media (min-width:801px) and (max-width:1500px){
+  .main{max-width:none !important;}
+  .sidebar{
+    padding-left:clamp(16px,2vw,22px) !important;
+    padding-right:clamp(16px,2vw,22px) !important;
+  }
+}

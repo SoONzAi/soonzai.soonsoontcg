@@ -1,0 +1,84 @@
+
+@media (max-width:800px){
+  .mobile-page-currency-control{
+    padding-top:0 !important;
+    align-self:flex-start;
+  }
+
+  .mobile-page-currency-control select{
+    -webkit-appearance:none !important;
+    appearance:none !important;
+    box-sizing:border-box !important;
+    width:74px !important;
+    min-width:74px !important;
+    height:34px !important;
+    min-height:34px !important;
+    margin:0 !important;
+    padding:0 22px !important;
+    border:1px solid color-mix(in srgb, var(--border) 82%, var(--text-muted) 18%) !important;
+    border-radius:10px !important;
+    background-color:var(--panel) !important;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+      linear-gradient(135deg, var(--text-muted) 50%, transparent 50%) !important;
+    background-position:
+      calc(100% - 11px) 14px,
+      calc(100% - 7px) 14px !important;
+    background-size:4px 4px,4px 4px !important;
+    background-repeat:no-repeat !important;
+    color:var(--text) !important;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important;
+    font-size:11px !important;
+    font-weight:800 !important;
+    line-height:32px !important;
+    letter-spacing:.055em !important;
+    text-align:center !important;
+    text-align-last:center !important;
+    cursor:pointer;
+    box-shadow:0 1px 2px rgba(0,0,0,.08) !important;
+  }
+
+  .mobile-page-currency-control select:hover{
+    border-color:var(--text-muted) !important;
+  }
+
+  .mobile-page-currency-control select:focus{
+    outline:2px solid color-mix(in srgb, var(--accent-teal) 65%, transparent) !important;
+    outline-offset:2px !important;
+    border-color:var(--accent-teal) !important;
+  }
+
+  .mobile-page-currency-control select option{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-weight:700;
+    letter-spacing:.02em;
+    text-align:center;
+  }
+}
+
+@media (max-width:390px){
+  .mobile-page-currency-control select{
+    width:70px !important;
+    min-width:70px !important;
+    height:32px !important;
+    min-height:32px !important;
+    padding-left:20px !important;
+    padding-right:20px !important;
+    font-size:10.5px !important;
+    line-height:30px !important;
+    background-position:
+      calc(100% - 10px) 13px,
+      calc(100% - 6px) 13px !important;
+  }
+}
+
+@media (max-width:345px){
+  .mobile-page-currency-control select{
+    width:66px !important;
+    min-width:66px !important;
+    padding-left:18px !important;
+    padding-right:18px !important;
+    font-size:10px !important;
+    letter-spacing:.04em !important;
+  }
+}

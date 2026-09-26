@@ -1,0 +1,4 @@
+
+/* v45 — Inventory uses the same grouped Game-section presentation as Collection
+   on desktop and mobile. Existing collection-game-* classes are intentionally
+   shared so both scopes receive the same responsive/collapse/touch behavior. */

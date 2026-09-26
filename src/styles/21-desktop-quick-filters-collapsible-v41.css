@@ -1,0 +1,159 @@
+
+/* PC: collapse the top category pills to save vertical space. */
+@media (min-width:801px){
+  .listing-filter-tools .desktop-category-filter-block{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    min-width:0;
+    gap:8px;
+  }
+
+  .listing-filter-tools .desktop-quick-filters-toggle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:8px;
+    min-height:38px;
+    padding:7px 11px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--surface);
+    color:var(--text);
+    font:inherit;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:border-color .14s ease,background .14s ease;
+  }
+
+  .listing-filter-tools .desktop-quick-filters-toggle:hover,
+  .listing-filter-tools .desktop-quick-filters-toggle.is-expanded{
+    border-color:rgba(227,179,65,.50);
+    background:var(--surface-2);
+  }
+
+  .desktop-quick-filters-toggle-title{
+    font-size:11px;
+    font-weight:650;
+    color:var(--text-muted);
+  }
+
+  .desktop-quick-filters-active{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:22px;
+    padding:3px 8px;
+    border-radius:999px;
+    background:rgba(227,179,65,.12);
+    color:var(--accent-gold);
+    font-size:10.5px;
+    font-weight:700;
+  }
+
+  .desktop-quick-filters-chevron{
+    display:inline-block;
+    color:var(--text-muted);
+    font-size:11px;
+    line-height:1;
+    transition:transform .16s ease;
+  }
+
+  .desktop-quick-filters-toggle.is-expanded .desktop-quick-filters-chevron{
+    transform:rotate(180deg);
+  }
+
+  .listing-filter-tools .desktop-quick-filters-collapsible{
+    display:none !important;
+    margin:0 !important;
+  }
+
+  .listing-filter-tools .desktop-quick-filters-collapsible.is-expanded{
+    display:flex !important;
+  }
+}
+
+@media (max-width:800px){
+  .desktop-quick-filters-toggle{display:none !important;}
+  .listing-filter-tools .desktop-category-filter-block{display:contents;}
+  .listing-filter-tools .desktop-quick-filters-collapsible{display:flex !important;}
+}
+
+/* =========================================================
+   V106 — DESKTOP QUICK-FILTER POLISH
+   ========================================================= */
+@media(min-width:801px){
+  .listing-filter-tools .desktop-category-filter-block{
+    gap:10px !important;
+    margin-bottom:3px !important;
+  }
+
+  .listing-filter-tools .desktop-quick-filters-toggle{
+    min-height:36px !important;
+    padding:6px 10px !important;
+    border:1px solid rgba(255,255,255,.065) !important;
+    border-radius:10px !important;
+    background:rgba(255,255,255,.012) !important;
+    color:#969aa4 !important;
+    box-shadow:none !important;
+  }
+
+  .listing-filter-tools .desktop-quick-filters-toggle:hover,
+  .listing-filter-tools .desktop-quick-filters-toggle.is-expanded{
+    border-color:rgba(227,179,65,.24) !important;
+    background:rgba(227,179,65,.04) !important;
+    color:#d9bd75 !important;
+  }
+
+  .desktop-quick-filters-toggle-title{
+    color:inherit !important;
+    font-size:10px !important;
+    font-weight:650 !important;
+    letter-spacing:.015em !important;
+  }
+
+  .desktop-quick-filters-active{
+    min-height:20px !important;
+    padding:2px 7px !important;
+    border:1px solid rgba(227,179,65,.20) !important;
+    background:rgba(227,179,65,.07) !important;
+    color:#e2bd5e !important;
+    font-size:9px !important;
+  }
+
+  .desktop-quick-filters-chevron{
+    color:#777b85 !important;
+  }
+
+  .listing-filter-tools .desktop-quick-filters-collapsible.is-expanded{
+    gap:6px !important;
+    padding:1px 0 2px !important;
+    flex-wrap:wrap !important;
+  }
+
+  .listing-filter-tools .desktop-quick-filters-collapsible .quick-filter{
+    min-height:29px !important;
+    padding:5px 9px !important;
+    border:1px solid rgba(255,255,255,.065) !important;
+    border-radius:999px !important;
+    background:rgba(255,255,255,.015) !important;
+    color:#858993 !important;
+    font-size:9.5px !important;
+    font-weight:620 !important;
+    transition:border-color .14s ease,background .14s ease,color .14s ease,transform .14s ease !important;
+  }
+
+  .listing-filter-tools .desktop-quick-filters-collapsible .quick-filter:hover{
+    transform:translateY(-1px) !important;
+    border-color:rgba(227,179,65,.20) !important;
+    background:rgba(227,179,65,.035) !important;
+    color:#c9b57f !important;
+  }
+
+  .listing-filter-tools .desktop-quick-filters-collapsible .quick-filter.active{
+    border-color:rgba(227,179,65,.42) !important;
+    background:rgba(227,179,65,.12) !important;
+    color:#f0ca64 !important;
+    box-shadow:0 0 0 1px rgba(227,179,65,.035) inset !important;
+  }
+}

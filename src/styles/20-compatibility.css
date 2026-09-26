@@ -1,0 +1,149 @@
+
+
+/* =========================================================
+   v40 — PC RESPONSIVE COMPACT OVERVIEW GRID
+   Inventory / Reserved / Sold / Collection return to a compact
+   image-over-details layout so more listings fit per row.
+   Mobile (<=800px) is intentionally unchanged.
+   ========================================================= */
+@media (min-width:801px){
+  /* Compact vertical listing cards. */
+  #invGrid.grid:not(.compact-list){
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:12px !important;
+    align-items:start;
+  }
+
+  #invGrid.grid:not(.compact-list) .card{
+    display:flex !important;
+    flex-direction:column !important;
+    width:100% !important;
+    min-width:0 !important;
+    padding:0 !important;
+    gap:0 !important;
+    overflow:hidden;
+  }
+
+  #invGrid.grid:not(.compact-list) .card > .thumb-wrap,
+  #invGrid.grid:not(.compact-list) .card > .thumb-placeholder{
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    aspect-ratio:1140 / 1905 !important;
+    border:0 !important;
+    border-bottom:1px solid var(--border) !important;
+    border-radius:0 !important;
+    overflow:hidden;
+    background:var(--surface-2);
+  }
+
+  #invGrid.grid:not(.compact-list) .card > .thumb-wrap .thumb{
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    aspect-ratio:auto !important;
+    object-fit:cover !important;
+    object-position:center !important;
+    border:0 !important;
+    border-radius:0 !important;
+    display:block !important;
+  }
+
+  #invGrid.grid:not(.compact-list) .card .card-body,
+  #invGrid.grid:not(.compact-list) .card .clean-card-body{
+    width:100% !important;
+    min-width:0 !important;
+    padding:9px 10px 10px !important;
+  }
+
+  #invGrid.grid:not(.compact-list) .card-title{
+    min-width:0 !important;
+    font-size:clamp(12px,.82vw,14px) !important;
+    line-height:1.12 !important;
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+  }
+
+  #invGrid.grid:not(.compact-list) .clean-meta-row{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    align-items:center !important;
+    gap:4px !important;
+    min-width:0 !important;
+  }
+
+  #invGrid.collection-game-grouped .collection-game-group-header{
+    grid-column:1 / -1 !important;
+  }
+
+  /* Giveaways also return to a vertical overview card.
+     They carry more text, so their grid is slightly less dense. */
+  .giveaway-grid{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:12px !important;
+    align-items:start;
+  }
+
+  .giveaway-grid .giveaway-card{
+    display:flex !important;
+    flex-direction:column !important;
+    min-width:0 !important;
+    height:100%;
+  }
+
+  .giveaway-grid .giveaway-card > .giveaway-gallery,
+  .giveaway-grid .giveaway-card > img{
+    width:100% !important;
+    min-width:0 !important;
+    border-right:0 !important;
+    border-bottom:1px solid var(--border) !important;
+  }
+
+  .giveaway-grid .giveaway-card > .giveaway-body{
+    width:100% !important;
+    min-width:0 !important;
+    padding:11px 12px !important;
+  }
+}
+
+/* Normal desktop: 5 inventory cards per row. */
+@media (min-width:1200px) and (max-width:1599px){
+  #invGrid.grid:not(.compact-list){
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  }
+  .giveaway-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+}
+
+/* Large desktop: 6 inventory cards per row. */
+@media (min-width:1600px) and (max-width:1999px){
+  #invGrid.grid:not(.compact-list){
+    grid-template-columns:repeat(6,minmax(0,1fr)) !important;
+  }
+  .giveaway-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+}
+
+/* Ultrawide: 7 inventory cards per row. */
+@media (min-width:2000px){
+  #invGrid.grid:not(.compact-list){
+    grid-template-columns:repeat(7,minmax(0,1fr)) !important;
+  }
+  .giveaway-grid{
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  }
+}
+
+/* Smaller desktop/laptop windows: stay readable rather than crushing cards. */
+@media (min-width:801px) and (max-width:1199px){
+  #invGrid.grid:not(.compact-list){
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+  .giveaway-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}

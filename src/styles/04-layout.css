@@ -1,0 +1,117 @@
+
+/* ==========================================================
+   Responsive desktop top navigation sizing
+   Keeps laptop sizing compact, scales smoothly on larger PC
+   displays, and caps growth on ultrawide/high-resolution screens.
+   Mobile <= 800px remains controlled by the existing mobile CSS.
+   ========================================================== */
+@media (min-width:801px){
+  .sidebar{
+    padding-inline:clamp(18px,1.45vw,34px) !important;
+    gap:clamp(14px,1.15vw,26px) !important;
+  }
+
+  .sidebar .logo-click-target,
+  .sidebar .logo-click-target .shop-logo{
+    width:clamp(54px,3.55vw,70px) !important;
+    height:clamp(54px,3.55vw,70px) !important;
+    flex-basis:clamp(54px,3.55vw,70px) !important;
+  }
+
+  .sidebar .shop-brand-text h1{
+    font-size:clamp(17px,1.08vw,21px) !important;
+  }
+
+  .sidebar .shop-region{
+    font-size:clamp(12px,.78vw,15px) !important;
+  }
+
+  nav.mainnav{
+    gap:clamp(3px,.28vw,7px) !important;
+  }
+
+  nav.mainnav > a{
+    min-height:clamp(38px,2.7vw,48px) !important;
+    padding-block:clamp(8px,.55vw,11px) !important;
+    padding-inline:clamp(9px,.72vw,15px) !important;
+    border-radius:clamp(8px,.55vw,11px) !important;
+    font-size:clamp(12px,.82vw,14.5px) !important;
+    gap:clamp(5px,.4vw,8px) !important;
+  }
+
+  nav.mainnav > a .ic{
+    min-width:clamp(13px,.9vw,17px) !important;
+    font-size:clamp(11px,.75vw,14px) !important;
+  }
+
+  nav.mainnav .nav-count{
+    min-width:clamp(18px,1.25vw,24px) !important;
+    padding:clamp(2px,.18vw,3px) clamp(5px,.38vw,7px) !important;
+    font-size:clamp(8.5px,.57vw,10.5px) !important;
+  }
+
+  nav.mainnav > .mobile-more-toggle{
+    min-height:clamp(38px,2.7vw,48px) !important;
+    padding-block:clamp(8px,.55vw,11px) !important;
+    padding-inline:clamp(10px,.75vw,16px) !important;
+    border-radius:clamp(8px,.55vw,11px) !important;
+    font-size:clamp(12px,.82vw,14.5px) !important;
+    gap:clamp(5px,.4vw,8px) !important;
+  }
+}
+
+/* Give very large desktop screens a little more breathing room without
+   making the navigation comically large. */
+@media (min-width:2000px){
+  .sidebar{min-height:98px !important;}
+}
+
+
+
+/* =========================================================
+   DESKTOP HEADER SOCIAL LINKS
+   Reuse the four public social links beside the theme toggle.
+   The old listing-count readout is intentionally removed.
+   ========================================================= */
+@media(min-width:801px){
+  .sidebar-footer{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:10px !important;
+  }
+  .sidebar-footer > div:nth-child(2),
+  .sidebar-footer > .owner-status,
+  .sidebar-footer > .mobile-footer-currency{
+    /* Preserve the existing desktop visibility rules for brand/owner items
+       while allowing the social group and theme toggle to sit together. */
+  }
+  .sidebar-footer .header-social-links{
+    display:flex !important;
+    align-items:center !important;
+    flex-wrap:nowrap !important;
+    gap:clamp(5px,.38vw,7px) !important;
+    margin:0 !important;
+  }
+  .sidebar-footer .header-social-links .collect-social-icon{
+    min-width:clamp(34px,2.35vw,42px) !important;
+    height:clamp(32px,2.25vw,38px) !important;
+    padding:0 clamp(7px,.48vw,9px) !important;
+    border-radius:999px !important;
+  }
+  .sidebar-footer .header-social-links .collect-social-icon span{
+    font-size:clamp(11px,.78vw,13px) !important;
+  }
+  .sidebar-footer .header-social-links .collect-social-icon small{
+    font-size:clamp(7px,.5vw,8.5px) !important;
+  }
+  .sidebar-footer > .theme-toggle{
+    margin-left:2px !important;
+  }
+}
+@media(max-width:800px){
+  .sidebar-footer .header-social-links{
+    display:none !important;
+  }
+}
+

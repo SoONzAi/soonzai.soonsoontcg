@@ -1,0 +1,389 @@
+
+/* =========================================================
+   DESKTOP COLLAPSIBLE FILTERS
+   Desktop > 800px starts compact. Mobile keeps its existing drawer.
+   ========================================================= */
+.desktop-filter-toggle-row{display:none;}
+
+@media(min-width:801px){
+  .desktop-filter-toggle-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:8px 0 8px;
+  }
+
+  .desktop-filter-toggle-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    min-width:0;
+    flex:1 1 auto;
+  }
+
+  .desktop-inline-search{
+    position:relative;
+    flex:1 1 420px;
+    min-width:220px;
+    max-width:620px;
+  }
+
+  .desktop-inline-search input{
+    width:100%;
+    min-height:38px;
+    box-sizing:border-box;
+    padding:7px 36px 7px 12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--surface);
+    color:var(--text);
+    font:inherit;
+    font-size:10px;
+    outline:none;
+    transition:border-color .15s ease,background .15s ease,box-shadow .15s ease;
+  }
+
+  .desktop-inline-search input::placeholder{
+    color:var(--text-muted);
+    opacity:.82;
+  }
+
+  .desktop-inline-search input:hover{
+    border-color:rgba(95,212,196,.35);
+  }
+
+  .desktop-inline-search input:focus{
+    border-color:rgba(95,212,196,.72);
+    background:rgba(95,212,196,.035);
+    box-shadow:0 0 0 3px rgba(95,212,196,.08);
+  }
+
+  .desktop-inline-search-clear{
+    position:absolute;
+    top:50%;
+    right:7px;
+    transform:translateY(-50%);
+    width:25px;
+    height:25px;
+    display:grid;
+    place-items:center;
+    padding:0;
+    border:0;
+    border-radius:7px;
+    background:transparent;
+    color:var(--text-muted);
+    font-size:15px;
+    line-height:1;
+    cursor:pointer;
+  }
+
+  .desktop-inline-search-clear:hover,
+  .desktop-inline-search-clear:focus-visible{
+    background:var(--surface-2);
+    color:var(--text);
+    outline:none;
+  }
+
+  .desktop-filter-toggle-btn{
+    appearance:none;
+    -webkit-appearance:none;
+    min-height:38px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 11px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--surface);
+    color:var(--text);
+    font:inherit;
+    font-size:10px;
+    font-weight:800;
+    cursor:pointer;
+    transition:border-color .15s ease,background .15s ease,transform .15s ease;
+  }
+  .desktop-filter-toggle-btn:hover,
+  .desktop-filter-toggle-btn:focus-visible{
+    border-color:rgba(95,212,196,.55);
+    background:rgba(95,212,196,.055);
+    outline:none;
+  }
+  .desktop-filter-toggle-btn:active{transform:translateY(1px);}
+
+  .desktop-filter-toggle-icon{
+    width:17px;
+    height:17px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:6px;
+    color:var(--accent-teal);
+    font-size:12px;
+    line-height:1;
+  }
+
+  .desktop-filter-toggle-summary{
+    max-width:min(42vw,460px);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:var(--text-muted);
+    font-size:8.5px;
+    font-weight:600;
+  }
+
+  .desktop-filter-toggle-chevron{
+    color:var(--text-muted);
+    font-size:10px;
+    transition:transform .18s ease;
+  }
+  .desktop-filter-toggle-btn[aria-expanded="true"] .desktop-filter-toggle-chevron{
+    transform:rotate(180deg);
+  }
+
+  .desktop-filter-toggle-btn .filter-count-badge{
+    min-width:19px;
+    height:19px;
+    font-size:8px;
+  }
+
+  .desktop-filter-add-card{
+    min-height:38px !important;
+    display:inline-flex !important;
+    align-items:center;
+    justify-content:center;
+    padding:7px 12px !important;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+
+  /* The filter shell is display:contents on desktop in the legacy layout.
+     This class intentionally removes all of its children from layout. */
+  .filter-drawer-shell.desktop-collapsed{
+    display:none !important;
+  }
+
+  /* Add Card lives beside the desktop Filters toggle now. Avoid a duplicate
+     when the filter area is expanded. */
+  .filter-drawer-shell > .filter-row > a[href="#/add"]{
+    display:none !important;
+  }
+
+  /* Mobile-only completion footer never needs desktop space. */
+  .filter-drawer-shell > .filter-drawer-footer{
+    display:none !important;
+  }
+
+  /* Expanded desktop filters get a subtle contained surface so the opening
+     feels deliberate rather than like a sudden block of controls. */
+  .filter-drawer-shell:not(.desktop-collapsed) > .filter-drawer-head{
+    margin-top:2px;
+  }
+}
+
+@media(min-width:801px) and (max-width:1100px){
+  .desktop-filter-toggle-summary{display:none;}
+  .desktop-inline-search{
+    flex-basis:300px;
+    min-width:180px;
+    max-width:none;
+  }
+}
+
+@media(min-width:801px) and (max-width:930px){
+  .desktop-filter-toggle-row{gap:7px;}
+  .desktop-filter-toggle-actions{gap:6px;}
+  .desktop-filter-toggle-btn{padding-inline:9px;}
+  .desktop-filter-toggle-icon{display:none;}
+  .desktop-inline-search input{
+    min-height:36px;
+    font-size:9.5px;
+    padding-left:10px;
+  }
+  .desktop-filter-add-card{
+    min-height:36px !important;
+    padding-inline:9px !important;
+  }
+}
+
+@media(max-width:800px){
+  .desktop-filter-toggle-row{display:none !important;}
+  /* Never let the desktop collapsed class suppress the existing mobile sheet. */
+  .filter-drawer-shell.desktop-collapsed{
+    display:flex !important;
+  }
+}
+
+/* CATEGORY GROUP COUNT POSITION — keep card count directly beside category name */
+#invGrid.collection-game-grouped .collection-game-group-main{
+  flex:1 1 auto;
+  justify-content:flex-start;
+}
+#invGrid.collection-game-grouped .collection-game-group-main strong{
+  flex:0 1 auto;
+  min-width:0;
+}
+#invGrid.collection-game-grouped .collection-game-group-main .collection-game-count{
+  flex:0 0 auto;
+  margin-left:2px;
+}
+
+/* =========================================================
+   V106 — DESKTOP FILTER BAR POLISH
+   Visual-only. Filter behavior and mobile layout unchanged.
+   ========================================================= */
+@media(min-width:801px){
+  .desktop-filter-toggle-row{
+    margin:10px 0 14px !important;
+    gap:12px !important;
+    align-items:stretch !important;
+  }
+
+  .desktop-filter-toggle-actions{
+    gap:9px !important;
+    align-items:stretch !important;
+  }
+
+  /* Search is the primary browsing control. */
+  .desktop-inline-search{
+    flex:1 1 520px !important;
+    max-width:760px !important;
+  }
+
+  .desktop-inline-search input{
+    min-height:44px !important;
+    padding:9px 42px 9px 15px !important;
+    border:1px solid rgba(255,255,255,.075) !important;
+    border-radius:12px !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.022),rgba(255,255,255,.010)),var(--surface) !important;
+    color:var(--text) !important;
+    font-size:12px !important;
+    font-weight:520 !important;
+    box-shadow:0 5px 18px rgba(0,0,0,.10) !important;
+  }
+
+  .desktop-inline-search input::placeholder{
+    color:#777b85 !important;
+    opacity:1 !important;
+  }
+
+  .desktop-inline-search input:hover{
+    border-color:rgba(227,179,65,.22) !important;
+  }
+
+  .desktop-inline-search input:focus{
+    border-color:rgba(227,179,65,.46) !important;
+    background:linear-gradient(180deg,rgba(227,179,65,.035),rgba(255,255,255,.012)),var(--surface) !important;
+    box-shadow:0 0 0 3px rgba(227,179,65,.065),0 8px 24px rgba(0,0,0,.13) !important;
+  }
+
+  .desktop-inline-search-clear{
+    right:9px !important;
+    width:28px !important;
+    height:28px !important;
+    border-radius:8px !important;
+    color:#747983 !important;
+  }
+
+  .desktop-inline-search-clear:hover,
+  .desktop-inline-search-clear:focus-visible{
+    background:rgba(227,179,65,.07) !important;
+    color:#e3b341 !important;
+  }
+
+  /* Secondary controls are quieter than Search. */
+  .desktop-filter-toggle-btn{
+    min-height:44px !important;
+    padding:8px 13px !important;
+    border:1px solid rgba(255,255,255,.075) !important;
+    border-radius:12px !important;
+    background:rgba(255,255,255,.018) !important;
+    color:#c7c9cf !important;
+    font-size:10.5px !important;
+    font-weight:720 !important;
+    box-shadow:none !important;
+  }
+
+  .desktop-filter-toggle-btn:hover,
+  .desktop-filter-toggle-btn:focus-visible,
+  .desktop-filter-toggle-btn[aria-expanded="true"]{
+    border-color:rgba(227,179,65,.28) !important;
+    background:rgba(227,179,65,.05) !important;
+    color:#e3c273 !important;
+  }
+
+  .desktop-filter-toggle-icon{
+    color:#d6b45f !important;
+    opacity:.9 !important;
+  }
+
+  .desktop-filter-toggle-summary{
+    max-width:min(34vw,390px) !important;
+    color:#777b85 !important;
+    font-size:9px !important;
+    font-weight:550 !important;
+  }
+
+  .desktop-filter-toggle-chevron{
+    color:#777b85 !important;
+  }
+
+  .desktop-filter-toggle-btn .filter-count-badge{
+    min-width:20px !important;
+    height:20px !important;
+    padding:0 6px !important;
+    border:1px solid rgba(227,179,65,.22) !important;
+    background:rgba(227,179,65,.09) !important;
+    color:#e3bd58 !important;
+  }
+
+  .desktop-filter-add-card{
+    min-height:44px !important;
+    padding:8px 14px !important;
+    border-radius:12px !important;
+  }
+
+  /* Expanded filter area reads as one deliberate surface instead of loose fields. */
+  .filter-drawer-shell:not(.desktop-collapsed){
+    margin:0 0 16px !important;
+    padding:14px 15px 13px !important;
+    border:1px solid rgba(255,255,255,.065) !important;
+    border-radius:14px !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,.008)),var(--surface) !important;
+    box-shadow:0 10px 30px rgba(0,0,0,.12) !important;
+  }
+
+  .filter-drawer-shell:not(.desktop-collapsed) > .filter-drawer-head{
+    margin:0 0 10px !important;
+    padding-bottom:9px !important;
+    border-bottom:1px solid rgba(255,255,255,.05) !important;
+  }
+
+  .filter-drawer-shell:not(.desktop-collapsed) .filter-row{
+    gap:9px !important;
+    margin-bottom:0 !important;
+  }
+
+  .filter-drawer-shell:not(.desktop-collapsed) .filter-row input,
+  .filter-drawer-shell:not(.desktop-collapsed) .filter-row select{
+    min-height:39px !important;
+    border-color:rgba(255,255,255,.07) !important;
+    border-radius:9px !important;
+    background-color:rgba(255,255,255,.018) !important;
+    color:#b7bac2 !important;
+    font-size:10.5px !important;
+  }
+
+  .filter-drawer-shell:not(.desktop-collapsed) .filter-row input:hover,
+  .filter-drawer-shell:not(.desktop-collapsed) .filter-row select:hover{
+    border-color:rgba(227,179,65,.20) !important;
+  }
+
+  .filter-drawer-shell:not(.desktop-collapsed) .filter-row input:focus,
+  .filter-drawer-shell:not(.desktop-collapsed) .filter-row select:focus{
+    outline:none !important;
+    border-color:rgba(227,179,65,.38) !important;
+    box-shadow:0 0 0 3px rgba(227,179,65,.055) !important;
+  }
+}

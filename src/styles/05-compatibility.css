@@ -1,0 +1,174 @@
+
+/* =========================================================
+   RESPONSIVE DESKTOP HEADER — NO OVERLAP
+   Keep primary navigation readable at every desktop width.
+   Secondary destinations already exist in the More menu, so
+   progressively remove their duplicate top-level tabs before
+   the right-side social/theme controls can collide with them.
+   ========================================================= */
+@media (min-width:801px){
+  .sidebar{
+    min-width:0 !important;
+    overflow:visible !important;
+  }
+
+  .sidebar > .mainnav,
+  nav.mainnav{
+    flex:1 1 auto !important;
+    min-width:0 !important;
+    white-space:nowrap !important;
+  }
+
+  .sidebar-footer{
+    flex:0 0 auto !important;
+    min-width:max-content !important;
+    white-space:nowrap !important;
+    position:relative !important;
+    z-index:3 !important;
+  }
+
+  .sidebar-footer .header-social-links{
+    flex:0 0 auto !important;
+  }
+}
+
+/* Medium / common desktop widths: compact the header first. */
+@media (min-width:801px) and (max-width:2199px){
+  .sidebar{
+    gap:clamp(8px,.65vw,14px) !important;
+    padding-left:clamp(12px,1.1vw,22px) !important;
+    padding-right:clamp(12px,1.1vw,22px) !important;
+  }
+
+  nav.mainnav{
+    gap:2px !important;
+  }
+
+  nav.mainnav > a,
+  nav.mainnav > .mobile-more-toggle{
+    min-height:40px !important;
+    padding:7px clamp(7px,.48vw,10px) !important;
+    font-size:clamp(11.5px,.67vw,13px) !important;
+    gap:4px !important;
+  }
+
+  nav.mainnav > a .ic,
+  nav.mainnav > .mobile-more-toggle .ic{
+    min-width:12px !important;
+    font-size:12px !important;
+  }
+
+  nav.mainnav .nav-count{
+    min-width:19px !important;
+    padding:2px 5px !important;
+    font-size:9px !important;
+  }
+
+  /* These destinations remain available under More. */
+  nav.mainnav > a[data-route="favorites"],
+  nav.mainnav > a.reviews-desktop-nav{
+    display:none !important;
+  }
+
+  /* Four top-right social links remain visible, but icon-only. */
+  .sidebar-footer .header-social-links{
+    gap:4px !important;
+  }
+
+  .sidebar-footer .header-social-links .collect-social-icon{
+    width:32px !important;
+    min-width:32px !important;
+    height:32px !important;
+    padding:0 !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+
+  .sidebar-footer .header-social-links .collect-social-icon span{
+    font-size:12px !important;
+    line-height:1 !important;
+  }
+
+  .sidebar-footer .header-social-links .collect-social-icon small{
+    display:none !important;
+  }
+
+  .sidebar-footer{
+    gap:7px !important;
+  }
+
+  .sidebar-footer .theme-toggle{
+    min-height:36px !important;
+    padding:0 10px !important;
+    font-size:11px !important;
+  }
+}
+
+/* Smaller desktop/laptop: move more secondary routes into More. */
+@media (min-width:801px) and (max-width:1749px){
+  nav.mainnav > a[data-route="reserved"],
+  nav.mainnav > a[data-route="showcase"]{
+    display:none !important;
+  }
+
+  .sidebar .shop-brand-text h1{
+    font-size:16px !important;
+  }
+
+  .sidebar .shop-region{
+    font-size:11px !important;
+  }
+
+  .sidebar .logo-click-target,
+  .sidebar .logo-click-target .shop-logo{
+    width:50px !important;
+    height:50px !important;
+    flex-basis:50px !important;
+  }
+
+  .sidebar-footer .owner-status{
+    font-size:0 !important;
+    width:10px !important;
+    min-width:10px !important;
+    overflow:hidden !important;
+  }
+
+  .sidebar-footer .owner-status::first-letter{
+    font-size:10px !important;
+  }
+}
+
+/* Tight desktop width just above the mobile breakpoint. */
+@media (min-width:801px) and (max-width:1399px){
+  nav.mainnav > a[data-route="giveaway"]{
+    display:none !important;
+  }
+
+  .sidebar-footer .theme-toggle{
+    width:38px !important;
+    min-width:38px !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    white-space:nowrap !important;
+    text-indent:-9999px !important;
+    position:relative !important;
+  }
+
+  .sidebar-footer .theme-toggle::after{
+    content:"☀";
+    position:absolute;
+    inset:0;
+    display:grid;
+    place-items:center;
+    text-indent:0;
+    font-size:14px;
+  }
+}
+
+/* Existing mobile header takes over completely here. */
+@media (max-width:800px){
+  .sidebar-footer .header-social-links{
+    display:none !important;
+  }
+}

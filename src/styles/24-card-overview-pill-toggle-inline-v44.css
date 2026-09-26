@@ -1,0 +1,37 @@
+
+/* v44: save a row on desktop by placing the per-card Details toggle on the
+   same line as Card Code / Year, anchored to the far right. */
+.clean-card-reference-toggle-row{
+  display:flex;
+  align-items:center;
+  min-width:0;
+}
+.clean-card-reference-toggle-row .clean-card-reference{
+  min-width:0;
+}
+.clean-card-reference-spacer{
+  flex:1 1 auto;
+  min-width:0;
+}
+
+@media (min-width:801px){
+  .clean-card-reference-toggle-row{
+    width:100%;
+    gap:6px;
+  }
+  .clean-card-reference-toggle-row .clean-card-reference{
+    flex:0 1 auto;
+  }
+  .clean-card-reference-toggle-row .card-overview-pill-toggle{
+    flex:0 0 auto;
+    margin-top:0 !important;
+    margin-left:auto;
+  }
+}
+
+/* Mobile keeps its existing card layout; the desktop-only Details control is hidden. */
+@media (max-width:800px){
+  .clean-card-reference-toggle-row{
+    display:block;
+  }
+}

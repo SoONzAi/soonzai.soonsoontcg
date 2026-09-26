@@ -1,0 +1,19 @@
+
+/* v42: make desktop category-pill collapse authoritative and restore
+   Collection game-group collapsing after the dense PC grid overrides. */
+@media (min-width:801px){
+  .listing-filter-tools .desktop-quick-filters-collapsible[hidden]{
+    display:none !important;
+  }
+  .listing-filter-tools .desktop-quick-filters-collapsible.is-expanded:not([hidden]){
+    display:flex !important;
+  }
+}
+
+/* Must come AFTER the responsive PC card rules. Their display:flex !important
+   previously overrode the hidden Collection-card state. */
+#invGrid.grid.collection-game-grouped .collection-game-card[hidden],
+#invGrid.grid.collection-game-grouped:not(.compact-list) .collection-game-card[hidden],
+#invGrid.collection-game-grouped.compact-list .collection-game-card[hidden]{
+  display:none !important;
+}

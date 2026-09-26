@@ -1,0 +1,75 @@
+
+/* Mobile: keep the four social destinations in the same top row as the logo. */
+.mobile-header-social-links{display:none;}
+
+@media (max-width:800px){
+  .sidebar > div:first-child{
+    width:100% !important;
+    min-width:0 !important;
+  }
+  .brand.shop-brand{
+    width:100% !important;
+    display:flex !important;
+    align-items:center !important;
+    min-width:0 !important;
+  }
+  .brand.shop-brand .text-click-target{
+    min-width:0 !important;
+    flex:0 1 auto !important;
+  }
+  .mobile-header-social-links{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    flex:0 0 auto !important;
+    margin-left:auto !important;
+    gap:5px !important;
+    padding-left:8px !important;
+  }
+  .mobile-header-social-links .collect-social-icon{
+    width:30px !important;
+    min-width:30px !important;
+    height:30px !important;
+    padding:0 !important;
+    border-radius:999px !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex:0 0 30px !important;
+  }
+  .mobile-header-social-links .collect-social-icon span{
+    font-size:12px !important;
+    line-height:1 !important;
+  }
+  .mobile-header-social-links .collect-social-icon small{display:none !important;}
+}
+
+@media (max-width:390px){
+  .brand.shop-brand{gap:7px !important;}
+  .mobile-header-social-links{gap:4px !important;padding-left:5px !important;}
+  .mobile-header-social-links .collect-social-icon{
+    width:27px !important;
+    min-width:27px !important;
+    height:27px !important;
+    flex-basis:27px !important;
+  }
+  .mobile-header-social-links .collect-social-icon span{font-size:11px !important;}
+}
+
+@media (max-width:345px){
+  .brand.shop-brand .logo-click-target,
+  .brand.shop-brand .logo-click-target .shop-logo{
+    width:52px !important;
+    height:52px !important;
+    flex-basis:52px !important;
+  }
+  .brand.shop-brand .shop-brand-text h1{font-size:15px !important;}
+  .brand.shop-brand .shop-region{font-size:11px !important;}
+  .mobile-header-social-links{gap:3px !important;padding-left:3px !important;}
+  .mobile-header-social-links .collect-social-icon{
+    width:25px !important;
+    min-width:25px !important;
+    height:25px !important;
+    flex-basis:25px !important;
+  }
+}

@@ -1,0 +1,10 @@
+/* 2026-09-17-v17: desktop-only game logo fit refinement. */
+@media (min-width: 801px){
+  .inventory-game-logo-one-piece{
+    transform:scale(1) !important;
+  }
+
+  .inventory-game-logo-pokemon{
+    transform:scale(1) !important;
+  }
+}

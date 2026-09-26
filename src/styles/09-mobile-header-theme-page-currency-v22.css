@@ -1,0 +1,86 @@
+
+.mobile-header-theme-toggle,
+.mobile-page-currency-control{display:none;}
+
+@media (max-width:800px){
+  /* Logo row: four social icons + a compact light/dark toggle on the far right. */
+  .mobile-header-theme-toggle{
+    display:inline-flex !important;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 30px;
+    width:30px;
+    height:30px;
+    margin-left:5px;
+    padding:0;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:var(--panel);
+    color:var(--text);
+    font:700 14px/1 inherit;
+    cursor:pointer;
+  }
+  .mobile-header-theme-toggle:active{transform:scale(.96);}
+
+  /* Currency now belongs to the page-title row on mobile, not the footer/toolbar. */
+  .listing-page-head{
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:space-between !important;
+    gap:10px !important;
+  }
+  .listing-page-title-copy{
+    flex:1 1 auto;
+    min-width:0;
+  }
+  .mobile-page-currency-control{
+    display:flex !important;
+    flex:0 0 auto;
+    align-items:center;
+    margin-left:auto;
+    padding-top:1px;
+  }
+  .mobile-page-currency-control select{
+    appearance:auto;
+    min-width:66px;
+    height:32px;
+    padding:0 5px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--panel);
+    color:var(--text);
+    font:700 11px/1 inherit;
+  }
+  /* Hide the duplicate currency selectors on mobile after moving it to the heading. */
+  .listing-filter-tools .currency-preference-control,
+  .sidebar-footer > .mobile-footer-currency{display:none !important;}
+
+  /* Theme control now lives in the mobile logo row. Remove the old footer copy. */
+  .sidebar-footer > .theme-toggle{display:none !important;}
+}
+
+@media (max-width:390px){
+  .mobile-header-theme-toggle{
+    flex-basis:27px;
+    width:27px;
+    height:27px;
+    margin-left:4px;
+    font-size:12px;
+  }
+  .mobile-page-currency-control select{
+    min-width:61px;
+    height:30px;
+    font-size:10px;
+  }
+}
+
+@media (max-width:345px){
+  .mobile-header-theme-toggle{
+    flex-basis:25px;
+    width:25px;
+    height:25px;
+    margin-left:3px;
+    font-size:11px;
+  }
+  .mobile-page-currency-control select{min-width:58px;}
+}
