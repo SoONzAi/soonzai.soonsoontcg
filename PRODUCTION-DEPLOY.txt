@@ -1,0 +1,68 @@
+Collect TCG V95 Production Candidate
+====================================
+
+This folder is the production-configured version of the accepted V93 modular beta.
+
+Important:
+- Deploy the ENTIRE contents of this folder to the root of Collect_TCG.
+- Do NOT upload only index.html: index.html imports ./src/main.js and the CSS/assets.
+- The production Supabase project is enabled, including normal owner auth/writes/analytics.
+- The beta read-only/sandbox guards, environment badge and noindex tag are removed.
+- Keep your current production repository/commit as a rollback point before replacing files.
+
+Primary entry point: index.html
+
+V95 image-safety merge:
+- Latest Version 4 saved-image cleanup protection merged from the newest production HTML.
+- After a database save attempt, photos are retained if confirmation or a follow-up step fails.
+- Storage deletion checks live card and variant references first; if that safety check fails, files are retained.
+
+2026-09-17-v05 release record
+=============================
+Previous Production: 2026-09-17-v04
+Promoted from approved Beta: 2026-09-17-v18
+Scope: approved Beta v14-v18 Insights/dashboard/logo-fit changes only; Production v03/v04 routing, QR Generator, Owner Mode, Supabase/RLS, giveaways and Contact-to-Buy behavior preserved.
+SQL: 2026-09-17-v05-COUNTRY-CARD-DEMAND.sql must be run in Supabase for Country → Card/Era demand.
+
+2026-09-18-v01 release record
+=============================
+Previous Production: 2026-09-17-v05
+Promoted from approved Beta: 2026-09-18-v03
+Scope: approved post-v18 website changes only — mobile Insights presentation and Collection game-browser layout. Standalone Insights Beta PWA excluded. Existing Production routing, QR Generator, Owner Mode, Supabase/RLS, giveaways and Contact-to-Buy behavior preserved.
+SQL: No new SQL required. Existing 2026-09-17-v05 Country → Card/Era migration remains the prerequisite for that Insights panel.
+
+2026-09-18-v02 release record
+=============================
+Previous Production: 2026-09-18-v01
+Promoted from approved Beta: 2026-09-18-v04
+Scope: approved Meta automated-fetcher analytics exclusion only. Existing Production Collection layout, Insights, routing, QR Generator, Owner Mode, Supabase/RLS, giveaways and Contact-to-Buy behavior preserved.
+SQL: No new SQL required.
+
+2026-09-18-v03 release record
+=============================
+Previous Production: 2026-09-18-v02
+Promoted from approved Beta: 2026-09-18-v05
+Scope: approved ZIP-photo QR caption update only — adds “more photos” to the QR artwork line. Existing Production analytics filtering, Collection layout, Insights, routing, QR Generator, Owner Mode, Supabase/RLS, giveaways and Contact-to-Buy behavior preserved.
+SQL: No new SQL required.
+
+2026-09-18-v04 release record
+=============================
+Previous Production: 2026-09-18-v03
+Promoted from approved Beta: 2026-09-18-v07
+Scope: approved Beta v06-v07 website changes — brand-first Home hero with Collector Spotlight, plus removal of the generic SOCIALS link footer from generated social posts. Existing Production QR ZIP caption, Meta crawler analytics filtering, Collection layout, Insights, routing, QR Generator, Owner Mode, Supabase/RLS, giveaways and Contact-to-Buy behavior preserved.
+SQL: No new SQL required.
+
+2026-09-18-v05 release record
+=============================
+Previous Production: 2026-09-18-v04
+Promoted from approved Beta: 2026-09-18-v08
+Scope: stronger social/share analytics filtering only — known automated clients are blocked, while Facebook/Instagram sessions require a trusted human interaction before buyer-facing analytics begin. Existing Production Home, generator outputs, QR ZIP caption, Collection layout, Insights, routing, QR Generator, Owner Mode, Supabase/RLS, giveaways and Contact-to-Buy behavior preserved.
+SQL: No new SQL required.
+
+2026-09-24-v08 release record
+=============================
+Previous Production: 2026-09-24-v07
+Promoted from approved Beta: 2026-09-24-v13
+Scope: Phase 3 buyer-conversion and performance changes — richer inquiry context/copy tracking, Owner card conversion summaries and Saved without contact opportunity, deduplicated/preloaded card detail media, and faster direct card entry startup. Includes the v13 owner conversion cache initialization fix discovered during Production promotion validation.
+SQL: No new SQL required. Existing Production database migrations remain unchanged.
+
