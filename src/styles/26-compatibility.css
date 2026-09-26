@@ -9056,20 +9056,16 @@ body.light-mode .interest-contact-assurance-icon{
     white-space:nowrap !important;
   }
 
-  .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label="Instagram"]::after{
-    content:"Instagram";
+  .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label*="WhatsApp"]::after{
+    content:"WhatsApp";
   }
 
-  .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label="Message us on Facebook Messenger"]::after{
-    content:"Messenger";
+  .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label*="Facebook"]::after{
+    content:"Facebook";
   }
 
-  .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label="Carousell Malaysia"]::after{
-    content:"Carousell MY";
-  }
-
-  .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label="Carousell Singapore"]::after{
-    content:"Carousell SG";
+  .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label*="Carousell"]::after{
+    content:"Carousell";
   }
 
   body.light-mode .modal.card-details-modal .detail-buy-chooser .details-buy-social-links .collect-social-icon{

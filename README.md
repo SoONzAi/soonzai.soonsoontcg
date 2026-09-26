@@ -1,36 +1,30 @@
-# Collect TCG MY & SG
+# SoonSoonTCG
 
-Official website for **Collect TCG MY & SG**.
+Official website for **SoonSoonTCG**.
 
-We are a group of friends and dedicated trading card collectors based in Malaysia and Singapore. Our collection focuses on rare collectibles, vintage cards, tournament prize cards, premium grails, and other interesting TCG items from our personal collections.
+A dedicated trading card collector and vendor based in Singapore. We focus on modern and vintage Pokémon cards in raw and graded slabs.
 
 ## Website Features
 
-- Browse our current card inventory
+- Browse our current card inventory in real-time
+- Multi-currency support (SGD, MYR, USD, Crypto)
 - Filter cards by game, format, grade/condition, language, and era
-- View detailed card information and pricing
-- Explore our vintage collection
+- High-resolution card photos with multi-angle views
+- Direct buyer enquiry via WhatsApp, Carousell, and Facebook
 - Watch collection showcases and PSA returns
-- View current giveaways
-- Mobile and desktop responsive design
 
 ## Trading Card Games
 
-Our collection includes cards from:
-
-- One Piece Card Game
 - Pokémon
-- Gundam
-- Zatch Bell!
+- One Piece Card Game
 - Digimon
-- Dragon Ball
 - Other collectible card games
 
-## About
+## Connect with Us
 
-We do not operate a physical storefront and are currently not accepting consignment items.
-
-Pricing and availability may change. Please refer to our Carousell listings for the latest information.
+- **WhatsApp:** [+65 8180 5946](https://wa.me/6581805946)
+- **Carousell:** [xsoonx](https://www.carousell.sg/u/xsoonx/)
+- **Facebook:** [SoonSoonTCG](https://www.facebook.com/darren.tehkoksoon)
 
 ## Website
 
@@ -38,4 +32,4 @@ Hosted using **GitHub Pages**.
 
 ---
 
-© Collect TCG MY & SG
+© SoonSoonTCG

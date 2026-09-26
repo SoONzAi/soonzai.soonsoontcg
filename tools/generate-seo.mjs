@@ -12,19 +12,19 @@ const config=mode==='production'
       outputDir:root,
       sourceIndex:path.join(root,'index.html'),
       runtimeFile:path.join(root,'src/app/production-runtime.js'),
-      publicBase:'https://collecttcg.github.io/Collect_TCG/',
-      sitePath:'/Collect_TCG/',
+      publicBase:'https://soonzai.github.io/soonzai.soonsoontcg/',
+      sitePath:'/soonzai.soonsoontcg/',
       robotsMeta:'index,follow,max-image-preview:large',
-      robotsTxt:'User-agent: *\nAllow: /\nSitemap: https://collecttcg.github.io/Collect_TCG/sitemap.xml\n'
+      robotsTxt:'User-agent: *\nAllow: /\nSitemap: https://soonzai.github.io/soonzai.soonsoontcg/sitemap.xml\n'
     }
   : {
       outputDir:path.join(root,'beta'),
       sourceIndex:path.join(root,'beta/index.html'),
       runtimeFile:path.join(root,'beta/src/app/production-runtime.js'),
-      publicBase:'https://collecttcg.github.io/Collect_TCG_Beta/beta/',
-      sitePath:'/Collect_TCG_Beta/beta/',
+      publicBase:'https://soonzai.github.io/soonzai.soonsoontcg/beta/',
+      sitePath:'/soonzai.soonsoontcg/beta/',
       robotsMeta:'noindex,nofollow,noarchive',
-      robotsTxt:'User-agent: *\nDisallow: /\nSitemap: https://collecttcg.github.io/Collect_TCG_Beta/beta/sitemap.xml\n'
+      robotsTxt:'User-agent: *\nDisallow: /\nSitemap: https://soonzai.github.io/soonzai.soonsoontcg/beta/sitemap.xml\n'
     };
 
 const SEO_START='<!-- SEO_PHASE1_META_START -->';
@@ -90,7 +90,7 @@ function descriptionFor(card){
     gradeLabel(card),card?.language,card?.availability
   ].map(v=>String(v||'').trim()).filter(Boolean);
   const base=bits.join(' · ');
-  return `${base}${base?' — ':''}Collect TCG MY & SG. Browse card details, pricing and availability.`.slice(0,300);
+  return `${base}${base?' — ':''}SoonSoonTCG. Browse card details, pricing and availability.`.slice(0,300);
 }
 
 function mainImage(card){

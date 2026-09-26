@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Collect TCG MY & SG",
-  "short_name": "Collect TCG",
+  "name": "SoonSoonTCG",
+  "short_name": "SoonSoonTCG",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

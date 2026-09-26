@@ -46,22 +46,20 @@ function giveawayFromDb(row){
 
 function collectSocialLinksHtml(extraClass=""){
     return `
-      <div class="collect-social-links ${appContext.escapeHtml(extraClass)}" aria-label="Collect TCG social links">
-        <a href="${appContext.COLLECT_SOCIAL_LINKS.instagram}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" aria-label="Instagram" title="Instagram"><span aria-hidden="true">◎</span><small>IG</small></a>
+      <div class="collect-social-links ${appContext.escapeHtml(extraClass)}" aria-label="SoonSoonTCG social links">
+        <a href="${appContext.COLLECT_SOCIAL_LINKS.whatsapp}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" aria-label="WhatsApp" title="WhatsApp (+65 8180 5946)"><span aria-hidden="true">💬</span><small>WA</small></a>
+        <a href="${appContext.COLLECT_SOCIAL_LINKS.carousellSG}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" aria-label="Carousell" title="Carousell (@xsoonx)"><span aria-hidden="true">C</span><small>SG</small></a>
         <a href="${appContext.COLLECT_SOCIAL_LINKS.facebook}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" aria-label="Facebook" title="Facebook"><span aria-hidden="true">f</span><small>FB</small></a>
-        <a href="${appContext.COLLECT_SOCIAL_LINKS.carousellMY}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" aria-label="Carousell Malaysia" title="Carousell Malaysia"><span aria-hidden="true">C</span><small>MY</small></a>
-        <a href="${appContext.COLLECT_SOCIAL_LINKS.carousellSG}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" aria-label="Carousell Singapore" title="Carousell Singapore"><span aria-hidden="true">C</span><small>SG</small></a>
       </div>
     `;
   }
 
 function collectSocialPostLines(){
     return [
-      "SOCIALS",
-      `Instagram: ${appContext.COLLECT_SOCIAL_LINKS.instagram}`,
-      `Facebook: ${appContext.COLLECT_SOCIAL_LINKS.facebook}`,
-      `Carousell Malaysia: ${appContext.COLLECT_SOCIAL_LINKS.carousellMY}`,
-      `Carousell Singapore: ${appContext.COLLECT_SOCIAL_LINKS.carousellSG}`
+      "CONTACT & SOCIALS",
+      `WhatsApp: ${appContext.COLLECT_SOCIAL_LINKS.whatsapp}`,
+      `Carousell: ${appContext.COLLECT_SOCIAL_LINKS.carousellSG}`,
+      `Facebook: ${appContext.COLLECT_SOCIAL_LINKS.facebook}`
     ];
   }
 
@@ -547,11 +545,10 @@ async function markGiveawayAsGaveAway(g,winnerName){
 /** State and event initialization; called in preserved startup order. */
 export function initialize(appContext,runtime){
   appContext.COLLECT_SOCIAL_LINKS = Object.freeze({
-    instagram:"https://www.instagram.com/collecttcg.mysg/",
-    facebook:"https://www.facebook.com/profile.php?id=61590041416102",
-    facebookGroup:"https://www.facebook.com/groups/1765445114770379",
-    carousellMY:"https://www.carousell.com.my/u/collect_tcg_my_sg/",
-    carousellSG:"https://www.carousell.sg/u/collect_tcg_sg/"
+    whatsapp:"https://wa.me/6581805946",
+    facebook:"https://www.facebook.com/darren.tehkoksoon",
+    carousellSG:"https://www.carousell.sg/u/xsoonx/",
+    carousellMY:"https://www.carousell.sg/u/xsoonx/"
   });
 
   appContext.GIVEAWAY_PAGE_VIEW_SESSION_KEY = "collect_tcg_giveaway_page_view_v1";

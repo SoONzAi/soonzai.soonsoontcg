@@ -844,13 +844,14 @@ function contactIntentButtonsHtml(extraClass=""){
   }
 
 function detailsContactSocialLinksHtml(extraClass=""){
-    const messengerUrl = appContext.COLLECT_TCG_FACEBOOK_MESSENGER_URL || "https://m.me/61590041416102";
+    const whatsappUrl = appContext.COLLECT_SOCIAL_LINKS?.whatsapp || "https://wa.me/6581805946";
+    const carousellUrl = appContext.COLLECT_SOCIAL_LINKS?.carousellSG || "https://www.carousell.sg/u/xsoonx/";
+    const facebookUrl = appContext.COLLECT_SOCIAL_LINKS?.facebook || "https://www.facebook.com/darren.tehkoksoon";
     return `
-      <div class="collect-social-links ${appContext.escapeHtml(extraClass)}" aria-label="Collect TCG contact links">
-        <a href="${appContext.COLLECT_SOCIAL_LINKS.instagram}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="Instagram" aria-label="Instagram" title="Instagram"><span aria-hidden="true">◎</span><small>IG</small></a>
-        <a href="${messengerUrl}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="Facebook Messenger" aria-label="Message us on Facebook Messenger" title="Message us on Facebook Messenger"><span aria-hidden="true">f</span><small>FB</small></a>
-        <a href="${appContext.COLLECT_SOCIAL_LINKS.carousellMY}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="Carousell Malaysia" aria-label="Carousell Malaysia" title="Carousell Malaysia"><span aria-hidden="true">C</span><small>MY</small></a>
-        <a href="${appContext.COLLECT_SOCIAL_LINKS.carousellSG}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="Carousell Singapore" aria-label="Carousell Singapore" title="Carousell Singapore"><span aria-hidden="true">C</span><small>SG</small></a>
+      <div class="collect-social-links ${appContext.escapeHtml(extraClass)}" aria-label="SoonSoonTCG contact links">
+        <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="WhatsApp" aria-label="WhatsApp" title="WhatsApp (+65 8180 5946)"><span aria-hidden="true">💬</span><small>WA</small></a>
+        <a href="${carousellUrl}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="Carousell" aria-label="Carousell" title="Carousell (@xsoonx)"><span aria-hidden="true">C</span><small>SG</small></a>
+        <a href="${facebookUrl}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="Facebook" aria-label="Facebook" title="Facebook"><span aria-hidden="true">f</span><small>FB</small></a>
       </div>
     `;
   }
@@ -1777,7 +1778,7 @@ export function initialize(appContext,runtime){
   document.addEventListener("keydown",appContext.imageLightboxKeyboard.keydown);
   appContext.lightboxIndex = 0;
 
-  appContext.COLLECT_TCG_FACEBOOK_MESSENGER_URL = "https://m.me/61590041416102";
+  appContext.COLLECT_TCG_FACEBOOK_MESSENGER_URL = "https://www.facebook.com/darren.tehkoksoon";
   appContext.contactInquiryIntentState = "availability";
 
   appContext.detailsCardTransitionTimer = null;
