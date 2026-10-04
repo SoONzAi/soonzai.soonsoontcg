@@ -533,13 +533,15 @@ function router(){
       return;
     }
 
-    // Central fail-closed route gate. This protects direct URLs/bookmarks as
-    // well as clicks from desktop/mobile navigation.
+    // Central fail-closed route gate. If an unauthenticated user accesses an
+    // owner route, render the direct on-page Owner Login screen.
     if(appContext.isOwnerOnlyRoute(route) && !appContext.isOwnerMode()){
-      if(location.hash!=="#/inventory"){
-        appContext.goToRoute("inventory");
+      if(route === "add"){
+        appContext.renderLoginPage("add", "Owner login required to add cards to SoonSoonTCG.");
         return;
       }
+      appContext.renderLoginPage(route, `Owner login required to access ${route}.`);
+      return;
     }
 
     const isCardRoute=route.startsWith("card/");
@@ -698,7 +700,11 @@ function router(){
     }
     else if(route === "add"){
       if(appContext.isOwnerMode()) appContext.renderAddPage();
-      else { location.hash = "#/inventory"; return; }
+      else appContext.renderLoginPage("add", "Owner login required to add cards to SoonSoonTCG.");
+    }
+    else if(route === "login"){
+      if(appContext.isOwnerMode()) appContext.goToRoute("inventory");
+      else appContext.renderLoginPage("inventory");
     }
     else if(route === "about") appContext.renderAboutPage();
     else if(route === "contact") appContext.renderContactPage();

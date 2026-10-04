@@ -101,11 +101,50 @@ export function initialize(appContext,runtime){
   const premiumMoreMenu=document.getElementById("premiumDesktopMoreMenu");
   if(premiumMore && premiumMoreMenu){
     premiumMoreMenu.addEventListener("click",event=>{
-      if(event.target.closest("a")) premiumMore.removeAttribute("open");
+      if(event.target.closest("a, button")) premiumMore.removeAttribute("open");
     });
     document.addEventListener("click",event=>{
       if(premiumMore.open && !premiumMore.contains(event.target)) premiumMore.removeAttribute("open");
     });
   }
 
+  const desktopLoginBtn = document.getElementById("desktopOwnerLoginBtn");
+  if(desktopLoginBtn){
+    desktopLoginBtn.addEventListener("click", () => {
+      premiumMore?.removeAttribute("open");
+      appContext.openOwnerAccess();
+    });
+  }
+
+  const desktopLogoutBtn = document.getElementById("desktopOwnerLogoutBtn");
+  if(desktopLogoutBtn){
+    desktopLogoutBtn.addEventListener("click", () => {
+      premiumMore?.removeAttribute("open");
+      appContext.openOwnerAccess();
+    });
+  }
+
+  const mobileLoginBtn = document.getElementById("mobileOwnerLoginBtn");
+  if(mobileLoginBtn){
+    mobileLoginBtn.addEventListener("click", () => {
+      if(appContext.mobileMoreMenuEl) appContext.mobileMoreMenuEl.hidden = true;
+      appContext.openOwnerAccess();
+    });
+  }
+
+  const mobileLogoutBtn = document.getElementById("mobileOwnerLogoutBtn");
+  if(mobileLogoutBtn){
+    mobileLogoutBtn.addEventListener("click", () => {
+      if(appContext.mobileMoreMenuEl) appContext.mobileMoreMenuEl.hidden = true;
+      appContext.openOwnerAccess();
+    });
+  }
+
+  const sidebarOwnerToggle = document.getElementById("sidebarOwnerToggleBtn");
+  if(sidebarOwnerToggle){
+    sidebarOwnerToggle.addEventListener("click", () => {
+      appContext.openOwnerAccess();
+    });
+  }
 }
+

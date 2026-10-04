@@ -208,13 +208,15 @@
           <a href="#/about" data-route="about"><span class="ic">◎</span><span>About Us</span></a>
           <a href="#/contact" data-route="contact"><span class="ic">✉</span><span>Contact</span></a>
           <a href="#/recent" data-route="recent"><span class="ic">↻</span><span>Recently Viewed</span></a>
-          <div class="premium-more-divider owner-only" aria-hidden="true"></div>
-          <a href="#/insights" data-route="insights" class="owner-only"><span class="ic">◔</span><span>Insights</span></a>
-          <a href="#/fb-tools" data-route="fb-tools" class="owner-only"><span class="ic">ƒ</span><span>Post Generator Tools</span></a>
-          <a href="#/quality" data-route="quality" class="owner-only"><span class="ic">✓</span><span>Data Quality</span></a>
-          <a href="#/inventory-tools" data-route="inventory-tools" class="owner-only"><span class="ic">≡</span><span>Inventory Tools</span></a>
-          <a href="#/export" data-route="export" class="owner-only"><span class="ic">⇩</span><span>Export</span></a>
-          <a href="#/add" data-route="add" class="owner-only"><span class="ic">+</span><span>Add Card</span></a>
+          <div class="premium-more-divider" aria-hidden="true"></div>
+          <a href="#/add" data-route="add" class="desktop-more-add"><span class="ic">+</span><span>Add Card</span></a>
+          <a href="#/inventory-tools" data-route="inventory-tools" class="owner-only desktop-more-owner"><span class="ic">≡</span><span>Inventory Tools</span></a>
+          <a href="#/insights" data-route="insights" class="owner-only desktop-more-owner"><span class="ic">◔</span><span>Insights</span></a>
+          <a href="#/fb-tools" data-route="fb-tools" class="owner-only desktop-more-owner"><span class="ic">ƒ</span><span>Post Generator Tools</span></a>
+          <a href="#/quality" data-route="quality" class="owner-only desktop-more-owner"><span class="ic">✓</span><span>Data Quality</span></a>
+          <a href="#/export" data-route="export" class="owner-only desktop-more-owner"><span class="ic">⇩</span><span>Export</span></a>
+          <button type="button" class="premium-more-btn not-owner-only" id="desktopOwnerLoginBtn"><span class="ic">🔐</span><span>Owner Login</span></button>
+          <button type="button" class="premium-more-btn owner-only desktop-more-owner" id="desktopOwnerLogoutBtn" style="color:var(--danger, #ff6b6b) !important;"><span class="ic">🚪</span><span>Owner Logout</span></button>
         </div>
       </details>
     </div>
@@ -254,12 +256,15 @@
           <a href="#/about" data-route="about"><span class="ic">◎</span> About Us</a>
           <a href="#/contact" data-route="contact"><span class="ic">✉</span> Contact</a>
           <a href="#/recent" data-route="recent" class="mobile-more-recent"><span class="ic">↻</span> Recently Viewed</a>
+          <div class="mobile-more-divider" aria-hidden="true" style="height:1px; background:rgba(255,255,255,0.08); margin:6px 0;"></div>
+          <a href="#/add" data-route="add" class="desktop-more-add"><span class="ic">+</span> Add Card</a>
+          <a href="#/inventory-tools" data-route="inventory-tools" class="owner-only desktop-more-owner"><span class="ic">≡</span> Inventory Tools</a>
           <a href="#/insights" data-route="insights" class="owner-only desktop-more-owner"><span class="ic">◔</span> Insights</a>
           <a href="#/fb-tools" data-route="fb-tools" class="owner-only desktop-more-owner"><span class="ic">ƒ</span> Post Generator Tools</a>
           <a href="#/quality" data-route="quality" class="owner-only desktop-more-owner"><span class="ic">✓</span> Data Quality</a>
-          <a href="#/inventory-tools" data-route="inventory-tools" class="owner-only desktop-more-owner"><span class="ic">≡</span> Inventory Tools</a>
           <a href="#/export" data-route="export" class="owner-only desktop-more-owner"><span class="ic">⇩</span> Export</a>
-          <a href="#/add" data-route="add" class="owner-only desktop-more-owner"><span class="ic">+</span> Add Card</a>
+          <button type="button" class="not-owner-only mobile-more-btn" id="mobileOwnerLoginBtn"><span class="ic">🔐</span> Owner Login</button>
+          <button type="button" class="owner-only desktop-more-owner mobile-more-btn" id="mobileOwnerLogoutBtn" style="color:var(--danger, #ff6b6b) !important;"><span class="ic">🚪</span> Owner Logout</button>
           <button class="mobile-header-theme-toggle mobile-more-theme-toggle" id="mobileHeaderThemeToggle" type="button" aria-label="Switch to light mode" title="Light mode"><span class="ic" aria-hidden="true">☀</span><span class="mobile-theme-label">Light mode</span></button>
         </div>
       </div>
@@ -304,6 +309,33 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal-overlay" id="ownerLoginOverlay" hidden>
+  <form class="modal owner-login-modal" id="ownerLoginForm" style="max-width: 420px; width: 100%;">
+    <div class="page-head" style="margin-bottom: 1.25rem;">
+      <div>
+        <div class="eyebrow">Owner Access</div>
+        <h2>Owner Login</h2>
+        <p>Sign in to add cards, upload photos, and manage your inventory.</p>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:14px; margin-bottom: 22px;">
+      <label>
+        <span style="display:block; margin-bottom:6px; font-weight:600; font-size:13px;">Owner Email</span>
+        <input type="email" id="ownerLoginEmail" required placeholder="owner@soonsoontcg.com" autocomplete="username" style="width:100%; box-sizing:border-box;">
+      </label>
+      <label>
+        <span style="display:block; margin-bottom:6px; font-weight:600; font-size:13px;">Password</span>
+        <input type="password" id="ownerLoginPassword" required placeholder="••••••••" autocomplete="current-password" style="width:100%; box-sizing:border-box;">
+      </label>
+      <div id="ownerLoginError" style="color:var(--danger, #ff6b6b); font-size:13px; display:none;"></div>
+    </div>
+    <div class="modal-actions" style="display:flex; justify-content:flex-end; gap:10px;">
+      <button type="button" class="btn-ghost" id="ownerLoginCancelBtn">Cancel</button>
+      <button type="submit" class="btn-primary" id="ownerLoginSubmitBtn">Log in</button>
+    </div>
+  </form>
 </div>
 
 

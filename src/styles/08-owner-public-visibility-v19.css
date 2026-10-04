@@ -9,7 +9,7 @@
 .showcase-owner-actions,
 .giveaway-owner-actions,
 .card-actions.owner-only {
-  display:none !important;
+  display: none !important;
 }
 
 body.owner-mode .owner-only,
@@ -17,10 +17,160 @@ body.owner-mode .collection-rearrange-btn,
 body.owner-mode .showcase-owner-actions,
 body.owner-mode .giveaway-owner-actions,
 body.owner-mode .card-actions.owner-only {
-  display:flex !important;
+  display: flex !important;
 }
 
-/* Mobile Collection has a deliberately narrow authenticated-owner exception. */
+/* Elements that should only show when user is NOT logged in as owner */
+body.owner-mode .not-owner-only {
+  display: none !important;
+}
+
+body:not(.owner-mode) .not-owner-only {
+  display: flex !important;
+}
+
+/* Reset button styling inside desktop more menu to match navigation links perfectly */
+.premium-more-menu > button.premium-more-btn,
+.premium-more-menu button {
+  width: 100% !important;
+  min-height: 38px !important;
+  padding: 8px 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  border-radius: 9px !important;
+  color: #a0a3aa !important;
+  background: transparent !important;
+  border: none !important;
+  font-family: inherit !important;
+  font-size: 11.5px !important;
+  font-weight: 620 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+.premium-more-menu > button.premium-more-btn .ic,
+.premium-more-menu button .ic {
+  width: 18px !important;
+  color: #7f838c !important;
+  text-align: center !important;
+  font-size: 13px !important;
+}
+
+.premium-more-menu > button.premium-more-btn:hover,
+.premium-more-menu > button.premium-more-btn:focus-visible,
+.premium-more-menu button:hover,
+.premium-more-menu button:focus-visible {
+  background: rgba(255, 255, 255, 0.045) !important;
+  color: #f2f1ed !important;
+  outline: none !important;
+}
+
+body.light-mode .premium-more-menu > button.premium-more-btn,
+body.light-mode .premium-more-menu button {
+  color: #626970 !important;
+}
+
+body.light-mode .premium-more-menu > button.premium-more-btn:hover,
+body.light-mode .premium-more-menu > button.premium-more-btn:focus-visible,
+body.light-mode .premium-more-menu button:hover,
+body.light-mode .premium-more-menu button:focus-visible {
+  background: rgba(0, 0, 0, 0.045) !important;
+  color: #111 !important;
+}
+
+/* Mobile more menu buttons */
+.mobile-more-links button {
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  color: inherit !important;
+  font: inherit !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 14px !important;
+  cursor: pointer !important;
+  border-radius: 8px !important;
+  text-align: left !important;
+  box-sizing: border-box !important;
+}
+
+.mobile-more-links button .ic {
+  width: 18px !important;
+  text-align: center !important;
+}
+
+.mobile-more-links button:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Owner Login Modal Overlay - MUST sit on top of everything */
+#ownerLoginOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  background: rgba(0, 0, 0, 0.78) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+#ownerLoginOverlay[hidden] {
+  display: none !important;
+}
+
+.owner-login-modal {
+  position: relative !important;
+  z-index: 100000 !important;
+  width: 100% !important;
+  max-width: 440px !important;
+  background: #14161b !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 16px !important;
+  padding: 28px !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75) !important;
+  color: #fff !important;
+  box-sizing: border-box !important;
+}
+
+body.light-mode .owner-login-modal {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  color: #111 !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25) !important;
+}
+
+.owner-login-modal input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  outline: none !important;
+  font-family: inherit !important;
+}
+
+body.light-mode .owner-login-modal input {
+  border: 1px solid rgba(0, 0, 0, 0.16) !important;
+  background: rgba(0, 0, 0, 0.03) !important;
+  color: #111 !important;
+}
+
+.owner-login-modal input:focus {
+  border-color: #e5b94d !important;
+}
+
+/* Mobile Collection narrow authenticated-owner exception */
 @media(max-width:800px){
   body.owner-authenticated .collection-mobile-owner-bar.owner-auth-only{
     display:grid !important;
@@ -30,3 +180,5 @@ body.owner-mode .card-actions.owner-only {
     display:inline-flex !important;
   }
 }
+
+
