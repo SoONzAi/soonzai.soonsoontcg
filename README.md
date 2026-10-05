@@ -21,9 +21,9 @@ A dedicated trading card collector and vendor based in Singapore, focus on moder
 
 ## Connect with Us
 
-- **WhatsApp:** [+65 8180 5946](https://wa.me/6581805946)
-- **Carousell:** [xsoonx](https://www.carousell.sg/u/xsoonx/)
-- **Facebook:** [SoonSoonTCG](https://www.facebook.com/darren.tehkoksoon)
+- **WhatsApp:** 
+- **Carousell:** 
+- **Facebook:** 
 
 ## Website
 
