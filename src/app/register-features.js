@@ -35,6 +35,7 @@ import { register as register30 } from '../features/social/posts.js?v=2026-09-25
 import { register as register31 } from '../features/owner/quality.js';
 import { register as register32 } from '../features/owner/tools.js?v=2026-09-18-v09';
 import { register as register33 } from '../features/owner/bulk-status.js?v=2026-09-17-v11';
+import { register as registerQrGenerator } from '../features/owner/qr-generator.js?v=2026-09-17-v04';
 import { register as register34 } from '../features/owner/image-maintenance.js';
 import { register as register35 } from '../features/owner/lifecycle.js';
 import { register as register36 } from '../features/owner/bulk-price.js';
@@ -47,7 +48,7 @@ import { register as register42 } from '../features/owner/editor.js';
 import { register as register43 } from '../app/theme.js';
 import { register as register44 } from '../app/startup.js?v=2026-09-24-v08';
 
-export function registerFeatures(appContext){
+export function registerFeatures(appContext) {
   register0(appContext);
   register1(appContext);
   register2(appContext);
@@ -78,13 +79,16 @@ export function registerFeatures(appContext){
   register26(appContext);
   register27(appContext);
   registerInsightsIntentRates(appContext);
-  if(typeof document!=="undefined") registerInsightsDashboard(appContext);
+  if (typeof document !== "undefined") registerInsightsDashboard(appContext);
   register28(appContext);
   register29(appContext);
   register30(appContext);
   register31(appContext);
   register32(appContext);
   register33(appContext);
+  // Must follow owner/tools + bulk-status: it decorates their inventory-tools
+  // submode and page renderers.
+  registerQrGenerator(appContext);
   register34(appContext);
   register35(appContext);
   register36(appContext);

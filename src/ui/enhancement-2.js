@@ -2,7 +2,7 @@
  * SoonSoonTCG Background Music (BGM) Player.
  * Plays ./assets/bgm.mp3 with soft fade-in, user controls, volume slider, and localStorage persistence.
  */
-export function setup(appContext){
+export function setup(appContext) {
   const localStorage = appContext.localStorage || window.localStorage;
 
   // Prevent duplicate initialization
@@ -25,14 +25,14 @@ export function setup(appContext){
       const parsed = parseFloat(rawVol);
       if (!isNaN(parsed) && parsed >= 0 && parsed <= 1) savedVol = parsed;
     }
-  } catch {}
+  } catch { }
   audio.volume = savedVol;
 
   let isPlaying = false;
   let userMuted = false;
   try {
     userMuted = localStorage.getItem(STORAGE_KEY_DISABLED) === '1';
-  } catch {}
+  } catch { }
 
   // Create floating BGM widget
   const container = document.createElement('div');
@@ -48,7 +48,7 @@ export function setup(appContext){
       </div>
       <div class="bgm-info" id="bgmInfo" role="button" tabindex="0" aria-label="Toggle BGM playback">
         <span class="bgm-title">SoonSoon BGM</span>
-        <span class="bgm-status" id="bgmStatusText">Click to Play</span>
+        <span class="bgm-status" id="bgmStatusText">Starting....</span>
       </div>
       <div class="bgm-volume-wrap" title="Volume">
         <input type="range" class="bgm-volume-slider" id="bgmVolumeSlider" min="0" max="1" step="0.05" value="${savedVol}" aria-label="BGM Volume">
@@ -79,7 +79,21 @@ export function setup(appContext){
     }
   }
 
+  let fadeInterval = null;
+
+  function stopFade() {
+    if (fadeInterval) {
+      clearInterval(fadeInterval);
+      fadeInterval = null;
+    }
+  }
+
+  let startPending = false;
+
   async function playBGM(fadeIn = true) {
+    if (startPending) return false;
+    startPending = true;
+    stopFade();
     try {
       if (fadeIn) {
         audio.volume = 0;
@@ -89,10 +103,10 @@ export function setup(appContext){
         let current = 0;
         const target = savedVol;
         const step = target / 15;
-        const interval = setInterval(() => {
+        fadeInterval = setInterval(() => {
           current = Math.min(target, current + step);
           audio.volume = current;
-          if (current >= target) clearInterval(interval);
+          if (current >= target) stopFade();
         }, 60);
       } else {
         audio.volume = savedVol;
@@ -100,17 +114,23 @@ export function setup(appContext){
         updateUI(true);
       }
       userMuted = false;
-      try { localStorage.setItem(STORAGE_KEY_DISABLED, '0'); } catch {}
+      try { localStorage.setItem(STORAGE_KEY_DISABLED, '0'); } catch { }
+      return true;
     } catch (e) {
       updateUI(false);
+      return false;
+    } finally {
+      startPending = false;
     }
   }
 
   function pauseBGM() {
+    stopFade();
     audio.pause();
+    audio.volume = savedVol;
     updateUI(false);
     userMuted = true;
-    try { localStorage.setItem(STORAGE_KEY_DISABLED, '1'); } catch {}
+    try { localStorage.setItem(STORAGE_KEY_DISABLED, '1'); } catch { }
   }
 
   function toggleBGM() {
@@ -139,8 +159,9 @@ export function setup(appContext){
   volSlider.addEventListener('input', (e) => {
     const val = parseFloat(e.target.value);
     savedVol = val;
+    stopFade();
     audio.volume = val;
-    try { localStorage.setItem(STORAGE_KEY_VOL, String(val)); } catch {}
+    try { localStorage.setItem(STORAGE_KEY_VOL, String(val)); } catch { }
     if (val === 0 && isPlaying) {
       statusText.textContent = 'Muted';
     } else if (isPlaying) {
@@ -149,17 +170,33 @@ export function setup(appContext){
   });
 
   // Autoplay on first user interaction if not explicitly disabled by user
-  if (!userMuted) {
-    const onFirstUserInteraction = () => {
-      document.removeEventListener('pointerdown', onFirstUserInteraction);
-      document.removeEventListener('keydown', onFirstUserInteraction);
-      if (!isPlaying && !userMuted) {
-        playBGM(true);
+  const AUTOPLAY_TRIGGERS = ['pointerdown', 'touchstart', 'keydown', 'click'];
+
+  function armAutoplayTriggers() {
+    const start = async event => {
+      if (event && container.contains(event.target)) return;
+      if (isPlaying || userMuted) {
+        disarm();
+        return;
       }
+      if (await playBGM(true)) disarm();
     };
-    document.addEventListener('pointerdown', onFirstUserInteraction, { once: true });
-    document.addEventListener('keydown', onFirstUserInteraction, { once: true });
+  }
+  function disarm() {
+    AUTOPLAY_TRIGGERS.forEach(type => window.removeEventListener(type, start, true));
+  }
+  AUTOPLAY_TRIGGERS.forEach(type => window.addEventListener(type, start, { capture: true, passive: true }));
+
+  if (userMuted) {
+    updateUI(false);
   } else {
     updateUI(false);
+    statusText.textContent = 'Starting....';
+    playBGM(true).then(started => {
+      if (started) return;
+      updateUI(false);
+      statusText.textContent = 'Tap to start';
+      armAutoplayTriggers();
+    })
   }
 }

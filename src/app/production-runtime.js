@@ -2,7 +2,7 @@ export const PRODUCTION_URL = 'https://vwfnvgkxipwcfcunstvu.supabase.co';
 export const PRODUCTION_KEY = 'sb_publishable_UX0fNvjDFHE8n3fuvgk2sw_NiEIB1Bg';
 
 /**
- * Production runtime for the modular Collect TCG application.
+ * Production runtime for the modular Collect SoonSoonTCG application.
  *
  * Unlike the isolated beta runtime, this deliberately uses the browser's
  * normal storage, the production Supabase project and normal network access.

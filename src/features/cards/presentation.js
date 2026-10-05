@@ -1,41 +1,41 @@
 /** V93 beta: features/cards/presentation. Shared dependencies are explicit on appContext. */
-export function register(appContext){
-function getImages(c){
-    if(Array.isArray(c.images) && c.images.length) return c.images.filter(Boolean);
-    if(c.image) return [c.image]; // backwards compatibility with older listings
+export function register(appContext) {
+  function getImages(c) {
+    if (Array.isArray(c.images) && c.images.length) return c.images.filter(Boolean);
+    if (c.image) return [c.image]; // backwards compatibility with older listings
     return [];
   }
 
-function statusCornerHTML(card){
-    if(!card) return "";
-    if(card.availability === "Sold"){
+  function statusCornerHTML(card) {
+    if (!card) return "";
+    if (card.availability === "Sold") {
       return `<span class="status-corner status-corner-sold" aria-label="Sold"></span>`;
     }
-    if(card.availability === "Reserved"){
+    if (card.availability === "Reserved") {
       return `<span class="status-corner status-corner-reserved" aria-label="Reserved"></span>`;
     }
     return "";
   }
 
-function overviewGradeOverlayHTML(card){
-    if(!card || appContext.normalizeFilterValue(appContext.effectiveFormat(card))!=="graded") return "";
+  function overviewGradeOverlayHTML(card) {
+    if (!card || appContext.normalizeFilterValue(appContext.effectiveFormat(card)) !== "graded") return "";
 
-    const grade=(Array.isArray(card.grading)?card.grading:[])
-      .find(g=>g && String(g.company||"").trim() && String(g.grade??"").trim());
+    const grade = (Array.isArray(card.grading) ? card.grading : [])
+      .find(g => g && String(g.company || "").trim() && String(g.grade ?? "").trim());
 
-    if(!grade) return "";
+    if (!grade) return "";
 
-    const company=String(grade.company||"").trim().toUpperCase().slice(0,12);
-    const value=String(grade.grade??"").trim().slice(0,12);
-    const status=appContext.normalizeFilterValue(card.availability||"Available");
-    const avoidStatusCorner=status==="sold" || status==="reserved";
+    const company = String(grade.company || "").trim().toUpperCase().slice(0, 12);
+    const value = String(grade.grade ?? "").trim().slice(0, 12);
+    const status = appContext.normalizeFilterValue(card.availability || "Available");
+    const avoidStatusCorner = status === "sold" || status === "reserved";
 
-    const gradeText=`${company} ${value}`.trim();
-    const allGrades=appContext.validGradingEntries(card);
-    const popText=allGrades.length===1 ? appContext.gradePopLabel(grade) : "";
-    const slabText=allGrades.length>1 ? `${allGrades.length} SLABS` : (popText || "GRADED");
+    const gradeText = `${company} ${value}`.trim();
+    const allGrades = appContext.validGradingEntries(card);
+    const popText = allGrades.length === 1 ? appContext.gradePopLabel(grade) : "";
+    const slabText = allGrades.length > 1 ? `${allGrades.length} SLABS` : (popText || "GRADED");
     return `<button type="button"
-                    class="overview-grade-overlay filter-pill-btn ${avoidStatusCorner?"overview-grade-overlay-right":""} ${appContext.pillFilterState.grade.size && appContext.pillFilterState.grade.has(gradeText)?"pill-selected":""}"
+                    class="overview-grade-overlay filter-pill-btn ${avoidStatusCorner ? "overview-grade-overlay-right" : ""} ${appContext.pillFilterState.grade.size && appContext.pillFilterState.grade.has(gradeText) ? "pill-selected" : ""}"
                     data-pill-filter="grade"
                     data-pill-value="${appContext.escapeHtml(gradeText)}"
                     title="${appContext.escapeHtml(popText ? `${gradeText} · ${popText}` : `Filter by ${gradeText}`)}"
@@ -45,18 +45,18 @@ function overviewGradeOverlayHTML(card){
     </button>`;
   }
 
-function overviewRawConditionOverlayHTML(card){
-    if(!card || appContext.normalizeFilterValue(appContext.effectiveFormat(card))!=="raw") return "";
+  function overviewRawConditionOverlayHTML(card) {
+    if (!card || appContext.normalizeFilterValue(appContext.effectiveFormat(card)) !== "raw") return "";
 
-    const condition=appContext.rawConditionShortLabel(card.condition);
-    const filterValue=appContext.rawConditionFilterLabel(card.condition);
-    if(!condition || !filterValue) return "";
+    const condition = appContext.rawConditionShortLabel(card.condition);
+    const filterValue = appContext.rawConditionFilterLabel(card.condition);
+    if (!condition || !filterValue) return "";
 
-    const status=appContext.normalizeFilterValue(card.availability||"Available");
-    const avoidStatusCorner=status==="sold" || status==="reserved";
+    const status = appContext.normalizeFilterValue(card.availability || "Available");
+    const avoidStatusCorner = status === "sold" || status === "reserved";
 
     return `<button type="button"
-                    class="overview-grade-overlay condition-filter-btn filter-pill-btn ${avoidStatusCorner?"overview-grade-overlay-right":""} ${appContext.pillFilterState.grade.size && appContext.selectedSetMatches(appContext.pillFilterState.grade,filterValue) ? "pill-selected" : ""}"
+                    class="overview-grade-overlay condition-filter-btn filter-pill-btn ${avoidStatusCorner ? "overview-grade-overlay-right" : ""} ${appContext.pillFilterState.grade.size && appContext.selectedSetMatches(appContext.pillFilterState.grade, filterValue) ? "pill-selected" : ""}"
                     data-pill-filter="grade"
                     data-pill-value="${appContext.escapeHtml(filterValue)}"
                     title="Filter by ${appContext.escapeHtml(filterValue)}"
@@ -66,16 +66,16 @@ function overviewRawConditionOverlayHTML(card){
     </button>`;
   }
 
-function overviewSealedConditionOverlayHTML(card){
-    if(!card || appContext.normalizeFilterValue(appContext.effectiveFormat(card))!=="sealed") return "";
+  function overviewSealedConditionOverlayHTML(card) {
+    if (!card || appContext.normalizeFilterValue(appContext.effectiveFormat(card)) !== "sealed") return "";
 
-    const condition=appContext.rawConditionShortLabel(card.condition || "SEALED") || "SEALED";
-    const status=appContext.normalizeFilterValue(card.availability||"Available");
-    const avoidStatusCorner=status==="sold" || status==="reserved";
+    const condition = appContext.rawConditionShortLabel(card.condition || "SEALED") || "SEALED";
+    const status = appContext.normalizeFilterValue(card.availability || "Available");
+    const avoidStatusCorner = status === "sold" || status === "reserved";
 
-    const sealedFilterValue="Sealed";
+    const sealedFilterValue = "Sealed";
     return `<button type="button"
-                    class="overview-grade-overlay filter-pill-btn ${avoidStatusCorner?"overview-grade-overlay-right":""} ${appContext.pillFilterState.grade.size && appContext.pillFilterState.grade.has(sealedFilterValue)?"pill-selected":""}"
+                    class="overview-grade-overlay filter-pill-btn ${avoidStatusCorner ? "overview-grade-overlay-right" : ""} ${appContext.pillFilterState.grade.size && appContext.pillFilterState.grade.has(sealedFilterValue) ? "pill-selected" : ""}"
                     data-pill-filter="grade"
                     data-pill-value="${sealedFilterValue}"
                     title="Filter by Sealed"
@@ -85,11 +85,11 @@ function overviewSealedConditionOverlayHTML(card){
     </button>`;
   }
 
-function cardThumbHTML(c, renderIndex=999){
+  function cardThumbHTML(c, renderIndex = 999) {
     const color = appContext.RARITY_COLOR[c.rarity] || "var(--r-common)";
     const images = appContext.getImages(c);
-    if(images.length){
-      const initialCount=Math.max(1,images.length);
+    if (images.length) {
+      const initialCount = Math.max(1, images.length);
       return `<div class="thumb-wrap listing-card-gallery"
                    style="position:relative; flex-shrink:0;"
                    data-listing-gallery="${appContext.escapeHtml(c.id)}"
@@ -104,11 +104,11 @@ function cardThumbHTML(c, renderIndex=999){
         ${appContext.overviewGradeOverlayHTML(c)}
         ${appContext.overviewRawConditionOverlayHTML(c)}
         ${appContext.overviewSealedConditionOverlayHTML(c)}
-        ${appContext.isNewCard(c) ? `<span class="new-card-badge ${["graded","raw","sealed"].includes(appContext.normalizeFilterValue(appContext.effectiveFormat(c))) ? "new-card-badge-with-grade" : ""}" aria-label="Recently added">NEW</span>` : ""}
+        ${appContext.isNewCard(c) ? `<span class="new-card-badge ${["graded", "raw", "sealed"].includes(appContext.normalizeFilterValue(appContext.effectiveFormat(c))) ? "new-card-badge-with-grade" : ""}" aria-label="Recently added">NEW</span>` : ""}
         ${appContext.statusCornerHTML(c)}
         <span class="image-count-badge"
               data-listing-image-count
-              aria-label="${initialCount} photo${initialCount===1?"":"s"}">▧ ${initialCount}</span>
+              aria-label="${initialCount} photo${initialCount === 1 ? "" : "s"}">▧ ${initialCount}</span>
         <button type="button"
                 class="listing-gallery-arrow listing-gallery-arrow-prev"
                 data-listing-gallery-step="-1"
@@ -126,26 +126,42 @@ function cardThumbHTML(c, renderIndex=999){
     return `<div class="thumb-placeholder" style="--stripe:${color}">${initial}</div>`;
   }
 
-  Object.assign(appContext,{getImages,statusCornerHTML,overviewGradeOverlayHTML,overviewRawConditionOverlayHTML,overviewSealedConditionOverlayHTML,cardThumbHTML});
+  function formatSoldDate(value) {
+    if (!value) return "";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    return date.toLocaleDateString([], { year: "numeric", month: "short", day: "numeric" });
+  }
+
+  function soldDateInputValue(value) {
+    if (!value) return "";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function soldDateToIso(value) {
+    const safe = String(value || "").trim();
+    if (!/^\d(4)-\d(2)-\d(2))$/.test(safe)) return null;
+    const [year, month, day] = safe.split("-").map(Number);
+    const date = new Date(year, month - 1, day, 12, 0, 0, 0);
+    return Number.isNaN(date.getTime()) ? null : date.toISOString();
+  }
+
+  Object.assign(appContext, { getImages, statusCornerHTML, overviewGradeOverlayHTML, overviewRawConditionOverlayHTML, overviewSealedConditionOverlayHTML, cardThumbHTML });
 }
 
 /** State and event initialization; called in preserved startup order. */
-export function initialize(appContext,runtime){
+export function initialize(appContext, runtime) {
   appContext.GAME_CHOICES = [
-    "Digimon",
     "Disney Lorcana",
-    "Flesh and Blood",
-    "Gundam",
-    "Hunter x Hunter Hyper Battle",
     "Magic: The Gathering",
     "One Piece Card Game",
-    "One Piece From Tv Animation",
-    "One Piece Hyper Battle",
-    "One Piece OnePy Berry Match",
-    "One Piece Visual Adventure",
     "Pokémon",
-    "Weekly Jump",
-    "Yu-Gi-Oh!",
-    "Zatch Bell!"
+    "Topps Football"
+    "Yu-Gi-Oh!"
   ];
 }

@@ -2,7 +2,7 @@
 
 Official website for **SoonSoonTCG**.
 
-A dedicated trading card collector and vendor based in Singapore. We focus on modern and vintage Pokémon cards in raw and graded slabs.
+A dedicated trading card collector and vendor based in Singapore, focus on modern and vintage Pokémon cards in raw and graded slabs.
 
 ## Website Features
 
@@ -17,7 +17,6 @@ A dedicated trading card collector and vendor based in Singapore. We focus on mo
 
 - Pokémon
 - One Piece Card Game
-- Digimon
 - Other collectible card games
 
 ## Connect with Us
