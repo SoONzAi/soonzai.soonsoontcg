@@ -172,20 +172,25 @@ export function setup(appContext) {
   // Autoplay on first user interaction if not explicitly disabled by user
   const AUTOPLAY_TRIGGERS = ['pointerdown', 'touchstart', 'keydown', 'click'];
 
+  const onAutoplayTrigger = async (event) => {
+    if (event && container.contains(event.target)) return;
+    if (isPlaying || userMuted) {
+      disarm();
+      return;
+    }
+    const started = await playBGM(true);
+    if (started) {
+      disarm();
+    }
+  };
+
   function armAutoplayTriggers() {
-    const start = async event => {
-      if (event && container.contains(event.target)) return;
-      if (isPlaying || userMuted) {
-        disarm();
-        return;
-      }
-      if (await playBGM(true)) disarm();
-    };
+    AUTOPLAY_TRIGGERS.forEach(type => window.addEventListener(type, onAutoplayTrigger, { capture: true, passive: true }));
   }
+
   function disarm() {
-    AUTOPLAY_TRIGGERS.forEach(type => window.removeEventListener(type, start, true));
+    AUTOPLAY_TRIGGERS.forEach(type => window.removeEventListener(type, onAutoplayTrigger, true));
   }
-  AUTOPLAY_TRIGGERS.forEach(type => window.addEventListener(type, start, { capture: true, passive: true }));
 
   if (userMuted) {
     updateUI(false);
@@ -197,6 +202,10 @@ export function setup(appContext) {
       updateUI(false);
       statusText.textContent = 'Tap to start';
       armAutoplayTriggers();
-    })
+    }).catch(() => {
+      updateUI(false);
+      statusText.textContent = 'Tap to start';
+      armAutoplayTriggers();
+    });
   }
 }

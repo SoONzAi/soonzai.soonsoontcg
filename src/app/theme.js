@@ -1,24 +1,29 @@
 /** V93 beta: app/theme. Shared dependencies are explicit on appContext. */
 export function register(appContext){
-function applyTheme(theme){
+  appContext.THEME_KEY = appContext.THEME_KEY || "collect-tcg-theme";
+
+  function applyTheme(theme){
     const light = theme === "light";
     document.body.classList.toggle("light-mode", light);
-    const btn = appContext.$("themeToggle");
-    if(btn) btn.textContent = light ? "☾ Dark mode" : "☀ Light mode";
-    const mobileBtn = appContext.$("mobileHeaderThemeToggle");
-    if(mobileBtn){
-      const icon=mobileBtn.querySelector(".ic");
-      const label=mobileBtn.querySelector(".mobile-theme-label");
+    const btns = document.querySelectorAll("#themeToggle, .theme-toggle");
+    btns.forEach(btn => {
+      btn.textContent = light ? "☾ Dark mode" : "☀ Light mode";
+    });
+    const mobileBtns = document.querySelectorAll("#mobileHeaderThemeToggle, .mobile-more-theme-toggle");
+    mobileBtns.forEach(mobileBtn => {
+      const icon = mobileBtn.querySelector(".ic");
+      const label = mobileBtn.querySelector(".mobile-theme-label");
       if(icon) icon.textContent = light ? "☾" : "☀";
       if(label) label.textContent = light ? "Dark mode" : "Light mode";
       mobileBtn.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
       mobileBtn.title = light ? "Dark mode" : "Light mode";
-    }
+    });
   }
 
-function loadTheme(){
+  function loadTheme(){
     // Dark is the default unless the visitor explicitly chose light.
-    const saved = appContext.localStorage.getItem(appContext.THEME_KEY);
+    const key = appContext.THEME_KEY || "collect-tcg-theme";
+    const saved = appContext.localStorage.getItem(key);
     appContext.applyTheme(saved === "light" ? "light" : "dark");
   }
 
@@ -229,16 +234,22 @@ function setupMobilePullToRefresh(){
 
 /** State and event initialization; called in preserved startup order. */
 export function initialize(appContext,runtime){
-appContext.$("themeToggle").addEventListener("click", ()=>{
+  function toggleTheme(){
     const next = document.body.classList.contains("light-mode") ? "dark" : "light";
     appContext.localStorage.setItem(appContext.THEME_KEY, next);
     appContext.applyTheme(next);
-  });
+  }
 
-appContext.$("mobileHeaderThemeToggle")?.addEventListener("click", ()=>{
-    const next = document.body.classList.contains("light-mode") ? "dark" : "light";
-    appContext.localStorage.setItem(appContext.THEME_KEY, next);
-    appContext.applyTheme(next);
+  appContext.$("themeToggle")?.addEventListener("click", toggleTheme);
+  appContext.$("mobileHeaderThemeToggle")?.addEventListener("click", toggleTheme);
+
+  // Global delegation fallback so any theme button anywhere works immediately
+  document.addEventListener("click", e => {
+    const btn = e.target.closest("#themeToggle, .theme-toggle, #mobileHeaderThemeToggle, .mobile-more-theme-toggle");
+    if(btn){
+      e.stopPropagation();
+      toggleTheme();
+    }
   });
 
 appContext.$("mobileFooterCurrencyPreference")?.addEventListener("change",e=>{
