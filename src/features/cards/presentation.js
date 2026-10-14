@@ -145,13 +145,13 @@ export function register(appContext) {
 
   function soldDateToIso(value) {
     const safe = String(value || "").trim();
-    if (!/^\d(4)-\d(2)-\d(2))$/.test(safe)) return null;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(safe)) return null;
     const [year, month, day] = safe.split("-").map(Number);
     const date = new Date(year, month - 1, day, 12, 0, 0, 0);
     return Number.isNaN(date.getTime()) ? null : date.toISOString();
   }
 
-  Object.assign(appContext, { getImages, statusCornerHTML, overviewGradeOverlayHTML, overviewRawConditionOverlayHTML, overviewSealedConditionOverlayHTML, cardThumbHTML });
+  Object.assign(appContext, { getImages, statusCornerHTML, overviewGradeOverlayHTML, overviewRawConditionOverlayHTML, overviewSealedConditionOverlayHTML, cardThumbHTML, formatSoldDate, soldDateInputValur, soldDateToIso });
 }
 
 /** State and event initialization; called in preserved startup order. */
@@ -161,7 +161,7 @@ export function initialize(appContext, runtime) {
     "Magic: The Gathering",
     "One Piece Card Game",
     "Pokémon",
-    "Topps Football"
+    "Topps Football",
     "Yu-Gi-Oh!"
   ];
 }
