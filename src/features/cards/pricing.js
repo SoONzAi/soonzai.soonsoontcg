@@ -50,17 +50,17 @@ function safeListingPage(value){
 
 function getPriceCurrencyPreference(){
     try{
-      const value=String(appContext.localStorage.getItem(appContext.PRICE_CURRENCY_KEY)||"USD").toUpperCase();
-      return ["USD","MYR","SGD"].includes(value) ? value : "USD";
+      const value=String(appContext.localStorage.getItem(appContext.PRICE_CURRENCY_KEY)||"SGD").toUpperCase();
+      return ["USD","MYR","SGD"].includes(value) ? value : "SGD";
     }catch{
-      return "USD";
+      return "SGD";
     }
   }
 
 function setPriceCurrencyPreference(value){
     const safe=["USD","MYR","SGD"].includes(String(value||"").toUpperCase())
       ? String(value).toUpperCase()
-      : "USD";
+      : "SGD";
     try{ appContext.localStorage.setItem(appContext.PRICE_CURRENCY_KEY,safe); }catch{}
     return safe;
   }
