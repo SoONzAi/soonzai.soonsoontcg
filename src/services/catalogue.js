@@ -873,5 +873,5 @@ export function initialize(appContext,runtime){
 
   appContext.giveawayGrowthAnalyticsSupported = "unknown";
 
-  appContext.SHOWCASE_PUBLIC_COLUMNS = "id,title,category,series,video_url,thumbnail_url,description,featured,sort_order,created_at";
+  appContext.SHOWCASE_PUBLIC_COLUMNS = "id,title,category,series,video_url,thumbnail_url,description,is_featured,sort_order,created_at";
 }
