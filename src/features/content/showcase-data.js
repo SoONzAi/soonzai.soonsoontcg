@@ -9,7 +9,7 @@ function showcaseFromDb(row){
       video_url: row.video_url || "",
       thumbnail_url: row.thumbnail_url || "",
       description: row.description || "",
-      featured: !!row.featured,
+      featured: !!row.is_featured,
       sort_order: Number(row.sort_order || 0),
       created_at: row.created_at || ""
     };
