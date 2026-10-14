@@ -151,7 +151,7 @@ export function register(appContext) {
     return Number.isNaN(date.getTime()) ? null : date.toISOString();
   }
 
-  Object.assign(appContext, { getImages, statusCornerHTML, overviewGradeOverlayHTML, overviewRawConditionOverlayHTML, overviewSealedConditionOverlayHTML, cardThumbHTML, formatSoldDate, soldDateInputValur, soldDateToIso });
+  Object.assign(appContext, { getImages, statusCornerHTML, overviewGradeOverlayHTML, overviewRawConditionOverlayHTML, overviewSealedConditionOverlayHTML, cardThumbHTML, formatSoldDate, soldDateInputValue, soldDateToIso });
 }
 
 /** State and event initialization; called in preserved startup order. */
