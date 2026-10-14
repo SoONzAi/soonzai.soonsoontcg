@@ -509,7 +509,7 @@ appContext.showcaseForm.addEventListener("submit", async e=>{
       thumbnail_url: thumbnailUrl,
       description: appContext.$("showcaseDescription").value.trim(),
       sort_order: parseInt(appContext.$("showcaseSortOrder").value || "0",10) || 0,
-      featured: appContext.$("showcaseFeatured").checked
+      is_featured: appContext.$("showcaseFeatured").checked
     };
 
     if(!payload.title || !payload.video_url) return;
