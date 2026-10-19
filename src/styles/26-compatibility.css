@@ -6394,6 +6394,9 @@ body.light-mode .desktop-listing-currency-control select{
   }
 }
 
+@media (min-width:801px) and (max-width:1179px){
+   #mainnav > a.mobile-nav-logo{display:none !important;}
+}
 
 /* ==========================================================
    V161 BETA — MOBILE HEADER CENTERING + COMPACT MORE
