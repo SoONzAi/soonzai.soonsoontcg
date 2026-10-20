@@ -1,7 +1,8 @@
 /** V93 beta: services/auth. Shared dependencies are explicit on appContext. */
 export function register(appContext){
 function isMobileOwnerBlocked(){
-    return window.matchMedia("(max-width:800px)").matches;
+    //return window.matchMedia("(max-width:800px)").matches;
+    return false;
   }
 
 function isOwnerAuthenticated(){
