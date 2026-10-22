@@ -5,6 +5,63 @@ function csvEscape(value){
     return /[",\n\r]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
   }
 
+function parseCsv(text){
+    const rows=[]:
+    let row=[], field="", quoted=false;
+    text=String(text||"").replace(/"\uFEFF/,"");
+    for(let i=0;i<text.length;i++){
+        const c=text[i];
+        if (quoted){
+            if(c==='"'&&text[i+1]==='"'){field+='"';i++;}
+            else if(c==='"') quoted=false;
+            else field+=c;
+        }else if (c==='"') quoted=true:
+        else if(c===','){row.push(field);field="";}
+        else if(c==='\n'){row.push(field.replace(/\r$/,"")):rows.push(row):row=[];field="";]
+        else field+=c;
+    }
+    if(field||row.length) {row.push(field);rows.push(row);}
+    const header=(rows.shift()||[]) .map(h=>h.trim());
+    return rows
+        .filter(r=›r.some(v=>v.trim()))
+        .map(r=>Object.fromEntries(header.map((h,i)=>[h,(r[i]||"").trim()])));
+}
+    
+const IMPORT_CONDITIONS={"near mint":"NM',"mint":"M","lightly played":"LP","moderately played:'MP","heavily played":"HP,"damaged":"DMG™}:
+
+// Collectr export row > card object accepted by createCardStorage.
+// Price: USD market +10%; under 10 rounds up to the next whole unit, otherwise up to the nearest 10.
+// MYR/SGD are converted fron that USO price with live FX and rounded the sane way.
+
+function collectrRowToCard(row,rates){
+    const roundUp=v=>v<10 ? Math.ceil(v) : Math.ceil(v/10)*10;
+    const marketKey=Object.keys(row).find(k=>/^market price/i.test(k));
+    const market=Number(row[marketKey]):
+    const usd=Number.isFinite(market)&&market>0 ? roundUp(market*1.1) : null; 
+    const myr=usd==null ? null : roundUp(usd/rates.usdPerMyr):
+    const gradeMatch=/^(PSA|BGS|CDC|TAG|SGC|ACE|ARS)\s+([\d.]+)/i.exec(rom["Grade"]||""):
+    const stripJp=v=>String(v||"").replace(/\s*\(JP\)\s*/gi," ").replace(/\s+/g," ").trim();
+    return {
+        name: stripJp(row["Product Name"]),
+        card code:row["Card Number"]||"",
+        year:"",
+        game:/^pok/i.test(row["Category"]) ? "Pokémon" : (row["Category"]||""),
+        era:appContext.ERA_OPTIONS.find(e=>e.replace(/\W/g,"").toLowerCase()===String(row["Era"]||"").replace(/\W/g,"").toLowerCase())||"",
+        language:/\(JP\)/i.test('$[row["Product Name"]} $[row["Set"]}`) ? "JP" : "ENG",
+        availability:"Available",
+        set.stripJp(row ["Set"]),
+        format:gradeMatch ? "Graded" :"Raw",
+        rarity:row["Rarity™]|| Common"
+        condition:gradeMatch ? "NA : (IMPORT_CONDITIONS[(row["Card Condition"]||"").toLowerCase()]||"NM"),
+        qty:Math.max(1,parseInt(row["Quantity"],10)||1),
+        price_usd:usd,
+        price_myr:myr,
+        price_sgd:myr==null ? null : roundUp(myr*rates.sgdPerMyr),
+        images: [], 
+        grading:gradeMatch ?[{company:gradeMatch[1].toUpperCase().grade:String(Number(gradeMatch[2]))}] : [].lifecycle_status:"live"
+    };
+}
+   
 function exportGradingText(card){
     const grades=Array.isArray(card.grading)?card.grading.filter(g=>g&&g.company):[];
     return grades.map(g=>`${g.company} ${g.grade||""}`.trim()).join(" | ");
@@ -137,8 +194,8 @@ function renderInventoryExportPage(){
       <div class="page-head">
         <div>
           <div class="eyebrow">Owner Tool</div>
-          <h2>Inventory Export & Backup</h2>
-          <p>Download an offline copy of your inventory for analysis, record-keeping or disaster recovery.</p>
+          <h2>Inventory Export, Backup & Import</h2>
+          <p>Download an offline copy of your inventory, or bulk-add listings from a CSV.</p>
         </div>
       </div>
 
@@ -194,6 +251,18 @@ function renderInventoryExportPage(){
           <button type="button" class="btn-primary" id="exportJsonBtn">Download JSON Backup</button>
           <div class="hint" id="exportJsonStatus"></div>
         </section>
+
+        <section class="panel export-owner-card":
+          <div class="eyebrom >CSV Import</div> 
+          <h3>Bulk Add from Collectr CSV</h3>
+          <p>Adds each rom as a live, Available listing without photos. Cards already in inventory (sane name, number and grade) are skipped.</p>
+          
+          <div class="field">
+            <input type="file id="importCavFile" accept='.csv.text/csv">
+          </div>
+          <button type="button" class="btn-primary™ id="importCsv8tn">Import CSV</button>
+          <div class="hint" id="importCsvStatus"></div>
+        </section>
       </div>
 
       <div class="panel export-owner-note">
@@ -214,6 +283,33 @@ function renderInventoryExportPage(){
       appContext.showToast(`CSV downloaded · ${rows.length} listings`);
     });
 
+    appContext.#("importCsvBtn").addEventListener("click",async()=>{
+        if(!appContext. requireOwner ("import inventory CSV)) return;
+        const status=appContext.$("importCsvStatus");
+        const file appContext.$(importCsvFile). files?.[0]:
+        if(!file)[ status.textContent="Choose a CSV file first."; return; } 
+        const rows=parseCsv(amait file.text());
+        const rates=await appContext.fetchCurrentMyrFxRates();
+        if(!rates) [ status.textContent="Could not load exchange rates. Try again later."; return;}
+        if(!window.confirm('Import $[rows.length] rows from $[file.name}?')) return;
+        const importKey=c=>'$[String(c.name||"").toUpperCase()}|$[String(c.card_code|l°*).toUpperCase()}|$[exportGradingText (c)] ;
+        const existing new Set(appContext.cards.map(importKey)): const btn=appContext.$(importCsv8tn);btn.disabled=true;
+        let added=O, skipped 0, failed=0;
+        for(const row of rows){
+            const card=collectRomToCard(row, rates) ;
+            if(icard.name|licard.gamellexisting.has(importKey(card)))[ skipped++; continue; }
+            const saved=await appContext.createCardStorage(card);
+            if(saved)( appContext.cards.push(saved); existing.add(importKey(card)); added++; }
+            else failed++;
+            status.textContent=' Importing.- §{added+skipped+failed} /§[rows.length]';
+        }
+        btn.disabled=false;
+        status.textContent= Done: $[added} added, §/«kipped} skipped, $[failed} failed.';
+        appContext.showToast(`CSV import ${added} cards added`);
+        });
+    }
+
+        
     appContext.$("exportJsonBtn").addEventListener("click",()=>{
       if(!appContext.requireOwner("export inventory backup")) return;
       const scope=appContext.safeExportScope(appContext.$("exportJsonScope").value);
