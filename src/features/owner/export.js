@@ -27,7 +27,7 @@ function parseCsv(text){
         .map(r=>Object.fromEntries(header.map((h,i)=>[h,(r[i]||"").trim()])));
 }
     
-const IMPORT_CONDITIONS={"near mint":"NM","mint":"M","lightly played":"LP","moderately played":"MP","heavily played":"HP","damaged":"DMG"}:
+const IMPORT_CONDITIONS={"near mint":"NM","mint":"M","lightly played":"LP","moderately played":"MP","heavily played":"HP","damaged":"DMG"};
 
 // Collectr export row > card object accepted by createCardStorage.
 // Price: USD market +10%; under 10 rounds up to the next whole unit, otherwise up to the nearest 10.
@@ -47,7 +47,7 @@ function collectrRowToCard(row,rates){
         year:"",
         game:/^pok/i.test(row["Category"]) ? "Pokémon" : (row["Category"]||""),
         era:appContext.ERA_OPTIONS.find(e=>e.replace(/\W/g,"").toLowerCase()===String(row["Era"]||"").replace(/\W/g,"").toLowerCase())||"",
-        language:/\(JP\)/i.test('${row["Product Name"]} ${row["Set"]}`) ? "JP" : "ENG",
+        language:/\(JP\)/i.test(`${row["Product Name"]} ${row["Set"]}`) ? "JP" : "ENG",
         availability:"Available",
         set:stripJp(row["Set"]),
         format:gradeMatch ? "Graded" :"Raw",
