@@ -283,33 +283,33 @@ function renderInventoryExportPage(){
       appContext.showToast(`CSV downloaded · ${rows.length} listings`);
     });
 
-    appContext.#("importCsvBtn").addEventListener("click",async()=>{
-        if(!appContext. requireOwner ("import inventory CSV)) return;
+    appContext.$("importCsvBtn").addEventListener("click",async()=>{
+        if(!appContext.requireOwner("import inventory CSV")) return;
         const status=appContext.$("importCsvStatus");
-        const file appContext.$(importCsvFile). files?.[0]:
-        if(!file)[ status.textContent="Choose a CSV file first."; return; } 
-        const rows=parseCsv(amait file.text());
+        const file appContext.$("importCsvFile").files?.[0]:
+        if(!file){ status.textContent="Choose a CSV file first."; return; } 
+        const rows=parseCsv(await file.text());
         const rates=await appContext.fetchCurrentMyrFxRates();
-        if(!rates) [ status.textContent="Could not load exchange rates. Try again later."; return;}
-        if(!window.confirm('Import $[rows.length] rows from $[file.name}?')) return;
-        const importKey=c=>'$[String(c.name||"").toUpperCase()}|$[String(c.card_code|l°*).toUpperCase()}|$[exportGradingText (c)] ;
-        const existing new Set(appContext.cards.map(importKey)): const btn=appContext.$(importCsv8tn);btn.disabled=true;
-        let added=O, skipped 0, failed=0;
+        if(!rates) { status.textContent="Could not load exchange rates. Try again later."; return;}
+        if(!window.confirm(`Import ${rows.length} rows from ${file.name}?`)) return;
+        const importKey=c=>`$[String(c.name||"").toUpperCase()}|$[String(c.card_code||"").toUpperCase()}|${exportGradingText (c)}`;
+        const existing new Set(appContext.cards.map(importKey));
+        const btn=appContext.$("importCsvBtn");
+        btn.disabled=true;
+        let added=O, skipped=0, failed=0;
         for(const row of rows){
-            const card=collectRomToCard(row, rates) ;
-            if(icard.name|licard.gamellexisting.has(importKey(card)))[ skipped++; continue; }
+            const card=collectRowToCard(row, rates) ;
+            if(!card.name||!card.game||existing.has(importKey(card))){skipped++; continue; }
             const saved=await appContext.createCardStorage(card);
-            if(saved)( appContext.cards.push(saved); existing.add(importKey(card)); added++; }
+            if(saved){appContext.cards.push(saved); existing.add(importKey(card)); added++; }
             else failed++;
-            status.textContent=' Importing.- §{added+skipped+failed} /§[rows.length]';
+            status.textContent=`Importing... ${added+skipped+failed} /${rows.length}`;
         }
         btn.disabled=false;
-        status.textContent= Done: $[added} added, §/«kipped} skipped, $[failed} failed.';
+        status.textContent=`Done: ${added} added, ${skipped} skipped, ${failed} failed.`;
         appContext.showToast(`CSV import ${added} cards added`);
         });
-    }
 
-        
     appContext.$("exportJsonBtn").addEventListener("click",()=>{
       if(!appContext.requireOwner("export inventory backup")) return;
       const scope=appContext.safeExportScope(appContext.$("exportJsonScope").value);
