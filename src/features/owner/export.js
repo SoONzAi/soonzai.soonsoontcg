@@ -49,16 +49,17 @@ function collectrRowToCard(row,rates){
         era:appContext.ERA_OPTIONS.find(e=>e.replace(/\W/g,"").toLowerCase()===String(row["Era"]||"").replace(/\W/g,"").toLowerCase())||"",
         language:/\(JP\)/i.test('$[row["Product Name"]} $[row["Set"]}`) ? "JP" : "ENG",
         availability:"Available",
-        set.stripJp(row ["Set"]),
+        set.stripJp(row["Set"]),
         format:gradeMatch ? "Graded" :"Raw",
-        rarity:row["Rarity™]|| Common"
-        condition:gradeMatch ? "NA : (IMPORT_CONDITIONS[(row["Card Condition"]||"").toLowerCase()]||"NM"),
+        rarity:row["Rarity"]|| "Common",
+        condition:gradeMatch ? "NA": (IMPORT_CONDITIONS[(row["Card Condition"]||"").toLowerCase()]||"NM"),
         qty:Math.max(1,parseInt(row["Quantity"],10)||1),
         price_usd:usd,
         price_myr:myr,
         price_sgd:myr==null ? null : roundUp(myr*rates.sgdPerMyr),
         images: [], 
-        grading:gradeMatch ?[{company:gradeMatch[1].toUpperCase().grade:String(Number(gradeMatch[2]))}] : [].lifecycle_status:"live"
+        grading:gradeMatch ?[{company:gradeMatch[1].toUpperCase().grade:String(Number(gradeMatch[2]))}] : [],
+        lifecycle_status:"live"
     };
 }
    
@@ -252,15 +253,15 @@ function renderInventoryExportPage(){
           <div class="hint" id="exportJsonStatus"></div>
         </section>
 
-        <section class="panel export-owner-card":
-          <div class="eyebrom >CSV Import</div> 
+        <section class="panel export-owner-card">
+          <div class="eyebrom">CSV Import</div> 
           <h3>Bulk Add from Collectr CSV</h3>
           <p>Adds each rom as a live, Available listing without photos. Cards already in inventory (sane name, number and grade) are skipped.</p>
           
           <div class="field">
-            <input type="file id="importCavFile" accept='.csv.text/csv">
+            <input type="file" id="importCavFile" accept=".csv.text/csv">
           </div>
-          <button type="button" class="btn-primary™ id="importCsv8tn">Import CSV</button>
+          <button type="button" class="btn-primary" id="importCsv8tn">Import CSV</button>
           <div class="hint" id="importCsvStatus"></div>
         </section>
       </div>
@@ -286,19 +287,19 @@ function renderInventoryExportPage(){
     appContext.$("importCsvBtn").addEventListener("click",async()=>{
         if(!appContext.requireOwner("import inventory CSV")) return;
         const status=appContext.$("importCsvStatus");
-        const file appContext.$("importCsvFile").files?.[0]:
+        const file=appContext.$("importCsvFile").files?.[0];
         if(!file){ status.textContent="Choose a CSV file first."; return; } 
         const rows=parseCsv(await file.text());
         const rates=await appContext.fetchCurrentMyrFxRates();
         if(!rates) { status.textContent="Could not load exchange rates. Try again later."; return;}
         if(!window.confirm(`Import ${rows.length} rows from ${file.name}?`)) return;
-        const importKey=c=>`$[String(c.name||"").toUpperCase()}|$[String(c.card_code||"").toUpperCase()}|${exportGradingText (c)}`;
-        const existing new Set(appContext.cards.map(importKey));
+        const importKey=c=>`${String(c.name||"").toUpperCase()}|${String(c.card_code||"").toUpperCase()}|${exportGradingText (c)}`;
+        const existing=new Set(appContext.cards.map(importKey));
         const btn=appContext.$("importCsvBtn");
         btn.disabled=true;
-        let added=O, skipped=0, failed=0;
+        let added=0, skipped=0, failed=0;
         for(const row of rows){
-            const card=collectRowToCard(row, rates) ;
+            const card=collectrRowToCard(row, rates) ;
             if(!card.name||!card.game||existing.has(importKey(card))){skipped++; continue; }
             const saved=await appContext.createCardStorage(card);
             if(saved){appContext.cards.push(saved); existing.add(importKey(card)); added++; }
