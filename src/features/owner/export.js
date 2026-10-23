@@ -6,28 +6,28 @@ function csvEscape(value){
   }
 
 function parseCsv(text){
-    const rows=[]:
+    const rows=[];
     let row=[], field="", quoted=false;
-    text=String(text||"").replace(/"\uFEFF/,"");
+    text=String(text||"").replace(/^\uFEFF/,"");
     for(let i=0;i<text.length;i++){
         const c=text[i];
         if (quoted){
             if(c==='"'&&text[i+1]==='"'){field+='"';i++;}
             else if(c==='"') quoted=false;
             else field+=c;
-        }else if (c==='"') quoted=true:
+        }else if (c==='"') quoted=true;
         else if(c===','){row.push(field);field="";}
-        else if(c==='\n'){row.push(field.replace(/\r$/,"")):rows.push(row):row=[];field="";]
+        else if(c==='\n'){row.push(field.replace(/\r$/,""));rows.push(row);row=[];field="";}
         else field+=c;
     }
     if(field||row.length) {row.push(field);rows.push(row);}
     const header=(rows.shift()||[]) .map(h=>h.trim());
     return rows
-        .filter(r=›r.some(v=>v.trim()))
+        .filter(r=>r.some(v=>v.trim()))
         .map(r=>Object.fromEntries(header.map((h,i)=>[h,(r[i]||"").trim()])));
 }
     
-const IMPORT_CONDITIONS={"near mint":"NM',"mint":"M","lightly played":"LP","moderately played:'MP","heavily played":"HP,"damaged":"DMG™}:
+const IMPORT_CONDITIONS={"near mint":"NM","mint":"M","lightly played":"LP","moderately played":"MP","heavily played":"HP","damaged":"DMG"}:
 
 // Collectr export row > card object accepted by createCardStorage.
 // Price: USD market +10%; under 10 rounds up to the next whole unit, otherwise up to the nearest 10.
@@ -36,20 +36,20 @@ const IMPORT_CONDITIONS={"near mint":"NM',"mint":"M","lightly played":"LP","mode
 function collectrRowToCard(row,rates){
     const roundUp=v=>v<10 ? Math.ceil(v) : Math.ceil(v/10)*10;
     const marketKey=Object.keys(row).find(k=>/^market price/i.test(k));
-    const market=Number(row[marketKey]):
+    const market=Number(row[marketKey]);
     const usd=Number.isFinite(market)&&market>0 ? roundUp(market*1.1) : null; 
-    const myr=usd==null ? null : roundUp(usd/rates.usdPerMyr):
-    const gradeMatch=/^(PSA|BGS|CDC|TAG|SGC|ACE|ARS)\s+([\d.]+)/i.exec(rom["Grade"]||""):
+    const myr=usd==null ? null : roundUp(usd/rates.usdPerMyr);
+    const gradeMatch=/^(PSA|BGS|CGC|TAG|SGC|ACE|ARS)\s+([\d.]+)/i.exec(row["Grade"]||"");
     const stripJp=v=>String(v||"").replace(/\s*\(JP\)\s*/gi," ").replace(/\s+/g," ").trim();
     return {
         name: stripJp(row["Product Name"]),
-        card code:row["Card Number"]||"",
+        card_code:row["Card Number"]||"",
         year:"",
         game:/^pok/i.test(row["Category"]) ? "Pokémon" : (row["Category"]||""),
         era:appContext.ERA_OPTIONS.find(e=>e.replace(/\W/g,"").toLowerCase()===String(row["Era"]||"").replace(/\W/g,"").toLowerCase())||"",
-        language:/\(JP\)/i.test('$[row["Product Name"]} $[row["Set"]}`) ? "JP" : "ENG",
+        language:/\(JP\)/i.test('${row["Product Name"]} ${row["Set"]}`) ? "JP" : "ENG",
         availability:"Available",
-        set.stripJp(row["Set"]),
+        set:stripJp(row["Set"]),
         format:gradeMatch ? "Graded" :"Raw",
         rarity:row["Rarity"]|| "Common",
         condition:gradeMatch ? "NA": (IMPORT_CONDITIONS[(row["Card Condition"]||"").toLowerCase()]||"NM"),
@@ -58,7 +58,7 @@ function collectrRowToCard(row,rates){
         price_myr:myr,
         price_sgd:myr==null ? null : roundUp(myr*rates.sgdPerMyr),
         images: [], 
-        grading:gradeMatch ?[{company:gradeMatch[1].toUpperCase().grade:String(Number(gradeMatch[2]))}] : [],
+        grading:gradeMatch ?[{company:gradeMatch[1].toUpperCase(),grade:String(Number(gradeMatch[2]))}] : [],
         lifecycle_status:"live"
     };
 }
@@ -254,14 +254,14 @@ function renderInventoryExportPage(){
         </section>
 
         <section class="panel export-owner-card">
-          <div class="eyebrom">CSV Import</div> 
+          <div class="eyebrow">CSV Import</div> 
           <h3>Bulk Add from Collectr CSV</h3>
           <p>Adds each rom as a live, Available listing without photos. Cards already in inventory (sane name, number and grade) are skipped.</p>
           
           <div class="field">
-            <input type="file" id="importCavFile" accept=".csv.text/csv">
+            <input type="file" id="importCsvFile" accept=".csv,text/csv">
           </div>
-          <button type="button" class="btn-primary" id="importCsv8tn">Import CSV</button>
+          <button type="button" class="btn-primary" id="importCsvBtn">Import CSV</button>
           <div class="hint" id="importCsvStatus"></div>
         </section>
       </div>
