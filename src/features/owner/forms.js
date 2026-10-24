@@ -1328,7 +1328,7 @@ export function register(appContext) {
 
       // Existing MYR is checked when Add/Edit opens. This changes only
       // unsaved form values and never writes until the owner presses Save.
-      if (rates && applyExisting && myr.value.trim() !== "" && !manualUsd && !manualSgd) {
+      if (rates && applyExisting && myr.value.trim() !== "" && !manualUsd && !manualSgd && (force || usd.value.trim() === "" || sgd.value.trim() === "")) {
         appContext.applyMyrConversionToFields(p, rates);
       } else if (rates && myrTouched && myr.value.trim() !== "") {
         appContext.applyMyrConversionToFields(p, rates);

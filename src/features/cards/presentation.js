@@ -123,7 +123,10 @@ export function register(appContext) {
       </div>`;
     }
     const initial = (c.name || "?").trim().charAt(0).toUpperCase() || "?";
-    return `<div class="thumb-placeholder" style="--stripe:${color}">${initial}</div>`;
+    const grade = (Array.isArray(c.grading) ? c.grading : []).find(g => g && g.company && g.grade);
+    const label = grade ? `${grade.company}|${grade.grade}` : appContext.normalizeFilterValue(appContext.effectiveFormat(c)) === "raw" ? `${appContext.rawConditionShortLabel(c.condition) || "NM"} RAW` : "";
+    const badge = label ? `<span style="position:absolute;left:6px;bottom:6px;padding:2x 7px;boarder-radius:6px;background:rgba(0,0,0,.72);color:#fff;font-size:13px;letter-spacing:.04em;">${appContext.escapeHtml(label)}</span>` : "";
+    return `<div class="thumb-placeholder" style="--stripe:${color};position:relative;"> ${initial}${badge}</div>`;
   }
 
   function formatSoldDate(value) {

@@ -1,112 +1,113 @@
 /** V93 beta: features/owner/export. Shared dependencies are explicit on appContext. */
-export function register(appContext){
-function csvEscape(value){
-    const s=String(value ?? "");
-    return /[",\n\r]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+export function register(appContext) {
+  function csvEscape(value) {
+    const s = String(value ?? "");
+    return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   }
 
-function parseCsv(text){
-    const rows=[];
-    let row=[], field="", quoted=false;
-    text=String(text||"").replace(/^\uFEFF/,"");
-    for(let i=0;i<text.length;i++){
-        const c=text[i];
-        if (quoted){
-            if(c==='"'&&text[i+1]==='"'){field+='"';i++;}
-            else if(c==='"') quoted=false;
-            else field+=c;
-        }else if (c==='"') quoted=true;
-        else if(c===','){row.push(field);field="";}
-        else if(c==='\n'){row.push(field.replace(/\r$/,""));rows.push(row);row=[];field="";}
-        else field+=c;
+  function parseCsv(text) {
+    const rows = [];
+    let row = [], field = "", quoted = false;
+    text = String(text || "").replace(/^\uFEFF/, "");
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (quoted) {
+        if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
+        else if (c === '"') quoted = false;
+        else field += c;
+      } else if (c === '"') quoted = true;
+      else if (c === ',') { row.push(field); field = ""; }
+      else if (c === '\n') { row.push(field.replace(/\r$/, "")); rows.push(row); row = []; field = ""; }
+      else field += c;
     }
-    if(field||row.length) {row.push(field);rows.push(row);}
-    const header=(rows.shift()||[]) .map(h=>h.trim());
+    if (field || row.length) { row.push(field); rows.push(row); }
+    const header = (rows.shift() || []).map(h => h.trim());
     return rows
-        .filter(r=>r.some(v=>v.trim()))
-        .map(r=>Object.fromEntries(header.map((h,i)=>[h,(r[i]||"").trim()])));
-}
-    
-const IMPORT_CONDITIONS={"near mint":"NM","mint":"M","lightly played":"LP","moderately played":"MP","heavily played":"HP","damaged":"DMG"};
+      .filter(r => r.some(v => v.trim()))
+      .map(r => Object.fromEntries(header.map((h, i) => [h, (r[i] || "").trim()])));
+  }
 
-// Collectr export row > card object accepted by createCardStorage.
-// Price: USD market +10%; under 10 rounds up to the next whole unit, otherwise up to the nearest 10.
-// MYR/SGD are converted fron that USO price with live FX and rounded the sane way.
+  const IMPORT_CONDITIONS = { "near mint": "NM", "mint": "M", "lightly played": "LP", "moderately played": "MP", "heavily played": "HP", "damaged": "DMG" };
 
-function collectrRowToCard(row,rates){
-    const roundUp=v=>v<10 ? Math.ceil(v) : Math.ceil(v/10)*10;
-    const marketKey=Object.keys(row).find(k=>/^market price/i.test(k));
-    const market=Number(row[marketKey]);
-    const usd=Number.isFinite(market)&&market>0 ? roundUp(market*1.1) : null; 
-    const myr=usd==null ? null : roundUp(usd/rates.usdPerMyr);
-    const gradeMatch=/^(PSA|BGS|CGC|TAG|SGC|ACE|ARS)\s+([\d.]+)/i.exec(row["Grade"]||"");
-    const stripJp=v=>String(v||"").replace(/\s*\(JP\)\s*/gi," ").replace(/\s+/g," ").trim();
+  // Collectr export row > card object accepted by createCardStorage.
+  // Price: USD market +10%; under 10 rounds up to the next whole unit, otherwise up to the nearest 10.
+  // MYR/SGD are converted fron that USO price with live FX and rounded the sane way.
+
+  function collectrRowToCard(row, rates) {
+    const roundUp = v => v < 10 ? Math.ceil(v) : Math.ceil(v / 10) * 10;
+    const marketKey = Object.keys(row).find(k => /^market price/i.test(k));
+    const market = Number(row[marketKey]);
+    const usd = Number.isFinite(market) && market > 0 ? roundUp(market * 1.1) : null;
+    const myr = usd == null ? null : roundUp(usd / rates.usdPerMyr);
+    const gradeMatch = /^(PSA|BGS|CGC|TAG|SGC|ACE|ARS)\s+([\d.]+)/i.exec(row["Grade"] || "");
+    const stripJp = v => String(v || "").replace(/\s*\(JP\)\s*/gi, " ").replace(/\s+/g, " ").trim();
     return {
-        name: stripJp(row["Product Name"]),
-        card_code:row["Card Number"]||"",
-        year:"",
-        game:/^pok/i.test(row["Category"]) ? "Pokémon" : (row["Category"]||""),
-        era:appContext.ERA_OPTIONS.find(e=>e.replace(/\W/g,"").toLowerCase()===String(row["Era"]||"").replace(/\W/g,"").toLowerCase())||"",
-        language:/\(JP\)/i.test(`${row["Product Name"]} ${row["Set"]}`) ? "JP" : "ENG",
-        availability:"Available",
-        set:stripJp(row["Set"]),
-        format:gradeMatch ? "Graded" :"Raw",
-        rarity:row["Rarity"]|| "Common",
-        condition:gradeMatch ? "NA": (IMPORT_CONDITIONS[(row["Card Condition"]||"").toLowerCase()]||"NM"),
-        qty:Math.max(1,parseInt(row["Quantity"],10)||1),
-        price_usd:usd,
-        price_myr:myr,
-        price_sgd:myr==null ? null : roundUp(myr*rates.sgdPerMyr),
-        images: [], 
-        grading:gradeMatch ?[{company:gradeMatch[1].toUpperCase(),grade:String(Number(gradeMatch[2]))}] : [],
-        lifecycle_status:"live"
+      name: stripJp(row["Product Name"]),
+      card_code: row["Card Number"] || "",
+      year: "",
+      game: /^pok/i.test(row["Category"]) ? "Pokémon" : (row["Category"] || ""),
+      era: appContext.ERA_OPTIONS.find(e => e.replace(/\W/g, "").toLowerCase() === String(row["Era"] || "").replace(/\W/g, "").toLowerCase()) || "Modern",
+      language: /\(JP\)/i.test(`${row["Product Name"]} ${row["Set"]}`) ? "JP" : "ENG",
+      availability: "Available",
+      set: stripJp(row["Set"]),
+      format: gradeMatch ? "Graded" : "Raw",
+      rarity: row["Rarity"] || "Common",
+      condition: gradeMatch ? "NA" : (IMPORT_CONDITIONS[(row["Card Condition"] || "").toLowerCase()] || "NM"),
+      qty: Math.max(1, parseInt(row["Quantity"], 10) || 1),
+      price_usd: usd,
+      price_myr: myr,
+      price_sgd: myr == null ? null : roundUp(usd * rates.sgdPerMyr / rates.usdPerMyr),
+      notes: "Price terms: Negotiable",
+      images: [],
+      grading: gradeMatch ? [{ company: gradeMatch[1].toUpperCase(), grade: String(Number(gradeMatch[2])) }] : [],
+      lifecycle_status: "live"
     };
-}
-   
-function exportGradingText(card){
-    const grades=Array.isArray(card.grading)?card.grading.filter(g=>g&&g.company):[];
-    return grades.map(g=>`${g.company} ${g.grade||""}`.trim()).join(" | ");
   }
 
-function exportCertText(card){
-    const grades=Array.isArray(card.grading)?card.grading.filter(g=>g&&g.company):[];
-    return grades.map(g=>g.cert||"").filter(Boolean).join(" | ");
+  function exportGradingText(card) {
+    const grades = Array.isArray(card.grading) ? card.grading.filter(g => g && g.company) : [];
+    return grades.map(g => `${g.company} ${g.grade || ""}`.trim()).join(" | ");
   }
 
-function safeExportScope(value){
-    return ["all","available","reserved","sold","collection (nfs)"].includes(value)?value:"all";
+  function exportCertText(card) {
+    const grades = Array.isArray(card.grading) ? card.grading.filter(g => g && g.company) : [];
+    return grades.map(g => g.cert || "").filter(Boolean).join(" | ");
   }
 
-function exportCardsForScope(scope){
-    const s=appContext.safeExportScope(scope);
-    if(s==="all") return appContext.cards.slice();
-    return appContext.cards.filter(card=>appContext.normalizeFilterValue(card.availability)===s);
+  function safeExportScope(value) {
+    return ["all", "available", "reserved", "sold", "collection (nfs)"].includes(value) ? value : "all";
   }
 
-function downloadTextFile(filename,text,mime="text/plain;charset=utf-8"){
-    const blob=new Blob([text],{type:mime});
-    const href=URL.createObjectURL(blob);
-    const a=document.createElement("a");
-    a.href=href;
-    a.download=filename;
-    a.rel="noopener";
+  function exportCardsForScope(scope) {
+    const s = appContext.safeExportScope(scope);
+    if (s === "all") return appContext.cards.slice();
+    return appContext.cards.filter(card => appContext.normalizeFilterValue(card.availability) === s);
+  }
+
+  function downloadTextFile(filename, text, mime = "text/plain;charset=utf-8") {
+    const blob = new Blob([text], { type: mime });
+    const href = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = href;
+    a.download = filename;
+    a.rel = "noopener";
     document.body.appendChild(a);
     a.click();
     a.remove();
-    setTimeout(()=>URL.revokeObjectURL(href),1200);
+    setTimeout(() => URL.revokeObjectURL(href), 1200);
   }
 
-function buildInventoryCsv(rows,includeCert){
-    const header=[
-      "ID","Card Code","Name","Year","Game","Series","Set","Era","Language","Language Details","Format",
-      "Rarity","Condition","Availability","Quantity","MYR","USD","SGD","Cost",
-      "Grading",...(includeCert?["Certificate"]:[]),"Notes","Images","Created At","Updated At","Sold At"
+  function buildInventoryCsv(rows, includeCert) {
+    const header = [
+      "ID", "Card Code", "Name", "Year", "Game", "Series", "Set", "Era", "Language", "Language Details", "Format",
+      "Rarity", "Condition", "Availability", "Quantity", "MYR", "USD", "SGD", "Cost",
+      "Grading", ...(includeCert ? ["Certificate"] : []), "Notes", "Images", "Created At", "Updated At", "Sold At"
     ];
 
-    const lines=[header.map(appContext.csvEscape).join(",")];
+    const lines = [header.map(appContext.csvEscape).join(",")];
 
-    rows.forEach(card=>{
-      const values=[
+    rows.forEach(card => {
+      const values = [
         card.id,
         card.card_code,
         card.name,
@@ -127,7 +128,7 @@ function buildInventoryCsv(rows,includeCert){
         card.price_sgd,
         card.cost,
         appContext.exportGradingText(card),
-        ...(includeCert?[appContext.exportCertText(card)]:[]),
+        ...(includeCert ? [appContext.exportCertText(card)] : []),
         card.notes,
         appContext.getImages(card).join(" | "),
         card.created_at,
@@ -137,61 +138,61 @@ function buildInventoryCsv(rows,includeCert){
       lines.push(values.map(appContext.csvEscape).join(","));
     });
 
-    return "\uFEFF"+lines.join("\r\n");
+    return "\uFEFF" + lines.join("\r\n");
   }
 
-function buildInventoryBackupJson(rows,includePrivate){
-    const safeRows=rows.map(card=>{
-      const backup={
-        id:card.id,
-        name:card.name,
-        card_code:card.card_code,
-        year:card.year,
-        game:card.game,
-        language:card.language,
-        language_details:card.language_details,
-        era:card.era,
-        availability:card.availability,
-        set:card.set,
-        series:card.series,
-        format:card.format,
-        rarity:card.rarity,
-        condition:card.condition,
-        qty:card.qty,
-        price_myr:card.price_myr,
-        price_usd:card.price_usd ?? card.price ?? null,
-        price_sgd:card.price_sgd,
-        cost:card.cost,
-        notes:card.notes,
-        images:appContext.getImages(card).slice(),
-        grading:Array.isArray(card.grading)?card.grading.map(g=>({
-          company:g.company||"",
-          grade:g.grade||"",
-          ...(includePrivate?{cert:g.cert||""}:{}),
-          pop_count:g.pop_count==null?null:Number(g.pop_count),
-          pop_higher:g.pop_higher==null?null:Number(g.pop_higher),
-          pop_updated_at:g.pop_updated_at||null
-        })):[],
-        sold_at:card.sold_at||null,
-        created_at:card.created_at||null,
-        updated_at:card.updated_at||null
+  function buildInventoryBackupJson(rows, includePrivate) {
+    const safeRows = rows.map(card => {
+      const backup = {
+        id: card.id,
+        name: card.name,
+        card_code: card.card_code,
+        year: card.year,
+        game: card.game,
+        language: card.language,
+        language_details: card.language_details,
+        era: card.era,
+        availability: card.availability,
+        set: card.set,
+        series: card.series,
+        format: card.format,
+        rarity: card.rarity,
+        condition: card.condition,
+        qty: card.qty,
+        price_myr: card.price_myr,
+        price_usd: card.price_usd ?? card.price ?? null,
+        price_sgd: card.price_sgd,
+        cost: card.cost,
+        notes: card.notes,
+        images: appContext.getImages(card).slice(),
+        grading: Array.isArray(card.grading) ? card.grading.map(g => ({
+          company: g.company || "",
+          grade: g.grade || "",
+          ...(includePrivate ? { cert: g.cert || "" } : {}),
+          pop_count: g.pop_count == null ? null : Number(g.pop_count),
+          pop_higher: g.pop_higher == null ? null : Number(g.pop_higher),
+          pop_updated_at: g.pop_updated_at || null
+        })) : [],
+        sold_at: card.sold_at || null,
+        created_at: card.created_at || null,
+        updated_at: card.updated_at || null
       };
       return backup;
     });
 
     return JSON.stringify({
-      format:"collect-tcg-inventory-backup",
-      version:1,
-      exported_at:new Date().toISOString(),
-      count:safeRows.length,
-      cards:safeRows
-    },null,2);
+      format: "collect-tcg-inventory-backup",
+      version: 1,
+      exported_at: new Date().toISOString(),
+      count: safeRows.length,
+      cards: safeRows
+    }, null, 2);
   }
 
-function renderInventoryExportPage(){
-    if(!appContext.requireOwner("open inventory export")) return;
+  function renderInventoryExportPage() {
+    if (!appContext.requireOwner("open inventory export")) return;
 
-    appContext.view.innerHTML=`
+    appContext.view.innerHTML = `
       <div class="page-head">
         <div>
           <div class="eyebrow">Owner Tool</div>
@@ -272,57 +273,57 @@ function renderInventoryExportPage(){
       </div>
     `;
 
-    appContext.$("exportCsvBtn").addEventListener("click",()=>{
-      if(!appContext.requireOwner("export inventory CSV")) return;
-      const scope=appContext.safeExportScope(appContext.$("exportCsvScope").value);
-      const includeCert=appContext.$("exportCsvCert").checked;
-      const rows=appContext.exportCardsForScope(scope);
-      const csv=appContext.buildInventoryCsv(rows,includeCert);
-      const stamp=new Date().toISOString().slice(0,10);
-      appContext.downloadTextFile(`Collect-TCG-Inventory-${scope.replace(/[^a-z0-9]+/gi,"-")}-${stamp}.csv`,csv,"text/csv;charset=utf-8");
-      appContext.$("exportCsvStatus").textContent=`Exported ${rows.length} listing${rows.length===1?"":"s"}.`;
+    appContext.$("exportCsvBtn").addEventListener("click", () => {
+      if (!appContext.requireOwner("export inventory CSV")) return;
+      const scope = appContext.safeExportScope(appContext.$("exportCsvScope").value);
+      const includeCert = appContext.$("exportCsvCert").checked;
+      const rows = appContext.exportCardsForScope(scope);
+      const csv = appContext.buildInventoryCsv(rows, includeCert);
+      const stamp = new Date().toISOString().slice(0, 10);
+      appContext.downloadTextFile(`Collect-TCG-Inventory-${scope.replace(/[^a-z0-9]+/gi, "-")}-${stamp}.csv`, csv, "text/csv;charset=utf-8");
+      appContext.$("exportCsvStatus").textContent = `Exported ${rows.length} listing${rows.length === 1 ? "" : "s"}.`;
       appContext.showToast(`CSV downloaded · ${rows.length} listings`);
     });
 
-    appContext.$("importCsvBtn").addEventListener("click",async()=>{
-        if(!appContext.requireOwner("import inventory CSV")) return;
-        const status=appContext.$("importCsvStatus");
-        const file=appContext.$("importCsvFile").files?.[0];
-        if(!file){ status.textContent="Choose a CSV file first."; return; } 
-        const rows=parseCsv(await file.text());
-        const rates=await appContext.fetchCurrentMyrFxRates();
-        if(!rates) { status.textContent="Could not load exchange rates. Try again later."; return;}
-        if(!window.confirm(`Import ${rows.length} rows from ${file.name}?`)) return;
-        const importKey=c=>`${String(c.name||"").toUpperCase()}|${String(c.card_code||"").toUpperCase()}|${exportGradingText (c)}`;
-        const existing=new Set(appContext.cards.map(importKey));
-        const btn=appContext.$("importCsvBtn");
-        btn.disabled=true;
-        let added=0, skipped=0, failed=0;
-        for(const row of rows){
-            const card=collectrRowToCard(row, rates) ;
-            if(!card.name||!card.game||existing.has(importKey(card))){skipped++; continue; }
-            const saved=await appContext.createCardStorage(card);
-            if(saved){appContext.cards.push(saved); existing.add(importKey(card)); added++; }
-            else failed++;
-            status.textContent=`Importing... ${added+skipped+failed} /${rows.length}`;
-        }
-        btn.disabled=false;
-        status.textContent=`Done: ${added} added, ${skipped} skipped, ${failed} failed.`;
-        appContext.showToast(`CSV import ${added} cards added`);
-        });
+    appContext.$("importCsvBtn").addEventListener("click", async () => {
+      if (!appContext.requireOwner("import inventory CSV")) return;
+      const status = appContext.$("importCsvStatus");
+      const file = appContext.$("importCsvFile").files?.[0];
+      if (!file) { status.textContent = "Choose a CSV file first."; return; }
+      const rows = parseCsv(await file.text());
+      const rates = await appContext.fetchCurrentMyrFxRates();
+      if (!rates) { status.textContent = "Could not load exchange rates. Try again later."; return; }
+      if (!window.confirm(`Import ${rows.length} rows from ${file.name}?`)) return;
+      const importKey = c => `${String(c.name || "").toUpperCase()}|${String(c.card_code || "").toUpperCase()}|${exportGradingText(c)}`;
+      const existing = new Set(appContext.cards.map(importKey));
+      const btn = appContext.$("importCsvBtn");
+      btn.disabled = true;
+      let added = 0, skipped = 0, failed = 0;
+      for (const row of rows) {
+        const card = collectrRowToCard(row, rates);
+        if (!card.name || !card.game || existing.has(importKey(card))) { skipped++; continue; }
+        const saved = await appContext.createCardStorage(card);
+        if (saved) { appContext.cards.push(saved); existing.add(importKey(card)); added++; }
+        else failed++;
+        status.textContent = `Importing... ${added + skipped + failed} /${rows.length}`;
+      }
+      btn.disabled = false;
+      status.textContent = `Done: ${added} added, ${skipped} skipped, ${failed} failed.`;
+      appContext.showToast(`CSV import ${added} cards added`);
+    });
 
-    appContext.$("exportJsonBtn").addEventListener("click",()=>{
-      if(!appContext.requireOwner("export inventory backup")) return;
-      const scope=appContext.safeExportScope(appContext.$("exportJsonScope").value);
-      const includePrivate=appContext.$("exportJsonPrivate").checked;
-      const rows=appContext.exportCardsForScope(scope);
-      const json=appContext.buildInventoryBackupJson(rows,includePrivate);
-      const stamp=new Date().toISOString().slice(0,10);
-      appContext.downloadTextFile(`Collect-TCG-Backup-${scope.replace(/[^a-z0-9]+/gi,"-")}-${stamp}.json`,json,"application/json;charset=utf-8");
-      appContext.$("exportJsonStatus").textContent=`Backed up ${rows.length} listing${rows.length===1?"":"s"}.`;
+    appContext.$("exportJsonBtn").addEventListener("click", () => {
+      if (!appContext.requireOwner("export inventory backup")) return;
+      const scope = appContext.safeExportScope(appContext.$("exportJsonScope").value);
+      const includePrivate = appContext.$("exportJsonPrivate").checked;
+      const rows = appContext.exportCardsForScope(scope);
+      const json = appContext.buildInventoryBackupJson(rows, includePrivate);
+      const stamp = new Date().toISOString().slice(0, 10);
+      appContext.downloadTextFile(`Collect-TCG-Backup-${scope.replace(/[^a-z0-9]+/gi, "-")}-${stamp}.json`, json, "application/json;charset=utf-8");
+      appContext.$("exportJsonStatus").textContent = `Backed up ${rows.length} listing${rows.length === 1 ? "" : "s"}.`;
       appContext.showToast(`JSON backup downloaded · ${rows.length} listings`);
     });
   }
 
-  Object.assign(appContext,{csvEscape,exportGradingText,exportCertText,safeExportScope,exportCardsForScope,downloadTextFile,buildInventoryCsv,buildInventoryBackupJson,renderInventoryExportPage});
+  Object.assign(appContext, { csvEscape, exportGradingText, exportCertText, safeExportScope, exportCardsForScope, downloadTextFile, buildInventoryCsv, buildInventoryBackupJson, renderInventoryExportPage });
 }
