@@ -88,13 +88,13 @@ export function register(appContext) {
     if (/^\d+$/.test(total || "")) {
       tcgdexSets[lang] = tcgdexSets[lang] || tcgdexJson(`${TCGDEX}/${lang}/sets`);
       const sets = ((await tcgdexSets[lang]) || []).filter(s => s.cardCount?.official === Number(total));
-      hits = (await Promise.all(sets.map(s => tcgdexJson(`${TCGDEX}/${lang}/sets/${s.id}/${localId}`)))),fukter(c => c?.image);}
-      else if (lang === "en") {
-        const first = String(card.name }} "").split(/\s+/)[0];
-        hits = ((await  tcgdexJson(`${TCGDEX}/en/cards?localId-${encodeURIComponent(localId)}&name=${encodeURIComponent(first)}`)) || []).filter(c => c?.image);
-      } 
-      localId=${encodeURIComponent(localId)} &name=${encodeURIComponent(first)}`)) || []).filter(c => c?.image));
+      hits = (await Promise.all(sets.map(s => tcgdexJson(`${TCGDEX}/${lang}/sets/${s.id}/${localId}`)))),filter(c => c?.image);
     }
+    else if (lang === "en") {
+      const first = String(card.name || "").split(/\s+/)[0];
+      hits = ((await  tcgdexJson(`${TCGDEX}/en/cards?localId=${encodeURIComponent(localId)}&name=${encodeURIComponent(first)}`)) || []).filter(c => c?.image);
+    } 
+    localId=${encodeURIComponent(localId)} &name=${encodeURIComponent(first)}`)) || []).filter(c => c?.image));
     if (hits.length > 1 && lang === "en") {
       hits = hits.filter(c => key(card.name).includes(key(c.name)) || key(c.name).includes(key(card.name)));
     }
