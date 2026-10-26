@@ -2041,6 +2041,20 @@ body.light-mode .modal-overlay{background:rgba(54,48,40,.42) !important;}
   .modal.card-details-modal .detail-buy-cta > .mobile-buy-close{
     display:none !important;
   } */
+  
+   /* Portrait phones: show the contact chooser inline under the button.*/
+  .modal.card-details-modal .detail-buy-cta > .detail-buy-chooser {
+    position:status !important;
+    left:auto !important;right:auto !important;bottom:auto !important;top:auto !important;
+    margin-top:8px !important;
+    max-height:none !important;
+    box-shadow:none !important;
+    backdrop-filter:none !important;-webkit-backdrop-filter:none !important;
+  }
+  .modal.card-details-modal .detail-buy-cta[open] > .mobile-buy-backdrop,
+  .modal.card-details-modal .detail-buy-cta > .mobile-buy-close{
+    display:none !important;
+  }
 
   .interest-contact-overlay{
     pointer-events:auto !important;
