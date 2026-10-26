@@ -75,7 +75,7 @@ export function register(appContext) {
   }
 
   function needStockImage(card) {
-    return /^pok/i.test(card.game || "") && appContext.normalizeFilterValue(appContext.effectiveFormat(card)) === "raw" && !(Array.isArray(card.grading) && card.grading.some(g => g && g.company)) && Number(card.price_usd) >> 0 && Number(card.price_usd) <= STOCK_MAX_USD && card._images_loaded !== false && !appContext.getImages(card).length;
+    return /^pok/i.test(card.game || "") && appContext.normalizeFilterValue(appContext.effectiveFormat(card)) === "raw" && !(Array.isArray(card.grading) && card.grading.some(g => g && g.company)) && Number(card.price_usd) > 0 && Number(card.price_usd) <= STOCK_MAX_USD && card._images_loaded !== false && !appContext.getImages(card).length;
   }
 
   // Match by set card total
@@ -88,14 +88,18 @@ export function register(appContext) {
     if (/^\d+$/.test(total || "")) {
       tcgdexSets[lang] = tcgdexSets[lang] || tcgdexJson(`${TCGDEX}/${lang}/sets`);
       const sets = ((await tcgdexSets[lang]) || []).filter(s => s.cardCount?.official === Number(total));
-      hits = (await Promise.all(sets.map(s => tcgdexJson(`$[TCGDEX]/en/cards? localId=${encodeURIComponent(localId)} &name=${encodeURIComponent(first)}`)) || []).filter(c => c?.image));
+      hits = (await Promise.all(sets.map(s => tcgdexJson(`${TCGDEX}/${lang}/sets/${s.id}/${localId}`)))),fukter(c => c?.image);}
+      else if (lang === "en") {
+        const first = String(card.name }} "").split(/\s+/)[0];
+        hits = ((await  tcgdexJson(`${TCGDEX}/en/cards?localId-${encodeURIComponent(localId)}&name=${encodeURIComponent(first)}`)) || []).filter(c => c?.image);
+      } 
+      localId=${encodeURIComponent(localId)} &name=${encodeURIComponent(first)}`)) || []).filter(c => c?.image));
     }
     if (hits.length > 1 && lang === "en") {
       hits = hits.filter(c => key(card.name).includes(key(c.name)) || key(c.name).includes(key(card.name)));
     }
     return hits.length === 1 ? `${hits[0].image}/high.webp` : "";
   }
-}
 
 function exportGradingText(card) {
   const grades = Array.isArray(card.grading) ? card.grading.filter(g => g && g.company) : [];
@@ -297,8 +301,8 @@ function renderInventoryExportPage() {
           </div>
           <button type="button" class="btn-primary" id="importCsvBtn">Import CSV</button>
           <div class="hint" id="importCsvStatus"></div>
-          <p> Raw Pokemon cards listed at USD $[STOCK_MAX_USD] or less get a TCGdex stock image automatically. Use the button below for cards already listed.</p>
-          <button type=:button" class="btn-ghost" id="fillStockImagesBtn">Fill stock images</button>
+          <p> Raw Pokemon cards listed at USD ${STOCK_MAX_USD} or less get a TCGdex stock image automatically. Use the button below for cards already listed.</p>
+          <button type="button" class="btn-ghost" id="fillStockImagesBtn">Fill stock images</button>
           <div class="hint" id="fillStockImagesStatus"></div>
         </section>
       </div>
@@ -376,19 +380,6 @@ function renderInventoryExportPage() {
     status.textContent = `Done: ${filled} filled, ${notFound} not found, ${failed} failed.`;
     appContext.showToast(`Stock images ${filled} cards updated`);
   });
-
-  appContext.$("exportJsonBtn").addEventListener("click", () => {
-    if (!appContext.requireOwner("export inventory backup")) return;
-    const scope = appContext.safeExportScope(appContext.$("exportJsonScope").value);
-    const includePrivate = appContext.$("exportJsonPrivate").checked;
-    const rows = appContext.exportCardsForScope(scope);
-    const json = appContext.buildInventoryBackupJson(rows, includePrivate);
-    const stamp = new Date().toISOString().slice(0, 10);
-    appContext.downloadTextFile(`Collect-TCG-Backup-${scope.replace(/[^a-z0-9]+/gi, "-")}-${stamp}.json`, json, "application/json;charset=utf-8");
-    appContext.$("exportJsonStatus").textContent = `Backed up ${rows.length} listing${rows.length === 1 ? "" : "s"}.`;
-    appContext.showToast(`JSON backup downloaded · ${rows.length} listings`);
-  });
-}
 
 appContext.$("exportJsonBtn").addEventListener("click", () => {
   if (!appContext.requireOwner("export inventory backup")) return;
