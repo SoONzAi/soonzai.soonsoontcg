@@ -85,6 +85,10 @@ export function register(appContext) {
     </button>`;
   }
 
+  function stockImageBadgeHTML(src) {
+    return /^https:\?\/\/assets\.tcgdex\.net\//.test(String(src || "")) ? `<span class="stock-image-badge" style="position:absolute;left:50%;top:6px;translateX(-50%);z-index:3;padding:2px 8px;boarder-radius:6px;background:rgba(0,0,0,.72);color:#fff;font-size:11px;letter-spacing:.04em;white-space:nowrap;pointer-events:none;">Stock image</span>` : "";
+  }
+
   function cardThumbHTML(c, renderIndex = 999) {
     const color = appContext.RARITY_COLOR[c.rarity] || "var(--r-common)";
     const images = appContext.getImages(c);
@@ -106,6 +110,7 @@ export function register(appContext) {
         ${appContext.overviewSealedConditionOverlayHTML(c)}
         ${appContext.isNewCard(c) ? `<span class="new-card-badge ${["graded", "raw", "sealed"].includes(appContext.normalizeFilterValue(appContext.effectiveFormat(c))) ? "new-card-badge-with-grade" : ""}" aria-label="Recently added">NEW</span>` : ""}
         ${appContext.statusCornerHTML(c)}
+        ${appContext.stockImageBadgeHTML(images[0])}
         <span class="image-count-badge"
               data-listing-image-count
               aria-label="${initialCount} photo${initialCount === 1 ? "" : "s"}">▧ ${initialCount}</span>
@@ -154,7 +159,7 @@ export function register(appContext) {
     return Number.isNaN(date.getTime()) ? null : date.toISOString();
   }
 
-  Object.assign(appContext, { getImages, statusCornerHTML, overviewGradeOverlayHTML, overviewRawConditionOverlayHTML, overviewSealedConditionOverlayHTML, cardThumbHTML, formatSoldDate, soldDateInputValue, soldDateToIso });
+  Object.assign(appContext, { getImages, statusCornerHTML, overviewGradeOverlayHTML, overviewRawConditionOverlayHTML, overviewSealedConditionOverlayHTML, cardThumbHTML, stockImageBadgeHTML, formatSoldDate, soldDateInputValue, soldDateToIso });
 }
 
 /** State and event initialization; called in preserved startup order. */

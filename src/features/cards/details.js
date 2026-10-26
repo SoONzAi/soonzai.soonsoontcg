@@ -1112,6 +1112,7 @@ export function register(appContext) {
             <img class="detail-slider-image" src="${appContext.escapeHtml(images[0])}" alt="${appContext.escapeHtml(card.name)} image 1" decoding="async" fetchpriority="high">
             ${appContext.isNewCard(card) ? `<span class="new-card-badge detail-new-card-badge" aria-label="New this week">NEW</span>` : ""}
             ${appContext.statusCornerHTML(card)}
+            ${appContext.stockImageBadgeHTML(images[0])}
           </div>
           ${images.length > 1 ? `
             <button type="button" class="detail-slider-btn prev" aria-label="Previous image">‹</button>
