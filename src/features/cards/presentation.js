@@ -104,7 +104,7 @@ export function register(appContext) {
              loading="${renderIndex < 6 ? "eager" : "lazy"}"
              decoding="async"
              fetchpriority="${renderIndex < 4 ? "high" : "low"}"
-             style="border-color:${color}">
+             style="border-color:${color};${appContext.stockImageBadgeHTML(images[0]) ? "object-fit:contain !important;" : ""}">
         ${appContext.overviewGradeOverlayHTML(c)}
         ${appContext.overviewRawConditionOverlayHTML(c)}
         ${appContext.overviewSealedConditionOverlayHTML(c)}
