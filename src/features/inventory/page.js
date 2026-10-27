@@ -352,6 +352,8 @@ export function register(appContext) {
 
         <div class="grade-shortcuts" id="gradeShortcuts" hidden></div>
 
+        <div class="grade-shortcuts" id="priceShortcuts"></div>
+
         <div class="filter-drawer-footer">
           <span id="mobileFilterFooterResultCount" hidden>0</span>
           <button type="button" class="btn-primary filter-drawer-apply" id="mobileFilterApplyBtn">Show Results</button>
@@ -781,6 +783,18 @@ export function register(appContext) {
           gradeShortcuts.querySelectorAll("button").forEach(b => b.classList.toggle("active", b === btn));
         });
       });
+    }
+    const priceShortcuts = appcontext.$("priceShortcuts");
+    if (priceShortcuts) {
+      priceShortcuts.innerHTML = 
+        <span class="grade-shortcuts-label">Price (USD)</span>
+        ${Object.entries(appContext.PRICE_SHORTCUTS).map(([key, band] => `<button type="button" data-price-shortcut="$[key]" class ="${appContext.priceShortcut === key ? "active" : ""}">${band[2]}</button>`).join("")};
+        priceShortcuts.querySelectorAll("[data-price-shortcut]".forEach(btn => {btn.addEventListener("click", () => {
+          appContext.priceShortcut = appContext.priceShortcut === btn.dataset.priceShortcut ? "" : btn.dataset.priceShortcut;
+          priceShortcuts.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.priceShortcut === appContext.priceShortcut));
+          draw();
+        });
+     });
     }
     setupOverviewSelect("filterLanguage", [
       { value: "", label: "All Languages" },
@@ -2421,6 +2435,8 @@ export function register(appContext) {
       appContext.activeQuickFilter = "all";
       Object.values(appContext.pillFilterState).forEach(set => set.clear());
       appContext.$("gradeShortcuts")?.querySelectorAll("button").forEach(btn => btn.classList.remove("active"));
+      appContext.priceShortcut = "";
+      appContext.$("priceShortcuts")?.querySelectorAll("button").forEach(btn => btn.classList.remove("active"));
       appContext.syncQuickFilterUI();
       appContext.updateListingUrlFromControls();
       syncPillFilterSummary();
