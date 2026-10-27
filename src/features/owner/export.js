@@ -77,6 +77,21 @@ export function register(appContext) {
   function needStockImage(card) {
     return /^pok/i.test(card.game || "") && appContext.normalizeFilterValue(appContext.effectiveFormat(card)) === "raw" && !(Array.isArray(card.grading) && card.grading.some(g => g && g.company)) && Number(card.price_usd) > 0 && Number(card.price_usd) <= STOCK_MAX_USD && card._images_loaded !== false && !appContext.getImages(card).length;
   }
+  
+  // English Pokemon name -> Japanese (PokeAPI)
+  const jaNames = {};
+  async function pokemonJaName(name){
+    const words = String(name || "").toLowerCase().replace(/'s\b/g, "").split(/[^a-z0-9-]+/);
+    for (const w of words) {
+      if (!w || /^\d+$/.test(w) || /^(ex|gx|v|vmax|vstar|mega|radiant|shining|dark|light|team|rocket)$/.test(w)) continue;
+      if (!(w in jaNames)) {
+        const s = await tcgdexJson(`https://pokeapi.co/api/v2/pokemon-species/${w}`);
+        jaNames[w] = (s?.names || []).find(n => n.language?.name === "ja-hrkt" || n.language?.name === "ja")?.name || "";
+      }
+      if (jaNames[w]) return jaNames[w];
+    }
+    return "";
+  }
 
   // Match by set card total
   async function findStockImage(card) {
@@ -96,6 +111,10 @@ export function register(appContext) {
     } 
     if (hits.length > 1 && lang === "en") {
       hits = hits.filter(c => key(card.name).includes(key(c.name)) || key(c.name).includes(key(card.name)));
+    }
+    if (lang === "ja" && hits.length){
+      const jaName = await pokemonJaName(card.name);
+      if (jaName) hits = hits.filter(c => String(c.name || "").includes(jaName));
     }
     return hits.length === 1 ? `${hits[0].image}/high.webp` : "";
   }
@@ -358,7 +377,7 @@ function renderInventoryExportPage() {
   appContext.$("fillStockImagesBtn").addEventListener("click", async () => {
     if (!appContext.requireOwner("fill stock images")) return;
     const status = appContext.$("fillStockImagesStatus");
-    const targets = appContext.cards.filter(needStockImage);
+    const targets = appContext.cards.filter(c => needStockImage({ ...c, _images_loaded: true}));
     if (!targets.length) {
       status.textContent = "No raw Pokemon cards without photos at or under the threshold.";
       return;
@@ -368,6 +387,8 @@ function renderInventoryExportPage() {
     btn.disabled = true;
     let filled = 0, notFound = 0, failed = 0;
     for (const card of targets) {
+      await appContext.ensureCardImagesLoaded(card);
+      if (!needStockImage(card)) continue; 
       const image = await findStockImage(card);
       if (!image) { notFound++; }
       else {
