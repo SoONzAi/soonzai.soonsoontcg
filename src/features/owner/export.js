@@ -28,7 +28,11 @@ export function register(appContext) {
   }
 
   const IMPORT_CONDITIONS = { "near mint": "NM", "mint": "M", "lightly played": "LP", "moderately played": "MP", "heavily played": "HP", "damaged": "DMG" };
-
+  // Collectr no language column, Japanese and English sets use rarity to distinguish
+  const JP_RARITIES = /^(art rare|special art rare|sar|super rare|super secret rare|special rare|character rare|character super rare|shiny super rare)$/i;
+  const EN_RARITIES = /^(illustration rare|special illustration rare|hyper rare|holo rare|ace spec rare|shiny holo rare|classic collection)$/i;
+  const isJpRow = row => /\(JP\)/i.test(`${row["Product Name"]} ${row["Set"]}`) || JP_RARITIES.test(row["Rarity"] || "");
+  
   // Collectr export row > card object accepted by createCardStorage.
   // Price: USD market +10%; under 10 rounds up to the next whole unit, otherwise up to the nearest 10.
   // MYR/SGD are converted fron that USO price with live FX and rounded the sane way.
@@ -47,7 +51,7 @@ export function register(appContext) {
       year: "",
       game: /^pok/i.test(row["Category"]) ? "Pokémon" : (row["Category"] || ""),
       era: appContext.ERA_OPTIONS.find(e => e.replace(/\W/g, "").toLowerCase() === String(row["Era"] || "").replace(/\W/g, "").toLowerCase()) || "Modern",
-      language: /\(JP\)/i.test(`${row["Product Name"]} ${row["Set"]}`) ? "JP" : "ENG",
+      language: isJpRow(row) ? "JP" : "ENG",
       availability: "Available",
       set: stripJp(row["Set"]),
       series: stripJp(row["Set"]),
@@ -94,8 +98,7 @@ export function register(appContext) {
   }
 
   // Match by set card total
-  async function findStockImage(card) {
-    const lang = card.language === "JP" ? "ja" : "en";
+  async function lookupStock(card, lang) {
     const [localId, total] = String(card.card_code || "").trim().toUpperCase().split("/");
     if (!localId) return "";
     const key = s => String(s || "").toLowerCase().replace(/\s*[\(\[].*?[\)\]]/g, "").replace(/[^a-z0-9]/g, "");
@@ -109,7 +112,7 @@ export function register(appContext) {
       const first = String(card.name || "").split(/\s+/)[0];
       hits = ((await  tcgdexJson(`${TCGDEX}/en/cards?localId=${encodeURIComponent(localId)}&name=${encodeURIComponent(first)}`)) || []).filter(c => c?.image);
     } 
-    if (hits.length > 1 && lang === "en") {
+    if (lang === "en") {
       hits = hits.filter(c => key(card.name).includes(key(c.name)) || key(c.name).includes(key(card.name)));
     }
     if (lang === "ja" && hits.length){
@@ -119,6 +122,14 @@ export function register(appContext) {
     return hits.length === 1 ? `${hits[0].image}/high.webp` : "";
   }
 
+// Collectr sometimes omits "(JP)"
+async function findStockImage(card) {
+  const first = card.language === "JP" ? "ja" : "en";
+  const url = (await lookupStock(card, first)) || (await lookupStock(card, first === "ja" ? "en" : "ja"));
+  if (url.includes("/ja/")) card.language = "JP";
+  return url;
+}
+  
 function exportGradingText(card) {
   const grades = Array.isArray(card.grading) ? card.grading.filter(g => g && g.company) : [];
   return grades.map(g => `${g.company} ${g.grade || ""}`.trim()).join(" | ");
@@ -349,6 +360,9 @@ function renderInventoryExportPage() {
     const file = appContext.$("importCsvFile").files?.[0];
     if (!file) { status.textContent = "Choose a CSV file first."; return; }
     const rows = parseCsv(await file.text());
+    // A set with any Japanese-only card 
+    const jpSets = new Set(rows.filter(isJpRow).map(r => r["Set"]));
+    const enSets = new Set(rows.filter(r => EN_RARITIES.test(r["Rarity"] || "").map(r => r["Set"]));
     const rates = await appContext.fetchCurrentMyrFxRates();
     if (!rates) { status.textContent = "Could not load exchange rates. Try again later."; return; }
     if (!window.confirm(`Import ${rows.length} rows from ${file.name}?`)) return;
@@ -359,6 +373,7 @@ function renderInventoryExportPage() {
     let added = 0, skipped = 0, failed = 0, stocked = 0;
     for (const row of rows) {
       const card = collectrRowToCard(row, rates);
+      if (jpSets.has(row["Set"])&& !enSets.has(row["Set"])&& !/promo|miscellaneous/i.test(row["Set"] || "")) card.language = "JP";
       if (!card.name || !card.game || existing.has(importKey(card))) { skipped++; continue; }
       if (needStockImage(card)) {
         const image = await findStockImage(card);
