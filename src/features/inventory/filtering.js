@@ -400,6 +400,11 @@ export function register(appContext) {
       const selectedCurrencyValue = appContext.cardCurrencyValue(c, appContext.getPriceCurrencyPreference());
       if (priceMin && (!appContext.hasListedPrice(selectedCurrencyValue) || Number(selectedCurrencyValue) < Number(priceMin))) return false;
       if (priceMax && (!appContext.hasListedPrice(selectedCurrencyValue) || Number(selectedCurrencyValue) > Number(priceMax))) return false;
+      const band = appContext.PRICE_SHORTCUTS[appContext.priceShort];
+      if (band) {
+        const usd = appContext.cardUsdListedPrice(c);
+        if (usd == null || usd < band[0] || usd >= band[1]) return false;
+      }
 
       if (appContext.pillFilterState.game.size && !appContext.selectedSetMatches(appContext.pillFilterState.game, c.game || "")) return false;
       if (appContext.pillFilterState.grade.size) {
@@ -512,6 +517,14 @@ export function initialize(appContext, runtime) {
     availability: new Set(),
     series: new Set()
   };
+  // USD price shortcuts
+  apppContext.PRICE_SHORTCUTS = {
+    u20: [0, 20, "Under $20"],
+    "20-50": [20, 50, "$20-$50"],
+    "50-100": [50, 100, "$50-$100"],
+    "100+": [100, Infinity, "$100+"]
+  };
+  appContext.priceShortcut = "";
   appContext.trending7dViewsByCard = new Map();
   appContext.trending7dUniqueViewsByCard = new Map();
   appContext.trending7dRows = [];
