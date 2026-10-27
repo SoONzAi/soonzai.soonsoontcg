@@ -362,7 +362,7 @@ function renderInventoryExportPage() {
     const rows = parseCsv(await file.text());
     // A set with any Japanese-only card 
     const jpSets = new Set(rows.filter(isJpRow).map(r => r["Set"]));
-    const enSets = new Set(rows.filter(r => EN_RARITIES.test(r["Rarity"] || "").map(r => r["Set"]));
+    const enSets = new Set(rows.filter(r => EN_RARITIES.test(r["Rarity"] || "")).map(r => r["Set"]));
     const rates = await appContext.fetchCurrentMyrFxRates();
     if (!rates) { status.textContent = "Could not load exchange rates. Try again later."; return; }
     if (!window.confirm(`Import ${rows.length} rows from ${file.name}?`)) return;
