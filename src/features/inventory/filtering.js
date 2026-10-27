@@ -467,7 +467,7 @@ export function register(appContext) {
           if (appContext.listingAvailabilityScope === "inventory") {
             const ao = appContext.inventoryCustomOrderValue(a);
             const bo = appContext.inventoryCustomOrderValue(b);
-            return ao - bo || a.name.localeCompare(b.name);
+            return ao - bo || (appContext.cardUsdListedPrice(b) ?? -1) - (appContext.cardUsdListedPrice(a) ?? -1) || a.name.localeCompare(b.name);
           }
           return a.name.localeCompare(b.name);
         }
