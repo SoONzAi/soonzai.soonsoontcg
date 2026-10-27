@@ -400,7 +400,7 @@ export function register(appContext) {
       const selectedCurrencyValue = appContext.cardCurrencyValue(c, appContext.getPriceCurrencyPreference());
       if (priceMin && (!appContext.hasListedPrice(selectedCurrencyValue) || Number(selectedCurrencyValue) < Number(priceMin))) return false;
       if (priceMax && (!appContext.hasListedPrice(selectedCurrencyValue) || Number(selectedCurrencyValue) > Number(priceMax))) return false;
-      const band = appContext.PRICE_SHORTCUTS[appContext.priceShort];
+      const band = appContext.PRICE_SHORTCUTS[appContext.priceShortcut];
       if (band) {
         const usd = appContext.cardUsdListedPrice(c);
         if (usd == null || usd < band[0] || usd >= band[1]) return false;
@@ -518,7 +518,7 @@ export function initialize(appContext, runtime) {
     series: new Set()
   };
   // USD price shortcuts
-  apppContext.PRICE_SHORTCUTS = {
+  appContext.PRICE_SHORTCUTS = {
     u20: [0, 20, "Under $20"],
     "20-50": [20, 50, "$20-$50"],
     "50-100": [50, 100, "$50-$100"],
