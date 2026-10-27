@@ -784,7 +784,7 @@ export function register(appContext) {
         });
       });
     }
-    const priceShortcuts = appcontext.$("priceShortcuts");
+    const priceShortcuts = appContext.$("priceShortcuts");
     if (priceShortcuts) {
       priceShortcuts.innerHTML = ` 
         <span class="grade-shortcuts-label">Price (USD)</span>
