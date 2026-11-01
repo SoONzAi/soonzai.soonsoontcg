@@ -10,7 +10,7 @@ A dedicated trading card collector and vendor based in Singapore, focus on moder
 - Multi-currency support (SGD, MYR, USD, Crypto)
 - Filter cards by game, format, grade/condition, language, and era
 - High-resolution card photos with multi-angle views
-- Direct buyer enquiry via WhatsApp, Carousell, and Facebook
+- Direct buyer enquiry via WhatsApp, Carousell, and TikTok
 - Watch collection showcases and PSA returns
 
 ## Trading Card Games
@@ -21,9 +21,9 @@ A dedicated trading card collector and vendor based in Singapore, focus on moder
 
 ## Connect with Us
 
-- **WhatsApp:** 
-- **Carousell:** 
-- **Facebook:** 
+- **WhatsApp:** [+65 8180 5946](https://wa.me/6581805946)
+- **Carousell:** [@xsoonx](https://www.carousell.sg/u/xsoonx/)
+- **TikTok:** [@soonsoontcg](https://www.tiktok.com/@soonsoontcg) 
 
 ## Website
 

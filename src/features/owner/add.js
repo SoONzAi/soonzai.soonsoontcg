@@ -80,6 +80,19 @@ function renderAddPage(){
           throw new Error("Card name and game are required.");
         }
 
+        if(!data.images.length && typeof appContext.needStockImage === "function" && appContext.needStockImage(data)){
+          if(submitBtn) submitBtn.textContent="Looking up stock image…";
+          try{
+            const stockUrl = await appContext.findStockImage(data);
+            if(stockUrl){
+              data.images = [stockUrl];
+              data.image = stockUrl;
+            }
+          }catch(e){
+            console.warn("Stock image lookup on add card failed:", e);
+          }
+        }
+
         if(submitBtn) submitBtn.textContent="Saving card…";
         saveAttempted=true;
         const saved=await appContext.createCardStorage(data);

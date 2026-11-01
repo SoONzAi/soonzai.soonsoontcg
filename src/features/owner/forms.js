@@ -158,6 +158,7 @@ export function register(appContext) {
           <div class="image-url-row">
             <input type="text" id="${p}ImageUrl" placeholder="Paste an image URL, then click Add URL">
             <button type="button" class="btn-ghost" id="${p}AddImageUrl">Add URL</button>
+            <button type="button" class="btn-ghost" id="${p}FetchStockImageBtn" title="Auto-find TCGdex stock image for raw Pokémon card (≤ $50 USD)">Auto Stock Image (≤ $50)</button>
           </div>
           <div class="image-gallery-note">
             Add multiple pictures as clean originals. Use <strong>Watermark all photos</strong> or the individual photo controls if you want the logo applied.
@@ -968,6 +969,62 @@ export function register(appContext) {
         addUrl();
       }
     });
+
+    const fetchStockBtn = appContext.$(p + "FetchStockImageBtn");
+    if (fetchStockBtn) {
+      fetchStockBtn.addEventListener("click", async () => {
+        if (!appContext.requireOwner("fetch stock image")) return;
+        const name = (appContext.$(p + "Name")?.value || "").trim();
+        const code = (appContext.$(p + "CardCode")?.value || "").trim();
+        const game = (appContext.$(p + "Game")?.value || "").trim();
+        const format = (appContext.$(p + "Format")?.value || "Raw").trim();
+        const priceUsd = Number(appContext.$(p + "PriceUSD")?.value || 0);
+        const language = (appContext.$(p + "Language")?.value || "ENG").trim();
+
+        if (!name) {
+          appContext.showToast("Please enter card name first.");
+          return;
+        }
+        if (!code) {
+          appContext.showToast("Please enter card code (e.g. 025/165) first.");
+          return;
+        }
+        if (!/^pok/i.test(game)) {
+          appContext.showToast("Stock image lookup is supported for Pokémon cards.");
+          return;
+        }
+        if (priceUsd > (appContext.STOCK_MAX_USD || 50)) {
+          appContext.showToast(`Stock images are for cards up to $${appContext.STOCK_MAX_USD || 50} USD.`);
+          return;
+        }
+        fetchStockBtn.disabled = true;
+        const prevText = fetchStockBtn.textContent;
+        fetchStockBtn.textContent = "Looking up…";
+        try {
+          const cardCandidate = { name, card_code: code, game, format, price_usd: priceUsd, language };
+          const stockUrl = typeof appContext.findStockImage === "function" ? await appContext.findStockImage(cardCandidate) : null;
+          if (stockUrl) {
+            formState.images.push(stockUrl);
+            formState.imageCleanSources.push(stockUrl);
+            formState.imageWatermarkedSources.push(null);
+            formState.imageVariantKeys.push(appContext.newCardImageVariantKey());
+            formState.imageWatermarkStates.push(false);
+            formState.imageWatermarkModes.push("original");
+            formState.imagePrivacyUndoSources.push(null);
+            refreshPreview();
+            appContext.showToast("TCGdex stock image added!");
+          } else {
+            appContext.showToast("No stock image found on TCGdex.");
+          }
+        } catch (err) {
+          console.warn("Stock image fetch error:", err);
+          appContext.showToast("Could not fetch stock image.");
+        } finally {
+          fetchStockBtn.disabled = false;
+          fetchStockBtn.textContent = prevText;
+        }
+      });
+    }
 
     refreshPreview();
   }

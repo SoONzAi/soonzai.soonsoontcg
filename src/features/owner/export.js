@@ -71,7 +71,7 @@ export function register(appContext) {
 
   // Stock images from TCGdex for low-value raw listings without photos.
   const TCGDEX = "https://api.tcgdex.net/v2";
-  const STOCK_MAX_USD = 20;
+  const STOCK_MAX_USD = 50;
   const tcgdexSets = {};
 
   async function tcgdexJson(url) {
@@ -429,5 +429,5 @@ appContext.$("exportJsonBtn").addEventListener("click", () => {
 });
 }
 
-Object.assign(appContext, { csvEscape, exportGradingText, exportCertText, safeExportScope, exportCardsForScope, downloadTextFile, buildInventoryCsv, buildInventoryBackupJson, renderInventoryExportPage });
+Object.assign(appContext, { STOCK_MAX_USD, needStockImage, findStockImage, csvEscape, exportGradingText, exportCertText, safeExportScope, exportCardsForScope, downloadTextFile, buildInventoryCsv, buildInventoryBackupJson, renderInventoryExportPage });
 }

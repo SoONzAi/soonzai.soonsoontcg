@@ -1482,9 +1482,18 @@ body.light-mode .modal-overlay{background:rgba(54,48,40,.42) !important;}
     font-weight:800 !important;
   }
 
-  .premium-social-mark-facebook{
+  .premium-social-mark-facebook,
+  .premium-social-mark-tiktok{
     font-family:Arial,sans-serif !important;
     font-size:10px !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+  .premium-social-mark-tiktok svg{
+    display:block !important;
+    width:11px !important;
+    height:11px !important;
   }
 
   .premium-social-strip > a:hover,
@@ -2165,7 +2174,8 @@ body.light-mode .modal-overlay{background:rgba(54,48,40,.42) !important;}
     font-size:10px !important;
   }
 
-  .premium-social-mark-facebook{
+  .premium-social-mark-facebook,
+  .premium-social-mark-tiktok{
     font-size:11px !important;
   }
 
@@ -9079,6 +9089,10 @@ body.light-mode .interest-contact-assurance-icon{
 
   .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label*="Facebook"]::after{
     content:"Facebook";
+  }
+
+  .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label*="TikTok"]::after{
+    content:"TikTok";
   }
 
   .modal.card-details-modal .detail-buy-chooser .details-buy-social-links a[aria-label*="Carousell"]::after{

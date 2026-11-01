@@ -28,8 +28,8 @@ function renderAboutPage(){
           <a class="about-link" href="https://www.carousell.sg/u/xsoonx/" target="_blank" rel="noopener noreferrer">
             <span><b>🇸🇬 Carousell Singapore</b><small>@xsoonx</small></span><span>↗</span>
           </a>
-          <a class="about-link" href="https://www.facebook.com/darren.tehkoksoon" target="_blank" rel="noopener noreferrer">
-            <span><b>Facebook</b><small>SoonSoonTCG</small></span><span>↗</span>
+          <a class="about-link" href="https://www.tiktok.com/@soonsoontcg" target="_blank" rel="noopener noreferrer">
+            <span><b>🎵 TikTok</b><small>@soonsoontcg</small></span><span>↗</span>
           </a>
         </div>
 
@@ -69,8 +69,8 @@ function renderContactPage(){
           <a class="contact-link" href="https://www.carousell.sg/u/xsoonx/" target="_blank" rel="noopener noreferrer">
             <span>Carousell (@xsoonx)</span><span class="contact-arrow">↗</span>
           </a>
-          <a class="contact-link" href="https://www.facebook.com/darren.tehkoksoon" target="_blank" rel="noopener noreferrer">
-            <span>Facebook</span><span class="contact-arrow">↗</span>
+          <a class="contact-link" href="https://www.tiktok.com/@soonsoontcg" target="_blank" rel="noopener noreferrer">
+            <span>TikTok (@soonsoontcg)</span><span class="contact-arrow">↗</span>
           </a>
         </div>
       </div>`;
