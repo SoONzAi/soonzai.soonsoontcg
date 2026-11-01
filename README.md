@@ -21,7 +21,7 @@ A dedicated trading card collector and vendor based in Singapore, focus on moder
 
 ## Connect with Us
 
-- **WhatsApp:** [+65 8180 5946](https://wa.me/6581805946)
+- **WhatsApp:** [+65 8753 9837](https://wa.me/6587539837)
 - **Carousell:** [@xsoonx](https://www.carousell.sg/u/xsoonx/)
 - **TikTok:** [@soonsoontcg](https://www.tiktok.com/@soonsoontcg) 
 

@@ -22,8 +22,8 @@ function renderAboutPage(){
 
         <h3 class="about-subhead">Browse Our Platforms &amp; Connect</h3>
         <div class="about-links">
-          <a class="about-link" href="https://wa.me/6581805946" target="_blank" rel="noopener noreferrer">
-            <span><b>💬 WhatsApp</b><small>+65 8180 5946</small></span><span>↗</span>
+          <a class="about-link" href="https://wa.me/6587539837" target="_blank" rel="noopener noreferrer">
+            <span><b>💬 WhatsApp</b><small>+65 8753 9837</small></span><span>↗</span>
           </a>
           <a class="about-link" href="https://www.carousell.sg/u/xsoonx/" target="_blank" rel="noopener noreferrer">
             <span><b>🇸🇬 Carousell Singapore</b><small>@xsoonx</small></span><span>↗</span>
@@ -63,8 +63,8 @@ function renderContactPage(){
       <div class="panel contact-panel information-page-panel" style="max-width:680px;">
         <h3>SoonSoonTCG</h3>
         <div class="contact-links">
-          <a class="contact-link" href="https://wa.me/6581805946" target="_blank" rel="noopener noreferrer">
-            <span>WhatsApp (+65 8180 5946)</span><span class="contact-arrow">↗</span>
+          <a class="contact-link" href="https://wa.me/6587539837" target="_blank" rel="noopener noreferrer">
+            <span>WhatsApp (+65 8753 9837)</span><span class="contact-arrow">↗</span>
           </a>
           <a class="contact-link" href="https://www.carousell.sg/u/xsoonx/" target="_blank" rel="noopener noreferrer">
             <span>Carousell (@xsoonx)</span><span class="contact-arrow">↗</span>
@@ -88,7 +88,7 @@ export function initialize(appContext,runtime){
   appContext.FB_POST_DEFAULTS = Object.freeze({
     carousellShopUrl:"https://www.carousell.sg/u/xsoonx/",
     facebookUrl:"https://www.facebook.com/darren.tehkoksoon",
-    whatsappUrl:"https://wa.me/6581805946",
+    whatsappUrl:"https://wa.me/6587539837",
     hashtags:"#tcg #pokemon #onepiece #onepiecetcg #SoonSoonTCG #TCGCollector"
   });
 }

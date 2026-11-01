@@ -844,12 +844,12 @@ export function register(appContext) {
   }
 
   function detailsContactSocialLinksHtml(extraClass = "") {
-    const whatsappUrl = appContext.COLLECT_SOCIAL_LINKS?.whatsapp || "https://wa.me/6581805946";
+    const whatsappUrl = appContext.COLLECT_SOCIAL_LINKS?.whatsapp || "https://wa.me/6587539837";
     const carousellUrl = appContext.COLLECT_SOCIAL_LINKS?.carousellSG || "https://www.carousell.sg/u/xsoonx/";
     const tiktokUrl = appContext.COLLECT_SOCIAL_LINKS?.tiktok || "https://www.tiktok.com/@soonsoontcg";
     return `
       <div class="collect-social-links ${appContext.escapeHtml(extraClass)}" aria-label="SoonSoonTCG contact links">
-        <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="WhatsApp" aria-label="WhatsApp" title="WhatsApp (+65 8180 5946)"><span aria-hidden="true">💬</span><small>WA</small></a>
+        <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="WhatsApp" aria-label="WhatsApp" title="WhatsApp (+65 8753 9837)"><span aria-hidden="true">💬</span><small>WA</small></a>
         <a href="${carousellUrl}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="Carousell" aria-label="Carousell" title="Carousell (@xsoonx)"><span aria-hidden="true">C</span><small>SG</small></a>
         <a href="${tiktokUrl}" target="_blank" rel="noopener noreferrer" class="collect-social-icon" data-details-contact-platform="TikTok" aria-label="TikTok" title="TikTok (@soonsoontcg)"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style="vertical-align:-1px;display:inline-block;"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg></span><small>TT</small></a>
       </div>
