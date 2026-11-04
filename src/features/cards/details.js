@@ -1313,7 +1313,7 @@ export function register(appContext) {
 
           ${detailSlabBreakdown}
 
-          ${!isNfsListing && !isSoldListing && appContext.normalizeFilterValue(card.availability || "Available") === "available" ? `
+          ${!isNfsListing && !isSoldListing && ["available", "wtb"].includes(appContext.normalizeFilterValue(card.availability || "Available")) ? `
             <div class="detail-purchase-panel" aria-label="Purchase options">
               <div class="detail-purchase-location">
                 <span class="detail-purchase-location-icon" aria-hidden="true">📍</span>
