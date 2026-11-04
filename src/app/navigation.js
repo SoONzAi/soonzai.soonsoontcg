@@ -1,19 +1,20 @@
 /** V93 beta: app/navigation. Shared dependencies are explicit on appContext. */
-export function register(appContext){
-function routeBase(route){
-    return String(route||"").split("?")[0].trim().toLowerCase();
+export function register(appContext) {
+  function routeBase(route) {
+    return String(route || "").split("?")[0].trim().toLowerCase();
   }
 
-function shouldHighlightMore(route){
-    const base=appContext.routeBase(route);
-    const premiumDesktop=window.matchMedia("(min-width:1180px)").matches;
+  function shouldHighlightMore(route) {
+    const base = appContext.routeBase(route);
+    const premiumDesktop = window.matchMedia("(min-width:1180px)").matches;
 
     // V118 premium desktop has a deliberately small primary navigation.
     // Highlight More only for destinations that really live there at this width.
-    if(premiumDesktop){
+    if (premiumDesktop) {
       return new Set([
         "reserved",
         "showcase",
+        "giveaway",
         "favorites",
         "reviews",
         "about",
@@ -30,7 +31,7 @@ function shouldHighlightMore(route){
     }
 
     // Routes that genuinely live under More on the standard desktop/mobile header.
-    const alwaysMore=new Set([
+    const alwaysMore = new Set([
       "recent",
       "about",
       "contact",
@@ -43,73 +44,73 @@ function shouldHighlightMore(route){
       "add"
     ]);
 
-    if(alwaysMore.has(base)) return true;
+    if (alwaysMore.has(base)) return true;
 
-    if(
+    if (
       window.matchMedia("(max-width:800px)").matches &&
-      ["reserved","showcase","giveaway","favorites"].includes(base)
-    ){
+      ["reserved", "wtb", "showcase", "giveaway", "favorites"].includes(base)
+    ) {
       return true;
     }
 
     return false;
   }
 
-function isInventoryRoute(route){
+  function isInventoryRoute(route) {
     return appContext.INVENTORY_ROUTES.has(appContext.routeBase(route));
   }
 
-function goToRoute(route){
-    const next=String(route||"inventory").replace(/^#\/?/,"");
-    location.hash=`#/${next}`;
+  function goToRoute(route) {
+    const next = String(route || "inventory").replace(/^#\/?/, "");
+    location.hash = `#/${next}`;
   }
 
-function goToRouteFromHomeTop(route){
-    try{
+  function goToRouteFromHomeTop(route) {
+    try {
       appContext.sessionStorage.removeItem(appContext.LISTING_SCROLL_STATE_KEY);
-    }catch{}
+    } catch { }
 
     appContext.goToRoute(route);
 
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      window.scrollTo({top:0,left:0,behavior:"auto"});
-      const shell=document.querySelector(".shell");
-      if(shell) shell.scrollTo({top:0,left:0,behavior:"auto"});
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      const shell = document.querySelector(".shell");
+      if (shell) shell.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }));
   }
 
-function refreshCurrentListingRoute(){
-    const route=appContext.currentRoute();
-    if(appContext.isInventoryRoute(route)){
+  function refreshCurrentListingRoute() {
+    const route = appContext.currentRoute();
+    if (appContext.isInventoryRoute(route)) {
       appContext.renderInventoryPage(route);
       return true;
     }
     return false;
   }
 
-function isOwnerOnlyRoute(route){
+  function isOwnerOnlyRoute(route) {
     return appContext.OWNER_ONLY_ROUTES.has(appContext.routeBase(route));
   }
 
-  Object.assign(appContext,{routeBase,shouldHighlightMore,isInventoryRoute,goToRoute,goToRouteFromHomeTop,refreshCurrentListingRoute,isOwnerOnlyRoute});
+  Object.assign(appContext, { routeBase, shouldHighlightMore, isInventoryRoute, goToRoute, goToRouteFromHomeTop, refreshCurrentListingRoute, isOwnerOnlyRoute });
 }
 
 /** State and event initialization; called in preserved startup order. */
-export function initialize(appContext,runtime){
+export function initialize(appContext, runtime) {
   appContext.OWNER_POST_HANDOFF_MESSAGE = "collect-tcg-beta-owner-post-handoff-v93";
-  const premiumMore=document.getElementById("premiumDesktopMore");
-  const premiumMoreMenu=document.getElementById("premiumDesktopMoreMenu");
-  if(premiumMore && premiumMoreMenu){
-    premiumMoreMenu.addEventListener("click",event=>{
-      if(event.target.closest("a, button")) premiumMore.removeAttribute("open");
+  const premiumMore = document.getElementById("premiumDesktopMore");
+  const premiumMoreMenu = document.getElementById("premiumDesktopMoreMenu");
+  if (premiumMore && premiumMoreMenu) {
+    premiumMoreMenu.addEventListener("click", event => {
+      if (event.target.closest("a, button")) premiumMore.removeAttribute("open");
     });
-    document.addEventListener("click",event=>{
-      if(premiumMore.open && !premiumMore.contains(event.target)) premiumMore.removeAttribute("open");
+    document.addEventListener("click", event => {
+      if (premiumMore.open && !premiumMore.contains(event.target)) premiumMore.removeAttribute("open");
     });
   }
 
   const desktopLoginBtn = document.getElementById("desktopOwnerLoginBtn");
-  if(desktopLoginBtn){
+  if (desktopLoginBtn) {
     desktopLoginBtn.addEventListener("click", () => {
       premiumMore?.removeAttribute("open");
       appContext.openOwnerAccess();
@@ -117,7 +118,7 @@ export function initialize(appContext,runtime){
   }
 
   const desktopLogoutBtn = document.getElementById("desktopOwnerLogoutBtn");
-  if(desktopLogoutBtn){
+  if (desktopLogoutBtn) {
     desktopLogoutBtn.addEventListener("click", () => {
       premiumMore?.removeAttribute("open");
       appContext.openOwnerAccess();
@@ -125,23 +126,23 @@ export function initialize(appContext,runtime){
   }
 
   const mobileLoginBtn = document.getElementById("mobileOwnerLoginBtn");
-  if(mobileLoginBtn){
+  if (mobileLoginBtn) {
     mobileLoginBtn.addEventListener("click", () => {
-      if(appContext.mobileMoreMenuEl) appContext.mobileMoreMenuEl.hidden = true;
+      if (appContext.mobileMoreMenuEl) appContext.mobileMoreMenuEl.hidden = true;
       appContext.openOwnerAccess();
     });
   }
 
   const mobileLogoutBtn = document.getElementById("mobileOwnerLogoutBtn");
-  if(mobileLogoutBtn){
+  if (mobileLogoutBtn) {
     mobileLogoutBtn.addEventListener("click", () => {
-      if(appContext.mobileMoreMenuEl) appContext.mobileMoreMenuEl.hidden = true;
+      if (appContext.mobileMoreMenuEl) appContext.mobileMoreMenuEl.hidden = true;
       appContext.openOwnerAccess();
     });
   }
 
   const sidebarOwnerToggle = document.getElementById("sidebarOwnerToggleBtn");
-  if(sidebarOwnerToggle){
+  if (sidebarOwnerToggle) {
     sidebarOwnerToggle.addEventListener("click", () => {
       appContext.openOwnerAccess();
     });
