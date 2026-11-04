@@ -146,7 +146,7 @@ export function initialize(appContext, runtime) {
 
   appContext.ERA_OPTIONS = ["Modern", "Mid-Era", "Vintage"];
 
-  appContext.AVAILABILITY_OPTIONS = Object.freeze(["Available", "Reserved", "Sold", "Collection (NFS)"]);
+  appContext.AVAILABILITY_OPTIONS = Object.freeze(["Available", "Reserved", "Sold", "Collection (NFS)", "WTB"]);
 
   appContext.LIFECYCLE_OPTIONS = Object.freeze(["live", "draft", "archived"]);
 

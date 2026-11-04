@@ -545,7 +545,7 @@ export function register(appContext) {
     }
 
     const isCardRoute = route.startsWith("card/");
-    const listingRoutes = new Set(["inventory", "collection", "reserved", "sold"]);
+    const listingRoutes = new Set(["inventory", "collection", "reserved", "sold", "wtb"]);
     const reusePreservedListingOnReturn =
       !isCardRoute &&
       listingRoutes.has(route) &&
@@ -569,7 +569,7 @@ export function register(appContext) {
     const cardStatus = routedCard ? appContext.normalizeFilterValue(routedCard.availability) : "";
     const cardParentRoute = cardStatus === "collection (nfs)"
       ? "collection"
-      : (cardStatus === "reserved" ? "reserved" : (cardStatus === "sold" ? "sold" : "inventory"));
+      : (cardStatus === "reserved" ? "reserved" : (cardStatus === "sold" ? "sold" : (cardStatus === "wtb" ? "wtb" : "inventory")));
 
     const cardReturnRoute = appContext.routeBase(String(appContext.detailsReturnHash || "").replace(/^#\/?/, ""));
     const cardActiveRoute = isCardRoute && cardReturnRoute === "home"
@@ -651,6 +651,9 @@ export function register(appContext) {
     }
     else if (route === "sold") {
       if (!reusePreservedListingOnReturn) appContext.renderInventoryPage("sold");
+    }
+    else if (route === "wtb") {
+      if (!reusePreservedListingOnReturn) appContext.renderInventoryPage("wtb");
     }
     else if (route === "recent") appContext.renderRecentlyViewedPage();
     else if (route === "favorites") appContext.renderFavoritesPage();

@@ -34,11 +34,13 @@ export function register(appContext) {
     if (scope === "collection") return availability === "collection (nfs)";
     if (scope === "reserved") return availability === "reserved";
     if (scope === "sold") return availability === "sold";
+    if (scope === "wtb") return availability === "wtb";
     // Main Inventory is for items currently offered for sale. NFS pieces
     // live on the dedicated public Collection page.
     return availability !== "reserved" &&
       availability !== "sold" &&
-      availability !== "collection (nfs)";
+      availability !== "collection (nfs)" &&
+      availability !== "wtb";
   }
 
   function listingScopeMeta(scope) {
@@ -61,6 +63,13 @@ export function register(appContext) {
         title: "Sold Cards",
         description: "Previously listed cards that have been sold. Most recent sales appear first.",
         eyebrow: "Sold Archive"
+      };
+    }
+    if (scope === "wtb") {
+      return {
+        title: "Want to Buy Cards (WTB)",
+        description: "Cards we are looking to buy. Prices shown are what we pay. Contact us to sell yours",
+        eyebrow: "Want to Buy"
       };
     }
     return {
@@ -183,6 +192,7 @@ export function register(appContext) {
     if (normalized === "available") return "Available";
     if (normalized === "reserved") return "Reserved";
     if (normalized === "sold") return "Sold";
+    if (normalized === "wtb" || normalized === "want to buy") return "WTB";
     if (
       normalized === "collection (nfs)" ||
       normalized === "collection(nfs)" ||

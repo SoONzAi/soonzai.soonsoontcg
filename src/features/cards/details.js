@@ -1186,6 +1186,7 @@ export function register(appContext) {
     const cost = card.cost == null ? "—" : appContext.fmtMoney(card.cost);
     const isSoldListing = appContext.normalizeFilterValue(card.availability || "") === "sold";
     const isNfsListing = appContext.normalizeFilterValue(card.availability || "") === "collection (nfs)";
+    const ctaLabel = appContext.normalizeFilterValue(card.availability || "") === "wtb" ? "Contact to Sell" : "Contact to Buy";
     const filteredResultNav = appContext.getFilteredResultNavigation(card.id);
     const soldDateLabel = appContext.formatSoldDate(card.sold_at);
 
@@ -1325,8 +1326,8 @@ export function register(appContext) {
                 </span>
               </div>
               <details class="detail-buy-cta">
-                <summary data-contact-buy-trigger aria-label="Contact to Buy">
-                  <span>Contact to Buy</span>
+                <summary data-contact-buy-trigger aria-label="${ctaLabel}">
+                  <span>${ctaLabel}</span>
                   <small>Choose contact method</small>
                 </summary>
                 <button type="button" class="mobile-buy-backdrop" data-mobile-buy-close aria-label="Close contact options"></button>
