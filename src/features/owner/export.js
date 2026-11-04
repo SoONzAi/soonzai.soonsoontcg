@@ -69,14 +69,14 @@ export function register(appContext) {
     };
     // WTB rows: exact SGD buying price (no +10%), image from the CSV.
     if (/^wtb$/i.test(row["Availability"] || "")) {
-      const sgd = Number(row["Buy Price (SGD"]) || 0;
+      const sgd = Number(row["Buy Price (SGD)"]) || 0;
       Object.assign(card, {
         availability: "WTB",
         price_sgd: sgd || null,
         price_myr: sgd ? Math.round(sgd / rates.sgdPerMyr) : null,
         price_usd: sgd ? Math.round(sgd * rates.usdPerMyr / rates.sgdPerMyr) : null,
         images: row["Image"] ? [row["Image"]] : [],
-        notes: "We are buying this card in PSA 10. \nPrice terms: Negotiatble"
+        notes: "We are buying this card in PSA 10. \nPrice terms: Negotiable"
       });
     }
     return card;

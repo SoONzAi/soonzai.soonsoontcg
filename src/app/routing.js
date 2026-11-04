@@ -614,7 +614,7 @@ export function register(appContext) {
       const cardStatus = card ? appContext.normalizeFilterValue(card.availability) : "";
       const cardScope = cardStatus === "collection (nfs)"
         ? "collection"
-        : (cardStatus === "reserved" ? "reserved" : (cardStatus === "sold" ? "sold" : "inventory"));
+        : (cardStatus === "reserved" ? "reserved" : (cardStatus === "sold" ? "sold" : (cardStatus === "wtb" ? "wtb" : inventory")));
 
       const reuseExistingListing =
         !!appContext.detailsPreservedListingHash &&
