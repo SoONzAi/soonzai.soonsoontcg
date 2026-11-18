@@ -1104,6 +1104,34 @@ nav.mainnav a.active::before {
   gap: 16px;
 }
 
+/* ---------- WTB scope: larger thumbnails ---------- */
+.grid.wtb-scope {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.grid.wtb-scope .card>.thumb-wrap,
+.grid.wtb-scope .card>.thumb-placeholder {
+  aspect-ratio: 5 / 7;
+}
+
+.grid.wtb-scope .card>.thumb-wrap .thumb {
+  aspect-ratio: 5 / 7;
+}
+
+@media(max-width:600px) {
+  .grid.wtb-scope {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .grid.wtb-scope .card>.thumb-wrap,
+  .grid.wtb-scope .card>.thumb-placeholder,
+  .grid.wtb-scope .card>.thumb-wrap .thumb {
+    aspect-ratio: 5 / 7;
+  }
+}
+
 .grid .card>.thumb-wrap,
 .grid .card>.thumb-placeholder {
   aspect-ratio: 5 / 6.5;

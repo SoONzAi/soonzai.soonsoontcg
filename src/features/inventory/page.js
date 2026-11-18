@@ -1462,6 +1462,9 @@ export function register(appContext) {
       if (["inventory", "sold"].includes(appContext.listingAvailabilityScope)) {
         grid.classList.add("gold-card-stripes");
       }
+      if (appContext.listingAvailabilityScope === "wtb") {
+        grid.classList.add("wtb-scope");
+      }
 
       if (["collection", "inventory"].includes(appContext.listingAvailabilityScope)) {
         // Grouped catalogue views remain continuous so one Game category is
