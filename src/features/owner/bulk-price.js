@@ -55,6 +55,7 @@ function renderBulkPricePage(fromInventoryTools=false){
               <option value="available">Available</option>
               <option value="reserved">Reserved</option>
               <option value="collection (nfs)">Collection (NFS)</option>
+              <option value="wtb">WTB</option>
             </select>
           </div>
           <label class="quality-clean-toggle">
