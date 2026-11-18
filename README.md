@@ -21,7 +21,7 @@ A dedicated trading card collector and vendor based in Singapore, focus on moder
 
 ## Connect with Us
 
-- **WhatsApp:** 
+- **WhatsApp:** [](https://wa.me/)
 - **Carousell:** [@xsoonx](https://www.carousell.sg/u/xsoonx/)
 - **TikTok:** [@soonsoontcg](https://www.tiktok.com/@soonsoontcg) 
 

@@ -48,7 +48,7 @@ export function register(appContext) {
 
     if (
       window.matchMedia("(max-width:800px)").matches &&
-      ["reserved", "wtb", "showcase", "giveaway", "favorites"].includes(base)
+      ["reserved", "sold", "showcase", "giveaway", "favorites"].includes(base)
     ) {
       return true;
     }

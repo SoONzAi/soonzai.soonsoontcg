@@ -4369,6 +4369,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   nav.mainnav > a[data-route="inventory"],
   nav.mainnav > a[data-route="collection"],
+  nav.mainnav > a[data-route="wtb"],
   nav.mainnav > a[data-route="sold"],
   nav.mainnav > .mobile-more-toggle{
     display:flex !important;
@@ -4393,6 +4394,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   nav.mainnav > a[data-route="inventory"] .nav-count,
   nav.mainnav > a[data-route="collection"] .nav-count,
+  nav.mainnav > a[data-route="wtb"] .nav-count,
   nav.mainnav > a[data-route="sold"] .nav-count{
     display:none !important;
   }
@@ -4905,6 +4907,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   body.light-mode nav.mainnav > a[data-route="inventory"],
   body.light-mode nav.mainnav > a[data-route="collection"],
+  body.light-mode nav.mainnav > a[data-route="wtb"],
   body.light-mode nav.mainnav > a[data-route="sold"],
   body.light-mode nav.mainnav > .mobile-more-toggle{
     color:#5e656c !important;
@@ -5013,6 +5016,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   nav.mainnav > a[data-route="inventory"],
   nav.mainnav > a[data-route="collection"],
+  nav.mainnav > a[data-route="wtb"],
   nav.mainnav > a[data-route="sold"],
   nav.mainnav > .mobile-more-toggle{
     font-size:9px !important;
@@ -5090,7 +5094,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   #mainnav > a[data-route="inventory"],
   #mainnav > a[data-route="collection"],
-  #mainnav > a[data-route="sold"],
+  #mainnav > a[data-route="wtb"],
   #mainnav > .mobile-more-toggle{
     display:flex !important;
     position:relative !important;
@@ -5113,12 +5117,12 @@ body.light-mode .desktop-listing-currency-control select{
 
   #mainnav > a[data-route="inventory"]{order:1 !important;grid-column:1 !important;}
   #mainnav > a[data-route="collection"]{order:2 !important;grid-column:2 !important;}
-  #mainnav > a[data-route="sold"]{order:3 !important;grid-column:3 !important;}
+  #mainnav > a[data-route="wtb"]{order:3 !important;grid-column:3 !important;}
   #mainnav > .mobile-more-toggle{order:4 !important;grid-column:4 !important;}
 
   #mainnav > a[data-route="inventory"] .ic,
   #mainnav > a[data-route="collection"] .ic,
-  #mainnav > a[data-route="sold"] .ic{
+  #mainnav > a[data-route="wtb"] .ic{
     display:none !important;
   }
 
@@ -5382,6 +5386,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   #mainnav > a[data-route="inventory"],
   #mainnav > a[data-route="collection"],
+  #mainnav > a[data-route="wtb"],
   #mainnav > a[data-route="sold"],
   #mainnav > .mobile-more-toggle{
     font-size:9.5px !important;
@@ -5635,7 +5640,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   #mainnav > a[data-route="inventory"]{order:1 !important;}
   #mainnav > a[data-route="collection"]{order:2 !important;}
-  #mainnav > a[data-route="sold"]{order:3 !important;}
+  #mainnav > a[data-route="wtb"]{order:3 !important;}
   #mainnav > .mobile-more-toggle{order:4 !important;}
 
   #mainnav > .mobile-primary-nav .nav-count,
@@ -5707,7 +5712,7 @@ body.light-mode .desktop-listing-currency-control select{
   /* Remove collection duplication if any older markup/runtime adds it to More. */
   #mainnav > .mobile-more-menu > a[data-route="collection"],
   #mainnav > .mobile-more-menu > a[data-route="inventory"],
-  #mainnav > .mobile-more-menu > a[data-route="sold"]{
+  #mainnav > .mobile-more-menu > a[data-route="wtb"]{
     display:none !important;
   }
 
@@ -5844,7 +5849,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   #mainnav > a[data-route="inventory"],
   #mainnav > a[data-route="collection"],
-  #mainnav > a[data-route="sold"],
+  #mainnav > a[data-route="wtb"],
   #mainnav > .mobile-more-toggle{
     display:flex !important;
     position:relative !important;
@@ -5881,7 +5886,7 @@ body.light-mode .desktop-listing-currency-control select{
     grid-row:1 !important;
     order:initial !important;
   }
-  #mainnav > a[data-route="sold"]{
+  #mainnav > a[data-route="wtb"]{
     grid-column:4 !important;
     grid-row:1 !important;
     order:initial !important;
@@ -5894,10 +5899,10 @@ body.light-mode .desktop-listing-currency-control select{
 
   #mainnav > a[data-route="inventory"] .ic,
   #mainnav > a[data-route="collection"] .ic,
-  #mainnav > a[data-route="sold"] .ic,
+  #mainnav > a[data-route="wtb"] .ic,
   #mainnav > a[data-route="inventory"] .nav-count,
   #mainnav > a[data-route="collection"] .nav-count,
-  #mainnav > a[data-route="sold"] .nav-count,
+  #mainnav > a[data-route="wtb"] .nav-count,
   #mainnav > .mobile-more-toggle .ic{
     display:none !important;
   }
@@ -5988,7 +5993,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   #mainnav > .mobile-more-menu > a[data-route="inventory"],
   #mainnav > .mobile-more-menu > a[data-route="collection"],
-  #mainnav > .mobile-more-menu > a[data-route="sold"]{
+  #mainnav > .mobile-more-menu > a[data-route="wtb"]{
     display:none !important;
   }
 
@@ -6067,7 +6072,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   #mainnav > a[data-route="inventory"],
   #mainnav > a[data-route="collection"],
-  #mainnav > a[data-route="sold"],
+  #mainnav > a[data-route="wtb"],
   #mainnav > .mobile-more-toggle{
     padding:0 2px !important;
     font-size:8.2px !important;
@@ -6134,7 +6139,7 @@ body.light-mode .desktop-listing-currency-control select{
   body .shell .sidebar nav#mainnav > a[data-route="inventory"],
   body .shell .sidebar nav#mainnav > a[data-route="collection"],
   body .shell .sidebar nav#mainnav > a.mobile-nav-logo,
-  body .shell .sidebar nav#mainnav > a[data-route="sold"],
+  body .shell .sidebar nav#mainnav > a[data-route="wtb"],
   body .shell .sidebar nav#mainnav > #mobileMoreToggle{
     display:flex !important;
     position:relative !important;
@@ -6170,7 +6175,7 @@ body.light-mode .desktop-listing-currency-control select{
   body .shell .sidebar nav#mainnav > a[data-route="inventory"]{ grid-column:1 !important; }
   body .shell .sidebar nav#mainnav > a[data-route="collection"]{ grid-column:2 !important; }
   body .shell .sidebar nav#mainnav > a.mobile-nav-logo{ grid-column:3 !important; }
-  body .shell .sidebar nav#mainnav > a[data-route="sold"]{ grid-column:4 !important; }
+  body .shell .sidebar nav#mainnav > a[data-route="wtb"]{ grid-column:4 !important; }
   body .shell .sidebar nav#mainnav > #mobileMoreToggle{ grid-column:5 !important; }
 
   /* The logo is its own grid cell, so labels can never sit underneath it. */
@@ -6199,10 +6204,10 @@ body.light-mode .desktop-listing-currency-control select{
   /* Keep the primary row text-only and compact. */
   body .shell .sidebar nav#mainnav > a[data-route="inventory"] .ic,
   body .shell .sidebar nav#mainnav > a[data-route="collection"] .ic,
-  body .shell .sidebar nav#mainnav > a[data-route="sold"] .ic,
+  body .shell .sidebar nav#mainnav > a[data-route="wtb"] .ic,
   body .shell .sidebar nav#mainnav > a[data-route="inventory"] .nav-count,
   body .shell .sidebar nav#mainnav > a[data-route="collection"] .nav-count,
-  body .shell .sidebar nav#mainnav > a[data-route="sold"] .nav-count,
+  body .shell .sidebar nav#mainnav > a[data-route="wtb"] .nav-count,
   body .shell .sidebar nav#mainnav > #mobileMoreToggle .ic{
     display:none !important;
   }
@@ -6327,7 +6332,7 @@ body.light-mode .desktop-listing-currency-control select{
   /* Hide routes already exposed in the primary row. */
   body .shell .sidebar nav#mainnav > #mobileMoreMenu > a[data-route="inventory"],
   body .shell .sidebar nav#mainnav > #mobileMoreMenu > a[data-route="collection"],
-  body .shell .sidebar nav#mainnav > #mobileMoreMenu > a[data-route="sold"]{
+  body .shell .sidebar nav#mainnav > #mobileMoreMenu > a[data-route="wtb"]{
     display:none !important;
   }
 
@@ -6348,7 +6353,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   body.light-mode .shell .sidebar nav#mainnav > a[data-route="inventory"],
   body.light-mode .shell .sidebar nav#mainnav > a[data-route="collection"],
-  body.light-mode .shell .sidebar nav#mainnav > a[data-route="sold"],
+  body.light-mode .shell .sidebar nav#mainnav > a[data-route="wtb"],
   body.light-mode .shell .sidebar nav#mainnav > #mobileMoreToggle{
     color:#636a72 !important;
   }
@@ -6404,7 +6409,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   body .shell .sidebar nav#mainnav > a[data-route="inventory"],
   body .shell .sidebar nav#mainnav > a[data-route="collection"],
-  body .shell .sidebar nav#mainnav > a[data-route="sold"],
+  body .shell .sidebar nav#mainnav > a[data-route="wtb"],
   body .shell .sidebar nav#mainnav > #mobileMoreToggle{
     padding-inline:1px !important;
     font-size:8px !important;
@@ -6461,7 +6466,7 @@ body.light-mode .desktop-listing-currency-control select{
   /* Keep labels compact enough that Collection never pushes the center. */
   body .shell .sidebar nav#mainnav > a[data-route="inventory"],
   body .shell .sidebar nav#mainnav > a[data-route="collection"],
-  body .shell .sidebar nav#mainnav > a[data-route="sold"],
+  body .shell .sidebar nav#mainnav > a[data-route="wtb"],
   body .shell .sidebar nav#mainnav > #mobileMoreToggle{
     padding-inline:2px !important;
     font-size:clamp(8.2px,2.25vw,9.7px) !important;
@@ -6566,7 +6571,7 @@ body.light-mode .desktop-listing-currency-control select{
 
   body .shell .sidebar nav#mainnav > a[data-route="inventory"],
   body .shell .sidebar nav#mainnav > a[data-route="collection"],
-  body .shell .sidebar nav#mainnav > a[data-route="sold"],
+  body .shell .sidebar nav#mainnav > a[data-route="wtb"],
   body .shell .sidebar nav#mainnav > #mobileMoreToggle{
     font-size:7.8px !important;
   }
